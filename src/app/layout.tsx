@@ -1,6 +1,7 @@
 import './globals.css';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '@/theme';
+import ThemeRegistry from '@/components/ThemeRegistry';
+import { AuthProvider } from '@/context/AuthContext';
+import { LanguageProvider } from '@/context/LanguageContext'; // ✅ import your context
 
 export const metadata = {
   title: 'RoBio',
@@ -11,9 +12,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ro">
       <body>
-        <ThemeProvider theme={theme}>
-          {children}
-        </ThemeProvider>
+        <AuthProvider>
+          <LanguageProvider> {/* ✅ Wrap here */}
+            <ThemeRegistry>
+              {children}
+            </ThemeRegistry>
+          </LanguageProvider>
+        </AuthProvider>
       </body>
     </html>
   );

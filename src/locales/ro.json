@@ -1,0 +1,20 @@
+{
+  "register": "Înregistrează-te",
+  "login": "Autentificare",
+  "help": "Ajutor",
+  "brand": "RoBio",
+  "create_account": "Creează un cont",
+  "register_description": "Alătură-te comunității RoBio pentru a-ți păstra și organiza istoria familială.",
+  "email": "Email",
+  "username": "Nume utilizator",
+  "password": "Parolă",
+  "confirm_password": "Confirmă parola",
+  "invalid_email": "Format email invalid",
+  "username_available": "Numele de utilizator este disponibil",
+  "username_taken": "Numele de utilizator este deja folosit",
+    "password_strength_weak": "Parolă slabă",
+  "password_strength_moderate": "Parolă moderată",
+  "password_strength_strong": "Parolă puternică",
+  "show_password": "Afișează parola",
+  "hide_password": "Ascunde parola"
+}

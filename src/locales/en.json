@@ -1,0 +1,20 @@
+{
+  "register": "Register",
+  "login": "Login",
+  "help": "Help",
+  "brand": "RoBio",
+  "create_account": "Create an account",
+  "register_description": "Join the RoBio community to preserve and organize your family history.",
+  "email": "Email",
+  "username": "Username",
+  "password": "Password",
+  "confirm_password": "Confirm Password",
+  "invalid_email": "Invalid email format",
+  "username_available": "Username is available",
+  "username_taken": "Username is already taken",
+    "password_strength_weak": "Weak password",
+  "password_strength_moderate": "Moderate password",
+  "password_strength_strong": "Strong password",
+  "show_password": "Show password",
+  "hide_password": "Hide password"
+}
