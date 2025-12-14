@@ -1,167 +1,226 @@
-.page {
-  --gray-rgb: 0, 0, 0;
-  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
-  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-
-  display: grid;
-  grid-template-rows: 20px 1fr 20px;
-  align-items: center;
-  justify-items: center;
-  min-height: 100svh;
-  padding: 80px;
-  gap: 64px;
-  font-family: var(--font-geist-sans);
-}
-
-@media (prefers-color-scheme: dark) {
-  .page {
-    --gray-rgb: 255, 255, 255;
-    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
-    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-  }
-}
-
-.main {
+/* ============ PAGE WRAPPER ============ */
+.pageWrap {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
+  background: linear-gradient(180deg, #f2f8f3 0%, #f6fbf6 60%, #ffffff 100%);
 }
 
-.main ol {
-  font-family: var(--font-geist-mono);
-  padding-left: 0;
-  margin: 0;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.01em;
-  list-style-position: inside;
+/* Stage sits between Navbar and Footer */
+.stage {
+  position: relative;
+  flex: 1;
+  overflow: clip;
 }
 
-.main li:not(:last-of-type) {
-  margin-bottom: 8px;
+/* Soft forest tint */
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(900px 500px at 70% -20%, rgba(46,125,50,0.16), transparent 70%),
+    radial-gradient(800px 400px at 10% -10%, rgba(106,168,79,0.12), transparent 70%);
+  pointer-events: none;
 }
 
-.main code {
-  font-family: inherit;
-  background: var(--gray-alpha-100);
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 600;
+/* Center vertical timeline */
+.timeline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 3px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, rgba(46,125,50,0), rgba(46,125,50,0.55), rgba(46,125,50,0));
+  z-index: 1;
+  pointer-events: none;
 }
 
-.ctas {
-  display: flex;
-  gap: 16px;
+/* Side progress dots */
+.sideProgress {
+  position: fixed;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  z-index: 6;
+  display: grid;
+  gap: 10px;
 }
-
-.ctas a {
-  appearance: none;
-  border-radius: 128px;
-  height: 48px;
-  padding: 0 20px;
-  border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
+.progressDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0,0,0,0.18);
   cursor: pointer;
+}
+.progressDotActive {
+  background: linear-gradient(135deg, #2e7d32, #6aa84f);
+  box-shadow: 0 0 0 6px rgba(46,125,50,0.18);
+}
+
+/* ============ PEOPLE LAYER ============ */
+/* Absolute inside stage, stretches to stage height (set via style) */
+.peopleLayer {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 5;             /* Above main so hover works */
+  pointer-events: none;   /* let clicks pass except on avatars */
+}
+
+/* Individual avatar (re-enable pointer events) */
+.person {
+  --size: 72px;
+  --left: 10%;
+  --topPx: 0px;
+  position: absolute;
+  left: var(--left);
+  top: var(--topPx);
+  width: var(--size);
+  height: var(--size);
+  margin: 0;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.84);
+  opacity: 0;
+  pointer-events: auto;
+  transition:
+    transform 420ms cubic-bezier(.2,.7,.2,1),
+    opacity 420ms ease;
+  transition-delay: var(--delay, 0ms);
+  will-change: transform, opacity;
+}
+
+.person img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.95);
+  box-shadow: 0 8px 26px rgba(16, 34, 24, 0.22);
+}
+
+/* Pop-in immediately when rendered (virtualized) */
+.person {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.84);
+  transition:
+    transform 420ms cubic-bezier(.2,.7,.2,1),
+    opacity 420ms ease;
+  will-change: transform, opacity;
+}
+
+.personVisible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.personLeft  { transform-origin: 60% 50%; }
+.personRight { transform-origin: 40% 50%; }
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  transform: translateX(-50%) translateY(6px);
+  white-space: nowrap;
+  background: #122217;
+  color: #e9f3ea;
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  opacity: 0;
+  z-index: 99999991;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+  box-shadow: 0 10px 22px rgba(16, 34, 24, 0.18);
+}
+.tooltip strong { display: block; font-weight: 700; }
+.tooltip span { opacity: 0.9; }
+.person:hover .tooltip { opacity: 1; transform: translateX(-50%) translateY(0); z-index: 99999992; }
+
+/* ============ MAIN CONTENT ============ */
+.page {
+  --maxw: 960px;
+  --pad-x: 20px;
+
+  --ink: #102218;
+  --muted: #456254;
+  --card: #ffffff;
+  --card-border: rgba(0,0,0,0.08);
+  --shadow: 0 14px 34px rgba(16, 34, 24, 0.08);
+  --radius: 16px;
+
+  position: relative;
+  z-index: 4; /* below avatars (so hover works), above bg/timeline */
+  color: var(--ink);
+  overflow-x: clip;
+}
+
+.section {
+  min-height: 56vh;
+  display: grid;
+  place-items: center;
+  padding: 56px var(--pad-x);
+  position: relative;
+}
+.hero { padding-top: 84px; }
+
+.centerCard {
+  width: min(var(--maxw), 100%);
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(18px, 3.4vw, 28px);
+  text-align: center;
+  position: relative;
+  z-index: 1; /* ensure it sits above timeline line */
+}
+
+/* Text & controls */
+.title { font-size: clamp(2rem, 4vw, 3rem); margin: 0 0 8px; }
+.sub   { color: var(--muted); margin: 0 0 16px; font-size: clamp(1rem, 2.2vw, 1.15rem); }
+
+.searchBar {
   display: flex;
-  align-items: center;
+  gap: 10px;
   justify-content: center;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
+  margin: 0 auto 12px;
+  max-width: 720px;
+}
+.input {
+  flex: 1;
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
 }
 
-a.primary {
-  background: var(--foreground);
-  color: var(--background);
-  gap: 8px;
+.btnPrimary, .btnSecondary {
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid var(--card-border);
+  background: #f7fff7;
+  color: var(--ink);
 }
+.btnPrimary { background: linear-gradient(135deg, #2e7d32, #6aa84f); color: #fff; border: none; }
 
-a.secondary {
-  border-color: var(--gray-alpha-200);
-  min-width: 158px;
+.ctas, .row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+
+
+/* Responsive */
+@media (max-width: 900px) {
+  .section { min-height: 58vh; padding: 52px 16px; }
 }
-
-.footer {
-  grid-row-start: 3;
-  display: flex;
-  gap: 24px;
-}
-
-.footer a {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer img {
-  flex-shrink: 0;
-}
-
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-
-  .footer a:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-}
-
-@media (max-width: 600px) {
-  .page {
-    padding: 32px;
-    padding-bottom: 80px;
-  }
-
-  .main {
-    align-items: center;
-  }
-
-  .main ol {
-    text-align: center;
-  }
-
-  .ctas {
-    flex-direction: column;
-  }
-
-  .ctas a {
-    font-size: 14px;
-    height: 40px;
-    padding: 0 16px;
-  }
-
-  a.secondary {
-    min-width: auto;
-  }
-
-  .footer {
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
+@media (max-width: 640px) {
+  .section { min-height: 60vh; padding: 48px 14px; }
+  .sideProgress { left: 10px; gap: 8px; }
 }

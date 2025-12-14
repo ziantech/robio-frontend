@@ -1,0 +1,41 @@
+# Step 1: Build the Next.js App
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Copy package files and install dependencies
+COPY package.json package-lock.json ./
+RUN npm install --force --legacy-peer-deps
+
+# Copy all project files into container
+COPY . .
+
+# Build the Next.js app
+RUN npm run build
+
+# Step 2: Prepare the Final Image with Nginx & Next.js
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install Nginx
+RUN apk add --no-cache nginx
+
+# Copy the built Next.js app from builder stage
+COPY --from=builder /app/.next /app/.next
+COPY --from=builder /app/public /app/public
+COPY --from=builder /app/package.json /app/
+COPY --from=builder /app/node_modules /app/node_modules
+
+
+# Copy Nginx configuration
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+
+# # Install production dependencies
+# RUN if [ -f package-lock.json ]; then npm ci --omit=dev; else npm install --only=production; fi
+
+# Expose ports
+EXPOSE 80 443 3000
+
+# Start both Next.js and Nginx
+CMD sh -c "nginx && npm run start"

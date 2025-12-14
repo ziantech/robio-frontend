@@ -1,7 +1,19 @@
 import axios from "axios";
 
+let baseURL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://api.romanian-biography.com/v1";
+
+  if (
+  typeof window !== "undefined" &&
+  window.location.protocol === "https:" &&
+  baseURL.startsWith("http://")
+) {
+  baseURL = baseURL.replace(/^http:\/\//, "https://");
+}
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL,
   headers: {
     "Content-Type": "application/json",
   },

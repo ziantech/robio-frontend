@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
@@ -9,8 +10,10 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
+
+export default [
+  {
+    ignores: ["src/lib/balkan/familytree.js"],
+  },
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 ];
-
-export default eslintConfig;

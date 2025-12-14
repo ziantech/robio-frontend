@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { NewUser } from "@/types/user";
 import UsernameTextField from "../UsernameField";
 import PasswordField from "../PasswordField";
@@ -8,19 +9,35 @@ import { useLanguage } from "@/context/LanguageContext";
 
 interface Props {
   user: NewUser;
-  onChange: (field: keyof NewUser) => (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (
+    field: keyof NewUser
+  ) => (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Step1LoginInfo: React.FC<Props> = ({ user, onChange }) => {
   const { t } = useLanguage();
 
-  return (
-    <Grid container direction="column" gap={2}>
-      <Typography variant="body2" color="text.secondary">
-        {t.login_info}
-      </Typography>
+  const isEmailInvalid =
+    !!user.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email);
 
-      <Grid>
+  return (
+    <Box display="grid" gap={3}>
+      {/* Title */}
+      <Box>
+        <Typography variant="h5" fontWeight={600}>
+          {t.create_account}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {t.register_description}
+        </Typography>
+      </Box>
+
+      {/* Login Info */}
+      <Box display="grid" gap={2}>
+        <Typography variant="subtitle1" fontWeight={500}>
+          {t.login_info}
+        </Typography>
+
         <TextField
           fullWidth
           label={t.email}
@@ -28,38 +45,41 @@ const Step1LoginInfo: React.FC<Props> = ({ user, onChange }) => {
           type="email"
           value={user.email}
           onChange={onChange("email")}
-          error={!!user.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email)}
-          helperText={
-            !!user.email &&
-            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(user.email)
-              ? t.invalid_email
-              : ""
-          }
+          error={isEmailInvalid}
+          helperText={isEmailInvalid ? t.invalid_email : ""}
         />
-      </Grid>
 
-      <Grid>
-        <UsernameTextField value={user.username} onChange={onChange("username")} />
-      </Grid>
+        <UsernameTextField
+          value={user.username}
+          onChange={onChange("username")}
+        />
 
-      <Grid>
         <PasswordField value={user.password} onChange={onChange("password")} />
-      </Grid>
+      </Box>
 
-      <Typography variant="body2" color="text.secondary">
-        {t.current_address}
-      </Typography>
 
-      <Grid>
+
+      {/* Recovery Info */}
+      <Box display="grid" gap={1} mt={2}>
+        <Typography variant="subtitle1" fontWeight={500}>
+          {t.recovery_info}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {t.recovery_description}
+        </Typography>
+
         <TextField
           fullWidth
-          label={t.current_address}
+          label={t.recovery_email}
           variant="outlined"
-          value={user.address}
-          onChange={onChange("address")}
+          type="email"
+          value={user.recoveryEmail || ""}
+          onChange={onChange("recoveryEmail")}
         />
-      </Grid>
-    </Grid>
+      </Box>
+
+   
+    </Box>
   );
 };
 

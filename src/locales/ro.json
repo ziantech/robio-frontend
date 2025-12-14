@@ -12,18 +12,18 @@
   "invalid_email": "Format email invalid",
   "username_available": "Numele de utilizator este disponibil",
   "username_taken": "Numele de utilizator este deja folosit",
-    "password_strength_weak": "Parolă slabă",
+  "password_strength_weak": "Parolă slabă",
   "password_strength_moderate": "Parolă moderată",
   "password_strength_strong": "Parolă puternică",
   "show_password": "Afișează parola",
   "hide_password": "Ascunde parola",
   "current_address": "Adresa curentă",
   "login_info": "Informații de autentificare",
-    "step2_title": "Profilul tău",
+  "step2_title": "Profilul tău",
   "step2_description": "Informații de bază despre profilul tău",
   "sex_label": "Gen",
-  "sex_male": "Bărbat",
-  "sex_female": "Femeie",
+  "sex_male": "Masculin",
+  "sex_female": "Feminin",
   "sex_unknown": "Necunoscut",
   "name_title": "Titlu (Dr., Col., Gen., Pr., etc.)",
   "name_first": "Prenume",
@@ -33,11 +33,13 @@
   "name_suffix": "Sufix",
   "previous": "Înapoi",
   "next": "Următorul",
-  "name_multi_hint": "Tastează un nume și apasă enter pentru a adăuga",
-    "year": "An",
+  "name_multi_hint": "Tastează un prenume și apasă enter pentru a adăuga",
+  "name_multi_hint2": "Tastează un nume de familie și apasă enter pentru a adăuga",
+  "year": "An",
   "month": "Lună",
   "day": "Zi",
-  "circa": "Aproximativ", 
+  "circa": "cca.",
+  "bc": "î.Hr.",
   "month_january": "Ianuarie",
   "month_february": "Februarie",
   "month_march": "Martie",
@@ -49,5 +51,1118 @@
   "month_september": "Septembrie",
   "month_october": "Octombrie",
   "month_november": "Noiembrie",
-  "month_december": "Decembrie"
+  "month_december": "Decembrie",
+  "birth_section": "Informații despre naștere",
+  "birth_date": "Data nașterii",
+  "step3_father_title": "Informații despre tată",
+  "step3_father_description": "Furnizează informații despre tatăl tău biologic.",
+
+  "father_biological": "Tată biologic",
+
+  "death_section": "Informații despre deces (opțional)",
+  "step4_mother_title": "Informații despre mamă",
+  "step4_mother_description": "Furnizează informații despre mama ta biologică.",
+
+  "mother_biological": "Mamă biologică",
+  "step5_title": "Revizuire & Finalizare",
+  "step5_description": "Revizuiește informațiile, acceptă termenii și finalizează înregistrarea.",
+  "step5_review_button": "Revizuire rapidă",
+  "agree_terms": "Sunt de acord cu",
+  "terms_and_conditions": "Termenii și Condițiile",
+  "register_button": "Înregistrează-te",
+  "rules_title": "Reguli ale comunității",
+  "rules_intro": "RoBio este un spațiu colaborativ pentru istoria familiei. Pentru a-l păstra util și sigur, te rugăm să respecți:",
+  "rule_respect_privacy": "Respectă confidențialitatea persoanelor în viață. Nu distribui date sensibile fără consimțământ.",
+  "rule_no_harassment": "Fără hărțuire, discurs instigator la ură sau comportament abuziv.",
+  "rule_accurate_sources": "Adaugă informații corecte și, când e posibil, menționează sursele.",
+  "rule_no_illegal": "Nu încărca conținut ilegal, materiale protejate de drepturi de autor pe care nu le deții sau software malițios.",
+  "rule_be_respectful": "Fii respectuos. Neînțelegerile sunt firești—atacurile personale nu.",
+  "recovery_info": "Recuperare cont",
+  "recovery_description": "Introduceți un e-mail sau un număr de telefon pentru a vă recupera contul dacă pierdeți accesul.",
+  "recovery_email": "E-mail de recuperare",
+  "recovery_codes_title": "Coduri de recuperare",
+  "recovery_codes_description": "Salvează aceste coduri într-un loc sigur. Le poți folosi pentru a-ți recupera contul dacă pierzi accesul la e-mail.",
+  "download_codes": "Descarcă codurile (CSV)",
+
+  "name_alternative_first": "Prenume Alternative",
+  "name_alternative_last": "Nume de Familie Alternative",
+  "ethnicity_section": "Etnie",
+  "ethnicity_label": "Etnie",
+  "ethnicity_placeholder": "Tastează etnia (ex.: Român, Aromân, Maghiar)…",
+  "father": "Tată",
+  "mother": "Mamă",
+
+  "yes": "Da",
+  "no": "Nu",
+  "death": "Deces",
+  "ethnicity": "Etnie",
+  "rights": "Toate drepturile rezervate.",
+  "logout": "Deconectare",
+  "changeLanguage": "Schimbă limba",
+  "verifying_email": "Se verifică adresa ta de email...",
+  "email_verified_success": "Email-ul tău a fost verificat cu succes!",
+  "email_verified_error": "Verificarea a eșuat. Linkul poate fi invalid sau expirat.",
+  "go_to_login": "Mergi la Autentificare",
+  "login_title": "Autentifică-te în cont",
+  "login_button": "Autentificare",
+  "login_success": "Autentificare reușită!",
+  "login_error": "Email sau parolă incorecte",
+  "fill_all_fields": "Te rugăm să completezi toate câmpurile obligatorii",
+  "no_account": "Nu ai cont? Înregistrează-te aici",
+  "sending": "Se trimite...",
+  "resend": "Retrimite linkul de verificare",
+  "please_verify": "Te rugăm să îți verifici email-ul pentru a continua.",
+  "not_verified": "Email-ul tău nu este verificat.",
+  "forgot_password": "Ai uitat parola?",
+  "recover_password_title": "Recuperare parolă",
+  "recover_password_intro": "Alege o metodă pentru a primi o parolă nouă generată de sistem.",
+  "method_primary_email": "Email principal",
+  "method_recovery_email": "Email de recuperare",
+  "method_recovery_code": "Cod de recuperare",
+  "email_or_username": "Email sau Username",
+  "email_or_username_helper": "Introdu fie emailul contului, fie username-ul",
+  "recovery_code_label": "Cod de recuperare",
+  "send_reset": "Trimite resetare parolă",
+
+  "reset_sent_success": "Parola nouă a fost trimisă.",
+  "reset_sent_error": "Nu am putut trimite parola nouă.",
+  "cancel": "Anulează",
+  "landing_hero_title": "Construiește-ți Arborele Genealogic — Conectează-te cu Istoria",
+  "landing_hero_sub": "Începe să adaugi membrii familiei și poveștile lor. Pe măsură ce completezi nume, date și locuri, noi căutăm în arhive istorice și documente pentru a descoperi conexiuni ascunse cu strămoșii tăi și istoria lor.",
+  "landing_search_placeholder": "Caută un strămoș, un loc sau un document istoric...",
+  "landing_cta_start": "Începe arborele tău",
+  "landing_cta_records": "Vezi arhiva de documente",
+  "branch_builder_title": "Construiește ramurile familiei tale",
+  "branch_builder_body": "Asistentul automat te ghidează pas cu pas. Pe măsură ce completezi, căutăm potriviri.",
+  "start_your_tree": "Pornește arborele",
+  "branch_records_title": "Documente istorice",
+  "branch_records_body": "Căutăm într-o arhivă amplă de acte: nașteri, căsătorii, decese, recensăminte și altele.",
+  "search_all_records": "Caută documente",
+  "branch_location_title": "Căutare după locație",
+  "branch_location_body": "Pornește dintr-o comună, un județ sau o regiune și descoperă familiile din zonă.",
+  "search_by_location": "Caută după locație",
+  "branch_learn_title": "Nu știi de unde să începi?",
+  "branch_learn_body": "Îți arătăm cum să construiești arborele sau cum să cauți un strămoș. Alege ce te interesează.",
+  "explore_guides": "Vezi ghiduri",
+  "landing_band_title": "Alătură-te comunității RoBio",
+  "landing_band_sub": "Contribuie, verifică informații și adaugă surse — creăm împreună cea mai bună arhivă genealogică.",
+  "search": "Caută",
+  "get_started": "Începe gratuit",
+  "learn_more": "Află mai multe",
+  "home": "Acasă",
+  "select_language": "Schimbă limba",
+  "account_settings": "Setări cont",
+  "source_management": "Management surse",
+  "content_management": "Management conținut creat",
+  "settings_title": "Setări cont",
+  "auth_section": "Autentificare",
+  "auth_description": "Gestionează metodele de autentificare, emailul și parola.",
+  "email_label": "Email",
+  "username_label": "Nume utilizator",
+  "password_label": "Parolă",
+  "update_auth_button": "Actualizează autentificarea",
+
+  "membership_section": "Abonament",
+  "membership_description": "Verifică sau modifică statusul abonamentului tău.",
+  "membership_active": "Abonamentul tău este activ.",
+  "membership_inactive": "Nu ai un abonament activ.",
+  "manage_subscription": "Gestionează abonamentul",
+  "auto_renew": "Reînnoire automată",
+
+  "earnings_section": "Câștiguri",
+  "earnings_description": "Vizualizează veniturile tale generate prin contribuții.",
+  "earnings_note": "Suma totală acumulată până în prezent.",
+
+  "privacy_section": "Confidențialitate",
+  "privacy_description": "Controlează vizibilitatea profilului și datele tale personale.",
+  "profile_visibility": "Profil privat",
+  "private_profile": "Numai tu poți vedea acest profil.",
+  "public_profile": "Oricine poate vedea acest profil.",
+
+  "security_section": "Securitate",
+  "security_description": "Schimbă parola și adresele de recuperare.",
+
+  "update_recovery": "Actualizează emailul de recuperare",
+  "recovery_codes_info": "Codurile de recuperare pot fi folosite dacă pierzi accesul.",
+  "view_recovery_codes": "Vezi codurile de recuperare",
+  "welcome": "Bine ai venit",
+  "welcome_subtitle": "Găsește-ți rădăcinile. Creează, explorează și descoperă legăturile familiei tale.",
+
+  "tree_title": "🌳 Arbore genealogic",
+  "tree_desc": "Vizualizează și editează arborele tău",
+
+  "profile_title": "👤 Profilul meu",
+  "profile_desc": "Gestionează-ți informațiile personale",
+
+
+  "content_title": "📊 Statistici",
+  "content_desc": "Vezi statistici despre persoane, biografii și înregistrări.",
+
+
+
+  "sources_title": "📂 Surse",
+  "sources_desc": "Documente și fișiere genealogice",
+
+  "news_title": "📰 Știri genealogice",
+  "news_mock": "Arheologii din Moldova au descoperit o serie de registre de botez datând din secolul XVIII. Acestea vor fi integrate în curând în sursele disponibile.",
+
+  "create_title": "🎯 Creează un profil",
+  "create_desc": "Adaugă un nou membru — fie că ești tu, un strămoș sau altcineva.",
+  "create_button": "Creează un profil nou",
+
+  "search_title": "🔍 Caută un profil",
+  "search_desc": "Caută rude sau profile existente introducând un nume.",
+  "search_input": "Caută după nume",
+  "search_button": "Caută",
+  "search_input_first": "Prenume",
+  "search_input_last": "Nume",
+  "search_input_birth": "Data nașterii (aproximativă)",
+  "search_input_location": "Loc naștere sau deces (aproximativ)",
+
+  "search_advanced": "Căutare avansată",
+  "search_advanced_placeholder": "Câmpurile avansate vor fi disponibile în curând.",
+  "blog_title": "📘 Blog comunitar",
+  "blog_desc": "Descoperă povești genealogice scrise de alți utilizatori.",
+  "blog_button": "Vizitează blogul",
+
+  "partner_title": "💸 Devino partener",
+  "partner_desc": "Contribuie conținut, atrage utilizatori și câștigă bani prin platformă.",
+  "partner_button": "Află cum poți deveni partener",
+  "search_subtitle": "Introduceți informații pentru a căuta o persoană în arborele genealogic.",
+  "create_bullet_1": "Adaugă membri ai familiei",
+  "create_bullet_2": "Construiește arborele genealogic",
+  "create_bullet_3": "Păstrează poveștile și documentele",
+  "create_secondary_cta": "Nu știi de unde să începi?",
+  "create_secondary_button": "Vezi un exemplu de profil",
+  "no_results": "Niciun rezultat găsit",
+  "search_existing_profile": "Caută profil existent",
+  "search_placeholder": "Ex. Ion Popescu sau Maria Ionescu",
+  "change_profile": "Schimbă profilul",
+  "title": "Titlu",
+  "author": "Autor",
+  "volume": "Volum",
+  "page": "Pagina",
+  "emailUsername": "Email / Username",
+  "file": "Fișier",
+  "create_source": "Creează sursa",
+  "files_selected": "Fișiere selectate",
+  "upload_files": "Încarcă fișiere",
+  "add_source": "Adaugă sursă",
+  "existing_sources": "Surse existente",
+  "create_profile": "Creează profil",
+  "my_profile": "Profilul meu",
+  "link": "Link",
+  "location": "Locație",
+  "location_placeholder": "Arad, RO / Biblioteca X / Arhiva Y",
+  "overview": "Statistici",
+  "overview_body": "O privire rapidă asupra datelor tale.",
+  "profiles": "Profile",
+  "mine": "Ale mele",
+  "cemeteries": "Cimitire",
+  "sources": "Surse",
+  "users": "Utilizatori",
+  "brand_tagline": "Rădăcini & Istorii",
+  "name": "Nume",
+  "remember_me": "Ține-mă minte",
+  "deceased": "Decedat",
+  "partner_portal": "Portalul Partenerilor",
+  "admin_portal": "Portalul Adminilor",
+  "account_banned": "Cont suspendat",
+  "banned_until": "Contul tău este suspendat până la",
+  "contact_support": "Dacă crezi că e o eroare, contactează suportul.",
+  "no_profile_title": "Caută sau creează-ți profilul",
+  "no_profile_desc": "Caută sau creează-ți propriul profil și începe să clădești propriul arbore genealogic! Succes în noua ta călătorie.",
+  "claim_profile": "Caută și revendică profil",
+  "user_portal": "Portalul utilizatorului",
+  "map": "Hartă",
+  "back": "Înapoi la panou",
+  "openOriginal": "DESCHIDE ORIGINALUL",
+  "extend": "PRELUNGEȘTE TERMEN (+5Z)",
+  "release": "ELIBEREAZĂ",
+  "runHistory": "ISTORIC RUNDĂ",
+  "finalize": "FINALIZEAZĂ PROCESAREA",
+  "due": "Scadent",
+  "credits": "Credite obținute (estimare)",
+  "createdMeta": "Creat de",
+  "preview": "Previzualizare",
+  "noPreview": "Fără previzualizare.",
+  "processingForm": "Formular de procesare",
+  "gender": "Gen",
+  "male": "Bărbat",
+  "female": "Femeie",
+  "unknown": "Necunoscut",
+
+  "birth": "Naștere",
+  "date": "Dată",
+  "place": "Loc",
+
+  "markDeceased": "Marchează ca decedat",
+
+  "burials": "Înmormântări",
+  "addBurial": "Adaugă înmormântare",
+  "noBurial": "Nu există înregistrări de înmormântare.",
+  "cemetery": "Cimitir",
+  "searchCemetery": "Caută cimitir",
+  "remove": "Șterge",
+  "relations": "Relații",
+  "searchProfileLabel": "Caută profil",
+  "searchProfilePlaceholder": "Tastează un nume sau referință",
+  "select": "Selectează…",
+  "parent": "Părinte",
+  "spouse": "Soț/Soție",
+  "child": "Copil",
+
+  "reset": "Resetează",
+  "createProfile": "Creează profil",
+  "relKindTitle": "Alege tipul relației",
+  "relKindSubtitle": "Alege cum este legată această persoană de profilul nou.",
+  "dupsTitle": "Posibile dubluri",
+  "dupsHelp": "Dacă găsești o potrivire, alege-o — vom atașa acest fișier ca sursă la numele acelui profil. Altfel, creează un profil nou.",
+  "noSuggestions": "Nicio sugestie.",
+  "loadMore": "Încarcă mai multe",
+
+  "createAnyway": "Creează oricum",
+  "peopleUsing": "Profiluri care folosesc acest fișier",
+  "refresh": "Reîmprospătează",
+  "loading": "Se încarcă…",
+  "none": "Nimic.",
+  "releaseTitle": "Eliberează acest fișier",
+  "releaseHint": "Notează pe scurt ce ai făcut / ce nu ai apucat să faci. Notițele vor apărea pe runda curentă.",
+  "notesPlaceholder": "Notițe (opțional)",
+  "confirmRelease": "Confirmă eliberarea",
+  "releasing": "Se eliberează…",
+  "finalizeTitle": "Finalizează procesarea",
+  "finalizeHint": "Notează pe scurt ce ai făcut. Vom închide runda ca procesată și marcăm fișierul ca procesat.",
+  "confirmFinalize": "Confirmă finalizarea",
+  "finalizing": "Se finalizează…",
+  "guidelines": "Îndrumări de procesare",
+  "openGuides": "DESCIDE ÎNDRUMĂRILE",
+  "upload_profile_picture": "Încarcă poză de profil",
+  "load_error": "Nu s-au putut încărca setările.",
+  "account_updated": "Cont actualizat.",
+  "account_update_failed": "Contul nu a putut fi actualizat.",
+  "password_both_required": "Completează ambele câmpuri de parolă.",
+  "password_changed": "Parola a fost schimbată.",
+  "password_change_failed": "Parola nu a putut fi schimbată.",
+
+  "financial_section": "Financiar",
+  "financial_description": "Banii pe care îi poți retrage și creditele existente.",
+  "credits_existing": "Credite existente",
+  "ron_equivalent": "Echivalent RON",
+  "partner_status": "Status partener",
+  "partner_active": "Partener activ",
+  "partner_inactive": "Nu e partener",
+  "withdraw_money": "Retrage bani",
+  "become_partner": "Devino partener",
+  "partner_upsell_title": "Partener = bani reali",
+  "partner_upsell_text_prefix": "Devino partener și monetizează contribuțiile. Primești",
+  "apply_now": "Aplică acum",
+  "partner_upsell_bullets": "Rapid • Transparent • Sigur",
+
+  "account_section": "Cont",
+  "account_description": "Actualizează email-ul, username-ul și parola.",
+  "saving": "Se salvează...",
+  "working": "Se procesează...",
+  "username_rules": "Numele de utilizator trebuie să aibă între 3-15 caractere, doar litere mici și cifre.",
+  "current_password": "Parola curentă",
+  "new_password": "Parolă nouă",
+  "change_password": "Schimbă parola",
+  "learn": {
+    "hero_title": "Bun venit pe RoBio, <br /> o platformă cât o țară!",
+    "hero_p1": "Îți mulțumim că te-ai alăturat acestei comunități al cărei scop este să construiască tezaurul imens al genealogiei românești, din cele mai vechi timpuri până azi!",
+    "hero_p2": "În cele ce urmează o să facem o scurtă călătorie prin detaliile ce țin de utilizarea platformei.",
+    "search_placeholder": "Caută un subiect: „părinte”, „cimitir”, „sursă”…",
+    "search_aria": "Caută",
+    "overline_articles": "Articole",
+    "articles": {
+      "terms": {
+        "title": "Termeni și condiții",
+        "desc": "Regulile de utilizare a platformei RoBio. Te rugăm să le parcurgi cu atenție."
+      },
+     "partners_processing_guide":{
+        "title": "Ghid de procesare pentru parteneri",
+        "desc": "Cum să procesezi fișiere ca partener."
+     },
+      "faq": {
+        "title": "Întrebări frecvente (FAQ)",
+        "desc": "Întrebări frecvente — răspunsuri rapide la problemele comune. (În curând)"
+      },
+    
+      "privacy": {
+        "title": "Politica de confidențialitate",
+        "desc": "Cum colectăm, folosim și protejăm datele tale personale."
+      },
+      "auth": {
+        "title": "Autentificare",
+        "desc": "Crearea contului, intrarea în cont, verificarea emailului și resetarea parolei."
+      },
+      "portal_home": {
+        "title": "Portalul utilizatorului (Acasă)",
+        "desc": "Ce vezi după autentificare: panou, navigare, secțiuni importante și acțiuni rapide."
+      },
+       "profiles": {
+        "title": "Profiluri",
+        "desc": "Ce este un profil, cum funcționează și cum îl folosești."
+      },
+       "search": {
+        "title": "Căutare",
+        "desc": "Găsește persoane, locuri și surse. Filtre, cuvinte-cheie și trucuri pentru rezultate mai bune."
+      },
+      "sources": {
+        "title": "Surse",
+        "desc": "Atașează dovezi la profile: adăugare, vizualizare, organizare și revizuire a surselor documentare."
+      },
+      "places": {
+        "title": "Locuri & Cimitire",
+        "desc": "Cum funcționează locurile (localități/regiuni/țări) și legarea înmormântărilor / cimitirelor."
+      },
+      "partners": {
+        "title": "Portal Parteneri",
+        "desc": "Încarcă, procesează și gestionează colecții ca partener. Fluxuri de lucru și bune practici."
+      }
+    },
+    "badge_important": "Important"
+  },
+  "learnAuth": {
+    "title": "Autentificare",
+    "desc": "Pentru a te autentifica este nevoie să completezi un scurt formular electronic. Datele cerute sunt necesare pentru comunicarea dintre platformă și tine, ca utilizator, precum și pentru eventuale comunicări scrise (prin poștă).",
+    "sections": {
+      "register": {
+        "title": "1) Înregistrare",
+        "badge": "Pasul 1",
+        "p1": "Pentru a-ți crea contul, completezi formularul de înregistrare. Imaginea din dreapta ilustrează ecranul de creare a contului.",
+        "image_alt": "Ecranul de creare a contului RoBio (înregistrare)",
+        "fields_title": "Ce îți vom cere:",
+        "fields": {
+          "email": {
+            "label": "Email (unic)",
+            "desc": "Adresa ta de email va fi folosită pentru autentificare și notificări. Trebuie să fie unică în sistem."
+          },
+          "username": {
+            "label": "Nume de utilizator",
+            "desc": "Ex. „historyman12”. Și acesta trebuie să fie unic."
+          },
+          "password": {
+            "label": "Parolă puternică",
+            "desc": "Minim o literă mare, o cifră și un caracter special."
+          },
+          "recovery_email": {
+            "label": "Email de recuperare (opțional)",
+            "desc": "Recomandat, în caz că pierzi accesul la adresa principală."
+          }
+        }
+      },
+      "login": {
+        "title": "2) Autentificare",
+        "badge": "Pasul 2",
+        "p1": "Introdu adresa de email / numele de utilizator și parola pentru a intra în contul tău.",
+        "image_alt": "Ecranul de autentificare RoBio (login)",
+        "tips_title": "Sfaturi rapide:",
+        "tip_email_password": "Folosește adresa de email / numele de utilizator și parola setate la înregistrare.",
+        "tip_remember": "Poți bifa „Ține-mă minte” pentru a rămâne autentificat pe acest dispozitiv.",
+        "note_remember": "Dacă bifezi „Ține-mă minte”, datele de logare vor fi reținute pentru data viitoare, iar sesiunea nu va expira decât dacă alegi să te deloghezi."
+      },
+      "forgot": {
+        "title": "3) Parolă uitată",
+        "badge": "Pasul 3",
+        "p1": "Dacă ai uitat parola, poți solicita resetarea ei. Ai două opțiuni pentru primirea parolei temporare.",
+        "image_alt": "Ecranul de resetare a parolei (parolă uitată)",
+        "tips_title": "Alege metoda de resetare:",
+        "tip_primary": "Trimite parola generată de sistem pe adresa ta principală de email (cea folosită la autentificare).",
+        "tip_recovery": "Dacă ai setat un email de recuperare, poți alege să primești parola generată pe acea adresă.",
+        "note_reset": "Parola generată de sistem poate fi schimbată ulterior din Setări, după ce te autentifici."
+      }
+    }
+  },
+  "learnPortalHome": {
+    "title": "Portalul utilizatorului (Acasă)",
+    "desc": "După autentificare, ajungi în portal: un punct de pornire cu informații generale, acces rapid la funcții-cheie și statusul contului tău.",
+    "sections": {
+      "verify": {
+        "title": "Verificarea contului",
+        "badge": "Primul pas",
+        "p1": "După înregistrare, îți trimitem un email cu link de verificare. Verificarea confirmă că adresa îți aparține și ne ajută să protejăm datele și comunicările.",
+        "image_alt": "Ecran cont neverificat",
+        "tips_title": "Pași recomandați",
+        "tip_email_link": "Deschide emailul cu subiectul „Confirmă-ți adresa” și apasă pe linkul de verificare.",
+        "tip_resend": "Nu ai primit emailul? În portal, folosește opțiunea „Retrimite emailul de verificare”.",
+        "tip_spam": "Verifică și folderele Spam/Promotions — uneori mesajele pot ajunge acolo.",
+        "note_security": "Linkul de verificare este valabil o perioadă limitată. Poți solicita oricând retrimiterea."
+      },
+      "suspended": {
+        "title": "Cont suspendat",
+        "badge": "Important",
+        "p1": "Dacă detectăm încălcări ale regulilor sau activitate suspectă, contul poate fi suspendat temporar. În această perioadă accesul la funcții va fi restricționat.",
+        "image_alt": "Ecran cont suspendat",
+        "tips_title": "Ce poți face",
+        "tip_reason": "Citește motivul suspendării afișat în email pentru a înțelege ce s-a întâmplat.",
+        "tip_contact": "Dacă crezi că e o eroare, contactează suportul completând formularul din portal.",
+        "tip_review": "După analiză, îți vom comunica rezultatul și eventualii pași pentru reactivare.",
+        "note_policy": "Respectarea termenilor și condițiilor asigură un mediu sigur pentru toată comunitatea."
+      },
+      "onboard": {
+  "title": "Caută sau creează profilul tău",
+  "badge": "Pasul următor",
+  "p1": {
+    "before": "Pentru a lucra în platformă, fiecare persoană trebuie să aibă un",
+    "link": "Profil",
+    "after": "– pagina dedicată identității sale."
+  },
+  "image_overview_alt": "Ecran: caută sau creează profil",
+  "create": {
+    "title": "Creează profilul",
+    "image_alt": "Formular: crearea primului profil",
+    "p1": "Completezi nume, câteva date de bază și poți adăuga mai târziu detalii. Păstrăm această primă etapă simplă.",
+    "p2": {
+      "before": "Mai multe explicații găsești în articolul",
+      "link": "Profil",
+      "after": "."
+    }
+  },
+  "search": {
+    "title": "Caută profilul",
+    "image_alt": "Formular: căutare profil",
+    "p1": {
+      "before": "Introdu numele tău și vei fi dus la",
+      "link": "căutare",
+      "after": "pentru a verifica dacă există deja un profil."
+    },
+    "p2": {
+      "before": "Dacă l-ai găsit, îl poți deschide și urma pașii pentru revendicare (detaliem în secțiunea",
+      "link": "Profil",
+      "after": ")."
+    }
+  }
+},
+"navbar": {
+  "title": "Navigarea (Navbar)",
+  "badge": "Orientare",
+  "p1": "Bara de navigare te însoțește peste tot. Din stânga ai logo-ul, iar în dreapta ai acțiunile rapide.",
+  "image_alt": "Bara de navigare RoBio",
+  "items": {
+    "logo": { "label": "Logo", "desc": "Te duce mereu la pagina principală a portalului." },
+    "home": { "label": "Acasă", "desc": "Oricând, revii rapid la ecranul principal." },
+    "notifications": {
+      "label": "Notificări",
+      "link": "Profil",
+      "desc": {
+        "before": "Vezi propuneri/sugestii pentru profilele create de tine. Detalii în secțiunea",
+        "after": "."
+      }
+    },
+    "search": {
+      "label": "Căutare",
+      "link": "Search",
+      "desc": {
+        "before": "Caută persoane, locuri sau cimitire. Vezi explicații la",
+        "after": "."
+      }
+    },
+    "add_profile": {
+      "label": "Adaugă profil",
+      "link": "Profil",
+      "desc": {
+        "before": "Creezi rapid un profil nou. Ghid complet în articolul",
+        "after": "."
+      }
+    },
+    "my_profile": {
+      "label": "Profilul meu",
+      "link": "Profil",
+      "desc": {
+        "before": "Accesezi profilul tău personal. Mai multe în",
+        "after": "."
+      }
+    },
+    "map": {
+      "label": "Hartă",
+      "link": "Hartă",
+      "desc": {
+        "before": "Deschide vizualizarea geografică.",
+        "after": " (explicată în pasul următor)."
+      }
+    },
+    "partners": {
+      "label": "Parteneri",
+      "link": "Portal Parteneri",
+      "desc": {
+        "before": "Accesezi portalul dedicat partenerilor.",
+        "after": " (vom detalia la secțiunea Parteneri)."
+      }
+    },
+    "lang": {
+      "label": "Limbă",
+      "desc": "Schimbi rapid între română și engleză."
+    },
+    "help": {
+      "label": "Ajutor",
+      "link": "Utilizatori",
+      "desc": {
+        "before": "Deschide mini-chatul de asistență.",
+        "after": " (detalii la secțiunea Utilizatori)."
+      }
+    },
+    "settings": {
+      "label": "Setări",
+      "link": "Utilizatori",
+      "desc": {
+        "before": "Preferințe cont, securitate, profil public.",
+        "after": " (vezi secțiunea Utilizatori)."
+      }
+    },
+    "logout": {
+      "label": "Delogare",
+      "desc": "Închizi sesiunea curentă în siguranță."
+    },
+    "initial": {
+      "label": "Inițiala",
+      "desc": "Inițiala numelui tău de utilizator – indicator vizual al contului activ."
+    }
+  }
+},
+"map": {
+  "title": "Hartă",
+  "badge": "Vizualizare",
+  "p1": "Pe hartă vezi distribuția geografică a profilelor și a locurilor / cimitirelor (negru) folosite în platformă. Zonele mai „dense” indică mai multe profiluri asociate cu localitățile / cimitirele (negru) respective.",
+  "image_alt": "Hartă cu frecvența profilelor și a locurilor",
+  "p2": {
+    "before": "Detalii despre cum folosim localitățile găsești în",
+    "link_places": "articolul despre Locuri",
+    "mid": "iar despre crearea și asocierea profilelor în",
+    "link_profiles": "articolul despre Profil",
+    "after": "."
+  },
+  "tips_title": "Sfaturi rapide",
+  "tip_density": "Culorile/aglomerările indică frecvența utilizării locurilor în profiluri.",
+  "tip_zoom": "Poți mări pentru a vedea localități specifice și numărul de profiluri asociate.",
+  "tip_click": "Click pe o zonă/localitate pentru a explora surse și profile legate de acel loc."
+},
+"actions": {
+  "title": "Butoane de acțiuni",
+  "badge": "Accese rapide",
+  "p1": "Pe pagina principală ai trei acțiuni importante la îndemână: Arbore genealogic, Profilul meu și Conținut creat.",
+  "image_alt": "Butoanele principale de acțiuni din portal",
+  "items": {
+    "tree": {
+      "label": "Arbore genealogic",
+      "link": "pagina Arborelui",
+      "desc": {
+        "before": "Te duce la",
+        "after": "unde poți vedea și edita conexiunile de familie."
+      }
+    },
+    "my_profile": {
+      "label": "Profilul meu",
+      "link": "articolul despre Profil",
+      "desc": {
+        "before": "Deschide profilul tău. Despre cum funcționează profilurile găsești în",
+        "after": "."
+      }
+    },
+    "created": {
+      "label": "Conținut creat",
+      "link": "pagina cu conținutul tău",
+      "desc": {
+        "before": "Aici vezi toate elementele pe care le-ai creat (profile, locuri, surse etc.). Intră în",
+        "after": "pentru detalii."
+      }
+    }
+  }
+},
+"columns": {
+  "title": "Trei coloane: activitate și statistici",
+  "badge": "Panou principal",
+  "p1": "Pe pagina principală vezi dintr-o privire ultimele activități, aniversările de azi și statistici în timp real.",
+  "image_alt": "Panou cu trei coloane în portal",
+  "left": {
+    "label": "Ultimele profile create",
+    "desc": "Aici apare un feed cu cele mai recente profile create. Poți încărca mai multe rezultate cu „Load more”."
+  },
+  "center": {
+    "label": "Profilele zilei",
+    "desc": "Profiluri care au data nașterii sau a morții în ziua curentă—o modalitate plăcută de a descoperi aniversări și comemorări."
+  },
+  "right": {
+    "label": "Statistici live",
+    "desc": "Numărul total de profile, cimitire, surse și utilizatori este actualizat în timp real pentru a-ți oferi pulsul comunității."
+  },
+  "cta_add": {
+    "label": "Adaugă profil",
+    "link": "ghidul de Profil",
+    "desc": {
+      "before": "Vrei să adaugi pe cineva nou? Urmează",
+      "after": "pentru pașii recomandați."
+    }
+  }
+}
+
+
+
+    }
+  },
+    "learnProfiles": {
+    "title": "Profiluri",
+    "desc": "Ghidul profilurilor – ce sunt, cum funcționează și cum lucrezi cu ele.",
+    "what": {
+      "title": "Ce este un profil?",
+      "badge": "noțiune de bază",
+      "image_alt": "Imagine de ansamblu profil",
+      "ui_title": "Elementele principale ale unui profil",
+      "ui_picture": "Pentru fiecare gen există o imagine implicită. Poți încărca o fotografie a persoanei dacă o ai.",
+      "ui_name": "Exemplul afișează „ROMANIAN BIOGRAPHY”. Dacă profilul reprezintă o personalitate (vedetă), lângă nume apare o stea galbenă.",
+      "ui_life": "Sub nume vezi „Data nașterii – data morții”. Dacă persoana este în viață, apare „în viață”. Între paranteze poate apărea vârsta (de ex. „(? ani)”) doar dacă există atât data nașterii, cât și a decesului.",
+      "ui_tree_ref": "„Tree ref: CUB-01” este identificatorul profilului. Lângă el este pictograma unui copac cu un număr (ex. 5), care indică câte persoane sunt conectate în familia acestui profil.",
+      "ui_actions": "Include butonul pentru arborele genealogic (albastru) care te duce la pagina copacului, un buton de share, un buton de ștergere (vizibil doar proprietarului), un buton Copy pentru a sugera o posibilă dublură, un buton „ochi” pentru a vedea posibile dubluri și un buton „stea” pentru a vedea legăturile cu personalități.",
+      "ui_owner": "Utilizatorul care deține profilul poate edita toate câmpurile, poate adăuga/șterge date, poate gestiona relațiile și poate șterge profilul.",
+      "p1": "Un profil reprezintă o persoană – vie sau decedată – și este punctul de pornire pentru a construi relații de familie, a atașa surse și a documenta evenimentele importante din viață.",
+      "p2": "Fiecare profil are un deținător (owner), adică utilizatorul care l-a creat sau căruia i-a fost atribuit. Deținătorul are control total asupra profilului: poate edita toate câmpurile, poate adăuga/șterge date, poate gestiona relațiile și poate șterge profilul.",
+      "p3": "Profilurile se leagă între ele prin relații (părinte, copil, soț/partener etc.). Pe măsură ce atașezi persoane înrudite, arborele genealogic se construiește automat.",
+      "p4": "Poți raporta și rezolva dublurile: fie copiezi legătura spre profilul posibil dublură, fie folosești vizualizarea de dubluri pentru a le verifica.",
+      "cta_next": "Continuă cu: cum creezi un profil și cum adaugi primele informații."
+    },
+    "links": {
+      "onboarding": "Ghid înrolare",
+      "this": "Ce este un profil?"
+    },
+    
+      "sections": {
+        "create_attach": {
+          "title": "Creează sau atașează un profil",
+          "badge": "Creare / Atașare",
+          "form": {
+            "title": "Creare profil — formular",
+            "image_alt": "Formular de creare profil",
+            "p1": {
+              "before": "Începe completând detaliile de bază. Poți seta și locul nașterii folosind selectorul de localități (vezi",
+              "link": "Locații",
+              "after": "pentru a înțelege cum funcționează). Dacă locul nu există încă, îl poți adăuga."
+            },
+            "fields": {
+              "sex": {
+                "label": "Gen",
+                "desc": "Alege genul persoanei (masculin, feminin sau necunoscut)."
+              },
+              "name": {
+                "label": "Nume",
+                "desc": "Completează numele persoanei. Numele de familie pot fi multiple; este suportat și numele de fată."
+              },
+              "birth": {
+                "label": "Data nașterii",
+                "desc": "Minim, adaugă anul nașterii dacă îl cunoști. Folosește indicatorii pentru date incerte: „circa”, „î.Hr.” (BC), „înainte”, „după”."
+              },
+              "birthplace": {
+                "label": "Locul nașterii",
+                "desc_before": "Caută și selectează locul nașterii. Află mai multe în",
+                "desc_link": "Locații",
+                "desc_after": ". Dacă locația nu există încă, folosește „Adaugă loc nou”."
+              },
+              "deceased": {
+                "label": "Decedat (opțional)",
+                "desc": "Dacă persoana este decedată, marcheaz-o ca atare. Detaliile despre deces sunt opționale — completează-le doar dacă le cunoști."
+              }
+            }
+          },
+          "attach": {
+            "title": "Creează sau atașează (când profilul poate exista deja)",
+            "image_alt": "Dialog pentru creare sau atașare",
+            "p1": "În unele fluxuri — mai ales la adăugarea membrilor familiei sau a evenimentelor — poți căuta un profil existent și îl poți atașa, evitând astfel crearea unuia nou.",
+            "p2": "Folosește câmpul de căutare pentru a găsi o potrivire. Dacă nu găsești, continuă cu crearea."
+          },
+          "duplicates": {
+            "title": "Posibile dubluri",
+            "image_alt": "Listă de posibile dubluri",
+            "p1": "Înainte de a crea profilul, vei vedea o listă de posibile dubluri bazate pe nume și ani. Alege una dacă se potrivește, pentru a evita dublurile.",
+            "p2": "Dacă niciuna nu se potrivește, folosește „Continuă oricum” pentru a finaliza crearea profilului.",
+            "p3": {
+              "before": "După ce creezi (sau atașezi) profilul, ești gata să construiești arborele familiei. Vezi",
+              "link": "Arbore",
+              "after": "pentru cum adaugi rude."
+            },
+            "cta_proceed_label": "Continuă oricum"
+          }
+        },
+        "profile": {
+        "title": "Profilul meu / Un profil",
+        "badge": "Deținere & Despre",
+        "p1": "Un profil poate fi deținut sau nu. Deținătorul are control total: poate edita toate câmpurile, șterge profilul, îl poate atașa rudelor și poate gestiona surse și evenimente.",
+        "p2": "Dacă nu deții un profil, poți totuși propune modificări. Propunerile ajung în zona de sugestii a deținătorului, care le poate accepta sau respinge.",
+        "images": {
+          "owned_alt": "Pagină de profil atunci când ești deținător",
+          "not_owned_alt": "Pagină de profil atunci când nu ești deținător"
+        },
+        "claim": {
+          "title": "Revendică un profil",
+          "p1": "Dacă profilul te reprezintă pe tine (sau pe cineva pe care îl administrezi legal), folosește butonul „Claim”. Ți se va cere să încarci un act de identitate sau un document care dovedește identitatea/mandatul.",
+          "p2": "Un moderator/administrator îți va analiza cererea. După aprobare, devii deținător și vei putea modifica sau șterge profilul."
+        },
+        "about": {
+          "title": "Tab-ul „Despre”",
+          "p1": "Tab-ul „Despre” grupează datele esențiale de identitate. Fiecare căsuță poate fi editată de deținător și propusă de oricine altcineva.",
+          "fields": {
+            "name": {
+              "label": "Nume",
+              "desc": "Titluri, prenume, nume de familie, nume la naștere și sufix. Folosește câmpul potrivit pentru fiecare componentă."
+            },
+            "ethnicity": {
+              "label": "Etnie",
+              "desc": "Alege o etnie existentă. Dacă lipsește, poți crea una nouă cu denumiri în română și engleză și cu steag."
+            },
+            "gender": {
+              "label": "Gen",
+              "desc": "Masculin, feminin sau necunoscut."
+            },
+            "birth": {
+              "label": "Naștere",
+              "desc": "Data (suportă circa/Î.Hr./înainte/după) și locul nașterii. Datele incerte sunt acceptate. Locul este gestionat prin Places."
+            },
+            "death": {
+              "label": "Deces",
+              "desc": "Dacă este decedat, adaugă data și (opțional) locul decesului. Dacă este în viață, pagina afișează „În viață”."
+            },
+            "burials": {
+              "label": "Înmormântări",
+              "desc": "O persoană poate avea mai multe înhumări (exhumare/reînhumare). Fiecare înregistrare include dată și loc."
+            }
+          },
+          "p2": {
+            "before": "Dacă nu deții profilul, modificările se trimit ca sugestii și apar în zona de notificări a deținătorului",
+            "link": "Notificări",
+            "after": " (iconița cu clopoțel). Deținătorii pot accepta sau respinge fiecare schimbare."
+          },
+          "p3": "Sugestie: chiar și fără deținere, propunerile tale ajută la acuratețe și reduc dublurile."
+        }
+      },
+       "family": {
+        "title": "Familie, Surse & Cronologie",
+        "badge": "Relații & Dovezi",
+        "p1": "Pornind de la un profil poți construi familia din jurul lui, poți organiza dovezile prin surse și poți parcurge o cronologie unică a evenimentelor de viață.",
+        "p2": "Sugestie: actualizările mici și dese (cu surse) păstrează încrederea și îi ajută pe ceilalți colaboratori să urmărească schimbările.",
+        "rel": {
+          "title": "Familie",
+          "image_alt": "Secțiunea relații de familie",
+          "p1": "Adaugă părinți (maximum doi), soți/parteneri și copii. Când adaugi un copil, vei fi întrebat să selectezi sau să creezi celălalt părinte pentru consistență.",
+          "parents": {
+            "label": "Părinți",
+            "desc": "Un profil poate avea cel mult doi părinți. Folosește profiluri existente când este posibil ca să eviți dublurile."
+          },
+          "spouses": {
+            "label": "Soți/parteneri",
+            "desc": "Poți adăuga una sau mai multe relații de-a lungul timpului (căsătorie, parteneriat, divorț)."
+          },
+          "children": {
+            "label": "Copii",
+            "desc": "Creezi profil nou sau atașezi un profil existent. După adăugare, confirmi sau creezi celălalt părinte."
+          },
+          "tips": {
+            "label": "Sugestie",
+            "desc_before": "Pentru o vedere amplă a familiei, deschide",
+            "link": "Arborele genealogic",
+            "desc_after": " și vezi relațiile dintr-o privire."
+          }
+        },
+        "sources": {
+          "title": "Surse",
+          "p1": "Lista Surse afișează toate dovezile atașate profilului (documente, linkuri, fișiere). Deținătorii pot adăuga, deschide și elimina surse; ceilalți pot propune surse ca sugestii.",
+          "list": {
+            "attach": {
+              "label": "Adaugă/atașează",
+              "desc": "Atașează surse noi sau existente pentru a susține datele, locurile și relațiile."
+            },
+            "open": {
+              "label": "Deschide",
+              "desc": "Deschide sursa într-un tab nou pentru a verifica detaliile înainte de a accepta schimbări."
+            },
+            "remove": {
+              "label": "Elimină",
+              "desc": "Deținătorii pot detașa o sursă dacă este greșită sau duplicată."
+            },
+            "suggest": {
+              "label": "Sugerează",
+              "desc_before": "Dacă nu deții profilul, adăugările tale de surse apar în",
+              "link": "Notificări",
+              "desc_after": " (clopoțel) pentru aprobare."
+            }
+          }
+        },
+        "timeline": {
+          "title": "Cronologie",
+          "image_alt": "Cronologia evenimentelor",
+          "p1": "Cronologia reunește evenimentele de viață ale persoanei (naștere, deces, căsătorii, mutări, ocupații etc.) și suprapune evenimente istorice relevante pentru context.",
+          "items": {
+            "events": {
+              "label": "Evenimente",
+              "desc": "Adaugă sau editează evenimente cu date și locuri. Datele incerte sunt acceptate (circa/Î.Hr./înainte/după)."
+            },
+            "history": {
+              "label": "Suprapunere istorică",
+              "desc": "Vezi cum se intersectează evenimentele istorice majore cu perioada de viață a persoanei."
+            },
+            "filters": {
+              "label": "Filtre & vizualizare",
+              "desc": "Filtrează pe tip de eveniment, mărește/ micșorează cronologia și extinde detaliile pentru a compara sursele."
+            },
+            "ownership": {
+              "label": "Deținere & sugestii",
+              "desc_before": "Deținătorii editează direct; ceilalți trimit sugestii vizibile în",
+              "link": "Notificări",
+              "desc_after": "."
+            }
+          }
+        }
+      }
+      }
+   
+  },
+  "learnSearch": {
+  "title": "Căutare",
+  "desc": "Găsește persoane, locuri, cimitire și surse — cu filtre avansate pentru rezultate precise.",
+  "section": {
+    "title": "Cum funcționează căutarea",
+    "badge": "Prezentare",
+    "p1": {
+      "before": "Pornește din pagina de căutare",
+      "link": "Căutare",
+      "after": "și restrânge după categorie sau treci pe modul Avansat pentru persoane."
+    },
+    "targets_title": "Ce poți căuta",
+    "targets": {
+      "profiles": {
+        "label": "Profile",
+        "desc": {
+          "before": "Găsește o persoană după nume și detalii. Vezi cum funcționează profilele în articolul",
+          "after": ".",
+          "link": "Profil"
+        },
+         "link": "Profil" 
+      },
+      "sources": {
+        "label": "Surse",
+        "desc": "Documente adăugate de tine sau de parteneri (fișiere, linkuri, cărți). Folosește cuvinte-cheie din titlu, autor, volum, pagină."
+      },
+      "places": {
+        "label": "Locuri",
+        "desc": {
+          "before": "Localități/regiuni/țări. Vezi ghidul",
+          "after": "pentru cum se leagă de profile și înmormântări.",
+          "link": "Locuri"
+        }
+      },
+      "cemeteries": {
+        "label": "Cimitire",
+        "desc": "Caută cimitire după nume/locație; vezi persoanele legate de ele."
+      }
+    },
+    "advanced": {
+      "title": "Căutare avansată (profile)",
+      "image_alt": "Formular căutare avansată",
+      "p1": "Folosește filtre avansate când numele sunt comune sau incomplete.",
+      "fields": {
+        "name": {
+          "label": "Nume & nume de fată",
+          "desc": "Prenume/nume de familie și nume de fată — util în caz de schimbare după căsătorie."
+        },
+        "birth_year": {
+          "label": "An naștere",
+          "desc": "An exact sau interval (ex.: 1880–1890). Suportă circa / înainte / după."
+        },
+        "death_year": {
+          "label": "An deces",
+          "desc": "Exact sau interval; poți marca „în viață” dacă nu există deces."
+        },
+        "cemetery": {
+          "label": "Cimitir",
+          "desc": "Filtrează după cimitirul unde ar putea fi înmormântat."
+        },
+        "maiden": {
+          "label": "Nume de fată",
+          "desc": "Caută explicit după numele de fată, dacă este cunoscut."
+        },
+        "parents": {
+          "label": "Părinți",
+          "desc": "Numele părinților (unul sau amândoi) pentru a reduce ambiguitățile."
+        },
+        "residence": {
+          "label": "Reședințe",
+          "desc": "Locuri de locuire în timp (sat, oraș, regiune)."
+        }
+      },
+      "p2": "Combină mai multe filtre pentru cele mai bune rezultate. Când nu ești sigur de ortografie, încearcă fragmente de nume."
+    },
+    "results": {
+      "title": "Rezultate & pașii următori",
+      "p1": "Toate elementele potrivite sunt listate împreună. Deschide un rezultat pentru detalii; la profile vezi date de viață, legături la locuri și posibili rude.",
+      "p2": {
+        "before": "Nu ai găsit persoana? Poți crea un profil nou (vezi",
+        "after": "pentru pașii recomandați).",
+        "link_profiles": "Crearea profilului"
+      }
+    }
+  }
+},
+"learnSources": {
+  "title": "Surse",
+  "desc": "Ce este o sursă, cum arată pagina unei surse și cum atașezi surse la profile.",
+  "section": {
+     "create_title": "Crearea unei surse / colecții",
+      "create_image_alt": "Formularul de creare a sursei / colecției",
+      "create_p1": "Completează formularul de creare a sursei. Adaugă un titlu clar al colecției/sursei (ex.: „Borderoul X…”, „Cimitirul Bellu”). Alege tipul potrivit și, opțional, completează autor, volum, an, pagină și/sau link/descriere.",
+      "create_how_title": "Cum funcționează fișierele:",
+      "create_pdf_label": "PDF:",
+      "create_pdf_text": "Dacă încarci un PDF, platforma îl împarte automat pe pagini: fiecare pagină devine un fișier al aceleiași colecții (păstrăm ordinea paginilor).",
+      "create_images_label": "Imagini:",
+      "create_images_text": "Dacă încarci imagini (JPG/PNG etc.), toate sunt adăugate sub aceeași colecție. De ex., „Bellu-01…Bellu-10” devin fișierele 1–10 ale aceleiași surse.",
+      "create_examples_label": "Exemple:",
+      "create_examples_text": "„Borderoul X – 1898 (parohia Y)” (PDF cu 10 pagini → 10 fișiere în sursă). „Cimitirul Bellu – sector Z” (10 poze → 10 fișiere în sursă).",
+      "create_note": "Dacă încarci din Portalul Partenerilor, sursa merge la aprobare de către un administrator înainte de a deveni publică.",
+    "title": "Ce este o sursă?",
+    "badge": "Dovadă",
+    "p1": "O sursă este orice dovadă care ajută la confirmarea unor fapte despre o persoană sau familia ei: scanuri, fotografii, registre, cărți, linkuri—orice susține date, locuri și relații.",
+    "image_alt": "Prezentare pagină sursă",
+    "types_title": "Exemple de surse",
+    "types": {
+      "borderou": {
+        "label": "Registru/extras",
+        "desc": "Registre parohiale, acte civile, foi de recensământ, condici, fișe index."
+      },
+      "grave": {
+        "label": "Fotografie de mormânt",
+        "desc": "Fotografia unei cruci sau a unei pietre funerare; adesea arată nume și date."
+      },
+      "book": {
+        "label": "Carte / articol de genealogie",
+        "desc": "Lucrări tipărite, genealogii de familie, monografii — indică titlul, autorul, volumul, pagina."
+      },
+      "other": {
+        "label": "Alte dovezi",
+        "desc": "Necrologuri, anunțuri de căsătorie, fișe militare, cataloage școlare, site-uri credibile."
+      }
+    },
+    "view_title": "Ce vezi pe pagina unei surse",
+    "view": {
+      "uploader": {
+        "label": "Cine a încărcat",
+        "desc": "Utilizatorul sau partenerul care a adăugat sursa."
+      },
+      "description": {
+        "label": "Descriere",
+        "desc": "Un scurt rezumat: ce este documentul, de unde provine și ce dovedește."
+      },
+      "where": {
+        "label": "Unde o vezi",
+        "desc": "Un viewer sau un link extern către fișier(e) sau înregistrarea din arhivă."
+      },
+      "year": {
+        "label": "An / dată",
+        "desc": "Anul sau data acoperită de document (dacă există)."
+      },
+      "files_count": {
+        "label": "Fișiere în colecție",
+        "desc": "Câte fișiere/pagini fac parte din această sursă sau colecție."
+      },
+      "used_by": {
+        "label": "Profile care folosesc sursa",
+        "desc": {
+          "before": "Lista profilelor care citează această sursă ca dovadă. Poți deschide profilul pentru a verifica fila",
+          "after": "și a confirma datele."
+        },
+        "link": "Despre"
+      }
+    },
+    "proc_title": "Procesate vs. neprocesate",
+    "proc_p1": {
+      "before": "Unele surse sunt încărcate de parteneri și apoi procesate (paginile etichetate, numele indexate, datele extrase). Află mai multe în",
+      "link": "Portalul Partenerilor",
+      "after": ". Sursele neprocesate pot fi totuși utile — le poți atașa ca dovadă brută."
+    },
+    "attach_title": "Adăugarea unei surse când editezi un profil",
+    "attach_p1": {
+      "before": "Când editezi un profil poți atașa surse pentru a susține nume, date, locuri și relații. Dacă nu ești partener, poți atașa surse existente. Pentru a încărca și procesa colecții noi, vezi",
+      "link_profile": "Profil",
+      "mid": ". Pentru parteneriate și uploaduri în volum, citește",
+      "link_partner": "Parteneri",
+      "after": "."
+    }
+  }
+},
+ "learnPlaces": {
+    "title": "Locuri & Cimitire",
+    "desc": "Cum funcționează locurile (localități/regiuni/țări) și legarea înmormântărilor / cimitirelor.",
+    "section1": {
+      "title": "Ce este o locație și cum o cauți/creezi",
+      "badge": "Pasul 1",
+      "p1": "Locațiile sunt esențiale pentru a poziționa oamenii și evenimentele în timp. Ele pot fi orașe, sate, regiuni sau țări — moderne sau istorice. Când creezi o locație nouă, este important să completezi atât datele actuale cât și cele istorice, dacă le știi. Acest lucru ajută la identificarea locurilor care și-au schimbat denumirea sau granițele în timp (ex.: „Ghiris” este vechiul nume pentru actualul oraș Câmpia Turzii).",
+      "image1_alt": "Cum cauți o locație existentă",
+      "image2_alt": "Cum creezi o locație nouă",
+      "p2": "Fiecare locație are 6 câmpuri principale:",
+      "list": [
+        "Nume modern (ex.: „Câmpia Turzii”)",
+        "Nume istoric (ex.: „Ghiris”)",
+        "Regiune modernă (ex.: „Cluj”)",
+        "Regiune istorică (poate fi lăsată necompletată)",
+        "Țară modernă (ex.: „România”)",
+        "Țară istorică (ex.: „Principatul Transilvaniei”, „Iugoslavia”, „Principatul Moldovei” etc.)"
+      ],
+      "p3": "Când cauți o locație în timpul completării unui profil sau a unei înmormântări, tastează câteva caractere — dacă există deja, va apărea în sugestii (pot fi localități, județe sau țări). Dacă nu știi exact, alege nivelul superior (județ/țară) sau apasă „Creează loc nou”. Cu cât introduci mai multe informații (mai ales pentru locațiile istorice), cu atât va fi mai utilă pentru alți utilizatori."
+    },
+    "section2": {
+      "title": "Pagina unei locații",
+      "badge": "Pasul 2",
+      "p1": "Pagina unei locații include o hartă (în stânga) care arată poziția geografică actuală și două taburi (în dreapta) care permit explorarea conținutului asociat.",
+      "image_alt": "Vizualizare detaliată a unei locații",
+      "p2": "Taburile sunt următoarele:",
+      "tabs": [
+        {
+          "label": "Profile",
+          "desc": "O listă cu persoanele născute, care au locuit sau sunt altfel legate de această locație. Deasupra listei, literele alfabetului filtrează rapid după inițială."
+        },
+        {
+          "label": "Cimitire",
+          "desc": "Toate cimitirele etichetate în locația respectivă. Din fiecare cimitir poți vedea înmormântările asociate și, dacă ai drepturi, poți adăuga/edita informații."
+        }
+      ],
+      "p3": "Harta oferă context geografic pentru datele istorice. Chiar dacă un nume s-a schimbat (ex.: Napoca în Imperiul Roman → Cluj-Napoca modern), coordonatele leagă trecutul de prezent. Mărește/micșorează pentru a explora zonele învecinate sau localitățile din același județ."
+    },
+     "section3": {
+      "title": "Cimitire & locuri de înhumare",
+      "badge": "Pasul 3",
+      "image_alt": "Căutare/creare cimitir",
+      "p1": "Un „cimitir” în RoBio înseamnă orice loc de înhumare: cimitir organizat, curte de biserică, mănăstire, parcelă militară, osuar, sau chiar un mormânt izolat (pe un deal, în câmp sau în pădure). Important este locul efectiv unde a fost îngropată persoana.",
+      "search_title": "Caută sau creează",
+      "search_p1": "În primul câmp cauți un cimitir existent și îl selectezi. Dacă nu există, apasă „Creează cimitir”.",
+      "fields_title": "Câmpuri la creare",
+      "required_title": "Obligatorii",
+      "required": [
+        "Latitudine (format zecimal, ex.: 46.5593)",
+        "Longitudine (format zecimal, ex.: 23.7857)"
+      ],
+      "optional_title": "Opționale",
+      "optional": [
+        "Nume cimitir (ex.: „Cimitirul La Coloană”)",
+        "Locație (Place) — dacă se află într-o localitate cunoscută",
+        "Descriere / note (ex.: „parcelă militară”, „curtea Bisericii X”)",
+        "Alte denumiri / aliasuri",
+        "Fotografii"
+      ],
+      "types_title": "Tipuri acceptate",
+      "types": [
+        "Cimitir public sau parohial",
+        "Curte de biserică / mănăstire",
+        "Parcelă militară / osuar / criptă",
+        "Mormânt izolat (movilă, câmp, deal, pădure)"
+      ],
+      "examples_title": "Exemple utile",
+      "examples": [
+        "„Cimitirul La Coloană” — Câmpia Turzii (Cluj): are coordonate precise, se poate selecta Place = Câmpia Turzii.",
+        "Mormânt izolat pe un deal (fără localitate): introduci doar lat/lon; poți lăsa Nume și Place necompletate."
+      ],
+      "notes_title": "Recomandări",
+      "notes": [
+        "Folosește coordonate în grade zecimale (WGS84).",
+        "Dacă nu știi numele sau localitatea, creează totuși cimitirul cu coordonatele — valorile lipsă pot fi completate ulterior.",
+        "Pentru precizie, verifică punctul pe hartă la nivel de zoom mare (ideal chiar la intrare sau în centrul locului).",
+        "Poți lega ulterior cimitirul la un Place când devine clar în ce localitate/regiune se află."
+      ]
+    }
+  }
+
 }

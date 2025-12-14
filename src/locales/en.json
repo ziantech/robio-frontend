@@ -6,20 +6,21 @@
   "create_account": "Create an account",
   "register_description": "Join the RoBio community to preserve and organize your family history.",
   "email": "Email",
+  "emailUsername": "Email / Username",
   "username": "Username",
   "password": "Password",
   "confirm_password": "Confirm Password",
   "invalid_email": "Invalid email format",
   "username_available": "Username is available",
   "username_taken": "Username is already taken",
-    "password_strength_weak": "Weak password",
+  "password_strength_weak": "Weak password",
   "password_strength_moderate": "Moderate password",
   "password_strength_strong": "Strong password",
   "show_password": "Show password",
   "hide_password": "Hide password",
   "current_address": "Current Address",
   "login_info": "Login Info",
-    "step2_title": "Your Profile",
+  "step2_title": "Your Profile",
   "step2_description": "Basic information about your profile",
   "sex_label": "Gender",
   "sex_male": "Male",
@@ -29,16 +30,17 @@
   "name_first": "First Name(s)",
   "name_alternative": "Alternative Name(s)",
   "name_last": "Last Name",
-  
   "name_maiden": "Maiden Name",
   "name_suffix": "Suffix",
   "previous": "Back",
   "next": "Next",
   "name_multi_hint": "Type a name and press enter to add more",
-    "year": "Year",
+  "name_multi_hint2": "Type a name and press enter to add more",
+  "year": "Year",
   "month": "Month",
   "day": "Day",
   "circa": "Circa",
+  "bc": "BC",
   "month_january": "January",
   "month_february": "February",
   "month_march": "March",
@@ -50,5 +52,1113 @@
   "month_september": "September",
   "month_october": "October",
   "month_november": "November",
-  "month_december": "December"
+  "month_december": "December",
+  "birth_section": "Birth Information",
+  "birth_date": "Date of Birth",
+  "step3_father_title": "Father Information",
+  "step3_father_description": "Provide details about your biological father.",
+  "father_biological": "Biological Father",
+  "death_section": "Death Information (optional)",
+  "step4_mother_title": "Mother Information",
+  "step4_mother_description": "Provide details about your biological mother.",
+  "mother_biological": "Biological Mother",
+  "step5_title": "Review & Finish",
+  "step5_description": "Review your info, accept the terms, and complete your registration.",
+  "step5_review_button": "Quick Review",
+  "agree_terms": "I agree to the",
+  "terms_and_conditions": "Terms & Conditions",
+  "register_button": "Register",
+  "rules_title": "Community Rules",
+  "rules_intro": "RoBio is a collaborative space for family history. To keep it useful and safe, please follow these:",
+  "rule_respect_privacy": "Respect living people’s privacy. Don’t share sensitive data without consent.",
+  "rule_no_harassment": "No harassment, hate speech, or abusive behavior.",
+  "rule_accurate_sources": "Add accurate information and cite sources when possible.",
+  "rule_no_illegal": "Do not upload illegal content, copyrighted material you don’t own, or malware.",
+  "rule_be_respectful": "Be respectful. Disagreements are fine—personal attacks are not.",
+  "recovery_info": "Account Recovery",
+  "recovery_description": "Provide an email or phone number to recover your account if you lose access.",
+  "recovery_email": "Recovery Email",
+  "recovery_codes_title": "Recovery Codes",
+  "recovery_codes_description": "Save these codes in a secure place. They can be used to recover your account if you lose access to your email.",
+  "download_codes": "Download Codes (CSV)",
+  "name_alternative_first": "First Name Alternatives",
+  "name_alternative_last": "Last Name Alternatives",
+  "ethnicity_section": "Ethnicity",
+  "ethnicity_label": "Ethnicity",
+  "ethnicity_placeholder": "Type your ethnicity (e.g., Romanian, Aromanian, Hungarian)…",
+  "father": "Father",
+  "mother": "Mother",
+
+  "yes": "Yes",
+  "no": "No",
+  "death": "Death",
+  "ethnicity": "Ethnicity",
+  "rights": "All rights reserved.",
+  "logout": "Logout",
+  "changeLanguage": "Change Language",
+  "verifying_email": "Verifying your email...",
+  "email_verified_success": "Your email has been successfully verified!",
+  "email_verified_error": "Verification failed. Your link may be invalid or expired.",
+  "go_to_login": "Go to Login",
+  "login_title": "Login to your account",
+  "login_button": "Login",
+  "login_success": "Login successful!",
+  "login_error": "Invalid email or password",
+  "fill_all_fields": "Please fill in all required fields",
+  "no_account": "Don't have an account? Register here",
+  "sending": "Sending...",
+  "resend": "Resend verification link",
+  "please_verify": "Please check your email to continue.",
+  "not_verified": "Your email is not verified.",
+  "forgot_password": "Forgot your password?",
+  "recover_password_title": "Password Recovery",
+  "recover_password_intro": "Choose a method to receive a new system-generated password.",
+  "method_primary_email": "Primary Email",
+  "method_recovery_email": "Recovery Email",
+  "method_recovery_code": "Recovery Code",
+  "email_or_username": "Email or Username",
+  "email_or_username_helper": "Enter either the account email or the username",
+  "recovery_code_label": "Recovery Code",
+  "send_reset": "Send Password Reset",
+  "reset_sent_success": "The new password has been sent.",
+  "reset_sent_error": "We couldn't send the new password.",
+  "cancel": "Cancel",
+  "landing_hero_title": "Build Your Family Tree — Connect with History",
+  "landing_hero_sub": "Start documenting your family members and stories. As you add names, dates, and places, we search historical records and archives to uncover hidden connections to ancestors and their stories.",
+  "landing_search_placeholder": "Search for an ancestor, place, or historical document...",
+  "landing_cta_start": "Start Your Tree",
+  "landing_cta_records": "View the Document Archive",
+  "branch_builder_title": "Build the Branches of Your Family",
+  "branch_builder_body": "The automated assistant will guide you step by step. As you add details, we look for matches.",
+  "start_your_tree": "Start Your Tree",
+  "branch_records_title": "Historical Records",
+  "branch_records_body": "We search a large archive of documents: births, marriages, deaths, censuses, and more.",
+  "search_all_records": "Search Records",
+  "branch_location_title": "Search by Location",
+  "branch_location_body": "Start from a village, county, or region and discover the families from that area.",
+  "search_by_location": "Search by Location",
+  "branch_learn_title": "Not Sure Where to Start?",
+  "branch_learn_body": "We’ll show you how to build your tree or search for an ancestor. Choose what interests you.",
+  "explore_guides": "View Guides",
+  "landing_band_title": "Join the RoBio Community",
+  "landing_band_sub": "Contribute, verify information, and add sources — together we create the best genealogical archive.",
+  "search": "Search",
+  "get_started": "Get Started for Free",
+  "learn_more": "Learn More",
+  "home": "Home",
+  "select_language": "Select Language",
+  "account_settings": "Account Settings",
+  "source_management": "Source Management",
+  "content_management": "Content Management",
+  "settings_title": "Account Settings",
+  "auth_section": "Authentication",
+  "auth_description": "Manage your login methods, email, and password.",
+  "email_label": "Email",
+  "username_label": "Username",
+  "password_label": "Password",
+  "update_auth_button": "Update authentication",
+
+  "membership_section": "Membership",
+  "membership_description": "Check or change your subscription status.",
+  "membership_active": "Your membership is active.",
+  "membership_inactive": "You do not have an active membership.",
+  "manage_subscription": "Manage subscription",
+  "auto_renew": "Auto-renew",
+
+  "earnings_section": "Earnings",
+  "earnings_description": "View your earnings generated through contributions.",
+  "earnings_note": "Total accumulated earnings so far.",
+
+  "privacy_section": "Privacy",
+  "privacy_description": "Control profile visibility and your personal data.",
+  "profile_visibility": "Private profile",
+  "private_profile": "Only you can view this profile.",
+  "public_profile": "Anyone can view this profile.",
+
+  "security_section": "Security",
+  "security_description": "Change your password and recovery emails.",
+
+  "update_recovery": "Update recovery email",
+  "recovery_codes_info": "Recovery codes can be used if you lose access.",
+  "view_recovery_codes": "View recovery codes",
+  "welcome": "Welcome",
+  "welcome_subtitle": "Find your roots. Create, explore, and discover your family connections.",
+
+  "tree_title": "🌳 Family Tree",
+  "tree_desc": "View and edit your genealogical tree",
+
+  "profile_title": "👤 My Profile",
+  "profile_desc": "Manage your personal information",
+
+  "content_title": "📊 Statistics",
+  "content_desc": "View statistics about people, biographies, and records.",
+
+  "sources_title": "📂 Sources",
+  "sources_desc": "Genealogical documents and uploaded files",
+
+  "news_title": "📰 Genealogy News",
+  "news_mock": "Archaeologists in Moldova discovered baptism records from the 18th century. These will be integrated soon into available sources.",
+
+  "create_title": "🎯 Create a profile",
+  "create_desc": "Add a new member — yourself, an ancestor, or someone else.",
+  "create_button": "Create new profile",
+
+  "search_title": "🔍 Search for a profile",
+  "search_desc": "Search for relatives or existing profiles by name.",
+  "search_input": "Search by name",
+  "search_button": "Search",
+  "search_input_first": "First Name",
+  "search_input_last": "Last Name",
+  "search_input_birth": "Birth date (approximate)",
+  "search_input_location": "Birth or death location (approx.)",
+
+  "search_advanced": "Advanced Search",
+  "search_advanced_placeholder": "Advanced fields will be available soon.",
+  "blog_title": "📘 Community Blog",
+  "blog_desc": "Discover genealogical stories written by other users.",
+  "blog_button": "Visit the blog",
+
+  "partner_title": "💸 Become a Partner",
+  "partner_desc": "Contribute content, refer users, and earn money through the platform.",
+  "partner_button": "See how to become a partner",
+  "search_subtitle": "Enter details to find a person in the family tree.",
+  "create_bullet_1": "Add family members",
+  "create_bullet_2": "Build your family tree",
+  "create_bullet_3": "Preserve stories and documents",
+  "create_secondary_cta": "Not sure where to begin?",
+  "create_secondary_button": "See a profile example",
+  "no_results": "No results found",
+  "search_existing_profile": "Search existing profile",
+  "search_placeholder": "E.g. John Smith or Mary Johnson",
+  "change_profile": "Change profile",
+  "title": "Title",
+  "author": "Author",
+  "volume": "Volume",
+  "page": "Page",
+  "file": "File",
+  "create_source": "Create Source",
+  "files_selected": "Files Selected",
+  "upload_files": "Upload Files",
+  "add_source": "Add Source",
+  "existing_sources": "Existing Sources",
+  "create_profile": "Create Profile",
+  "my_profile": "My Profile",
+  "link": "Link",
+  "location": "Location",
+  "location_placeholder": "Arad, RO / Library X / Archive Y",
+  "overview": "Overview",
+  "overview_body": "A quick look at your data.",
+  "profiles": "Profiles",
+  "username_rules": "Username must be 3-15 characters, lowercase letters and numbers only.",
+  "mine": "Mine",
+  "cemeteries": "Cemeteries",
+  "sources": "Sources",
+  "users": "Users",
+  "brand_tagline": "Roots & Histories",
+  "name": "Name",
+  "remember_me": "Remember me",
+  "deceased": "Deceased",
+  "partner_portal": "Partners Portal",
+  "admin_portal": "Admins Portal",
+  "account_banned": "Account suspended",
+  "banned_until": "Your account is suspended until",
+  "contact_support": "If you believe this is a mistake, please contact support.",
+  "no_profile_title": "Search or create your profile",
+  "no_profile_desc": "Search for or create your own profile and start building your family tree! Good luck on your new journey.",
+  "claim_profile": "Search & claim profile",
+  "user_portal": "User Portal",
+  "map": "Map",
+
+  "openOriginal": "OPEN ORIGINAL",
+  "extend": "EXTEND DEADLINE (+5D)",
+  "release": "RELEASE",
+  "runHistory": "RUN HISTORY",
+  "finalize": "FINALIZE PROCESSING",
+  "due": "Due",
+  "credits": "Credits earned (estimate)",
+  "createdMeta": "Created by",
+  "preview": "Preview",
+  "noPreview": "No preview available.",
+  "processingForm": "Processing form",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "unknown": "Unknown",
+
+  "birth": "Birth",
+  "date": "Date",
+  "place": "Place",
+
+  "markDeceased": "Mark as deceased",
+
+  "burials": "Burials",
+  "addBurial": "Add burial",
+  "noBurial": "No burial entries added.",
+  "cemetery": "Cemetery",
+  "searchCemetery": "Search cemetery",
+  "remove": "Remove",
+  "relations": "Relations",
+  "searchProfileLabel": "Search profile",
+  "searchProfilePlaceholder": "Type a name or ref",
+  "select": "Select…",
+  "parent": "Parent",
+  "spouse": "Spouse",
+  "child": "Child",
+
+  "reset": "Reset",
+  "createProfile": "Create profile",
+  "relKindTitle": "Select relation type",
+  "relKindSubtitle": "Choose how this person is related to the new profile.",
+  "dupsTitle": "Possible duplicates",
+  "dupsHelp": "If one matches, pick it — we will attach this file as a source to that profile’s name. Otherwise, create a new profile.",
+  "noSuggestions": "No suggestions found.",
+  "loadMore": "Load more",
+  "back": "Back",
+  "createAnyway": "Create profile anyway",
+  "peopleUsing": "Profiles using this file",
+  "refresh": "Refresh",
+  "loading": "Loading…",
+  "none": "None.",
+  "releaseTitle": "Release this file",
+  "releaseHint": "Write briefly what you did / didn’t have time to do. Notes will appear on the current run.",
+  "notesPlaceholder": "Notes (optional)",
+  "confirmRelease": "Confirm release",
+  "releasing": "Releasing…",
+  "finalizeTitle": "Finalize processing",
+  "finalizeHint": "Briefly note what you did. We will close the run as processed and mark the file as processed.",
+  "confirmFinalize": "Confirm finalize",
+  "finalizing": "Finalizing…",
+  "guidelines": "Processing guidelines",
+  "openGuides": "OPEN GUIDELINES",
+  "upload_profile_picture": "Upload Profile Picture",
+
+  "load_error": "Failed to load settings.",
+  "account_updated": "Account updated.",
+  "account_update_failed": "Could not update account.",
+  "password_both_required": "Please fill in both password fields.",
+  "password_changed": "Password was changed.",
+  "password_change_failed": "Password could not be changed.",
+
+  "financial_section": "Financial",
+  "financial_description": "Money you can withdraw and your existing credits.",
+  "credits_existing": "Existing credits",
+  "ron_equivalent": "RON equivalent",
+  "partner_status": "Partner status",
+  "partner_active": "Active partner",
+  "partner_inactive": "Not a partner",
+  "withdraw_money": "Withdraw money",
+  "become_partner": "Become partner",
+  "partner_upsell_title": "Partner = real money",
+  "partner_upsell_text_prefix": "Become a partner and monetize your contributions. You get",
+  "apply_now": "Apply now",
+  "partner_upsell_bullets": "Fast • Transparent • Secure",
+
+  "account_section": "Account",
+  "account_description": "Update your email, username, and password.",
+
+  "saving": "Saving...",
+  "working": "Working...",
+  "current_password": "Current password",
+  "new_password": "New password",
+  "change_password": "Change Password",
+  "learn": {
+    "hero_title": "Welcome to RoBio, <br /> a platform as vast as a country!",
+    "hero_p1": "Thank you for joining this community whose goal is to build the immense treasury of Romanian genealogy, from the earliest times to today!",
+    "hero_p2": "Next, we’ll take a quick tour through the details of how to use the platform.",
+    "search_placeholder": "Search a topic: “parent”, “cemetery”, “source”…",
+    "search_aria": "Search",
+    "overline_articles": "Articles",
+    "articles": {
+      "terms": {
+        "title": "Terms & Conditions",
+        "desc": "Rules for using the RoBio platform. Please read them carefully."
+      },
+      "partners_processing_guide": {
+        "title": "Partner Processing Guide",
+        "desc": "How to process files as a partner."
+      },
+
+      "faq": {
+        "title": "Frequently Asked Questions (FAQ)",
+        "desc": "Frequently asked questions—quick answers to common issues. (Coming soon)"
+      },
+
+      "privacy": {
+        "title": "Privacy Policy",
+        "desc": "How we collect, use, and protect your personal data."
+      },
+      "auth": {
+        "title": "Sign in / Authentication",
+        "desc": "Create an account, sign in, email verification, and password reset."
+      },
+      "portal_home": {
+        "title": "User Portal (Home)",
+        "desc": "What you see after signing in: dashboard, navigation, key sections, and quick actions."
+      },
+      "profiles": {
+        "title": "Profiles",
+        "desc": "What a profile is, how it works, and how to use it."
+      },
+      "search": {
+        "title": "Search",
+        "desc": "Find people, places, and sources. Filters, keywords, and tips for better results."
+      },
+      "sources": {
+        "title": "Sources",
+        "desc": "Attach evidence to profiles: add, view, organize, and review documentary sources."
+      },
+      "places": {
+        "title": "Places & Cemeteries",
+        "desc": "How places work (settlements/regions/countries), linking burials and cemetery records."
+      },
+      "partners": {
+        "title": "Partner Portal",
+        "desc": "Upload, process, and manage collections as a partner. Workflows and best practices."
+      }
+    },
+    "badge_important": "Important"
+  },
+  "learnAuth": {
+    "title": "Authentication",
+    "desc": "To sign in, you’ll need to fill out a short electronic form. The requested details are required for communication between the platform and you, as a user, as well as for any written correspondence (by post).",
+    "sections": {
+      "register": {
+        "title": "1) Register",
+        "badge": "Step 1",
+        "p1": "To create your account, fill in the registration form. The image on the right shows the account creation screen.",
+        "image_alt": "RoBio account creation screen (registration)",
+        "fields_title": "What we’ll ask for:",
+        "fields": {
+          "email": {
+            "label": "Email (unique)",
+            "desc": "Used for sign-in and notifications. Must be unique in the system."
+          },
+          "username": {
+            "label": "Username",
+            "desc": "E.g., “historyman12”. This must also be unique."
+          },
+          "password": {
+            "label": "Strong password",
+            "desc": "At least one uppercase letter, one digit, and one special character."
+          },
+          "recovery_email": {
+            "label": "Recovery email (optional)",
+            "desc": "Recommended, in case you lose access to your primary address."
+          }
+        }
+      },
+      "login": {
+        "title": "2) Login",
+        "badge": "Step 2",
+        "p1": "Enter your email address / username and password to access your account.",
+        "image_alt": "RoBio sign-in screen (login)",
+        "tips_title": "Quick tips:",
+        "tip_email_password": "Use the email / username and password you set during registration.",
+        "tip_remember": "You can check “Remember me” to stay signed in on this device.",
+        "note_remember": "If you check “Remember me”, your sign-in details will be remembered for next time, and the session won’t expire unless you choose to log out."
+      },
+      "forgot": {
+        "title": "3) Forgot password",
+        "badge": "Step 3",
+        "p1": "If you forgot your password, you can request a reset. You have two options for receiving a temporary password.",
+        "image_alt": "Password reset screen (forgot password)",
+        "tips_title": "Choose your reset method:",
+        "tip_primary": "Send the system-generated password to your primary email address (the one you use to sign in).",
+        "tip_recovery": "If you set a recovery email, you can choose to receive the generated password there instead.",
+        "note_reset": "You can change the system-generated password later from Settings, after you sign in."
+      }
+    }
+  },
+  "learnPortalHome": {
+    "title": "User Portal (Home)",
+    "desc": "After signing in, you land in the portal: a starting point with general information, quick access to key actions, and your account status.",
+    "sections": {
+      "verify": {
+        "title": "Account verification",
+        "badge": "First step",
+        "p1": "Right after registration we email you a verification link. This confirms the address is yours and helps us protect your data and communications.",
+        "image_alt": "Not-verified account screen",
+        "tips_title": "Recommended steps",
+        "tip_email_link": "Open the email titled “Confirm your address” and click the verification link.",
+        "tip_resend": "Didn’t get it? In the portal, use “Resend verification email”.",
+        "tip_spam": "Also check Spam/Promotions — messages can land there sometimes.",
+        "note_security": "The verification link expires after a while. You can always request a new one."
+      },
+      "suspended": {
+        "title": "Suspended account",
+        "badge": "Important",
+        "p1": "If we detect policy violations or suspicious activity, your account may be temporarily suspended. Access to features will be limited during this period.",
+        "image_alt": "Suspended account screen",
+        "tips_title": "What you can do",
+        "tip_reason": "Read the suspension reason shown in the email to understand what happened.",
+        "tip_contact": "If you think it’s a mistake, contact support via the form available in the portal.",
+        "tip_review": "After review, we’ll let you know the outcome and any steps required to restore access.",
+        "note_policy": "Following the Terms & Conditions keeps the community safe for everyone."
+      },
+      "onboard": {
+        "title": "Search or create your profile",
+        "badge": "Next step",
+        "p1": {
+          "before": "To work on the platform, every person needs a",
+          "link": "Profile",
+          "after": "— their dedicated identity page."
+        },
+        "image_overview_alt": "Screen: search or create profile",
+        "create": {
+          "title": "Create your profile",
+          "image_alt": "Form: create first profile",
+          "p1": "Fill in your name, a few basic details, and you can add more later. We keep the first step simple.",
+          "p2": {
+            "before": "Find more details in the",
+            "link": "Profile",
+            "after": "article."
+          }
+        },
+        "search": {
+          "title": "Search your profile",
+          "image_alt": "Form: search profile",
+          "p1": {
+            "before": "Enter your name and you’ll be sent to the",
+            "link": "search",
+            "after": "to see if a profile already exists."
+          },
+          "p2": {
+            "before": "If you find it, open it and follow the claim steps (we’ll detail this in the",
+            "link": "Profile",
+            "after": "section)."
+          }
+        }
+      },
+      "navbar": {
+        "title": "Navigation bar (Navbar)",
+        "badge": "Orientation",
+        "p1": "The top navigation is always present. Logo on the left, quick actions on the right.",
+        "image_alt": "RoBio navigation bar",
+        "items": {
+          "logo": {
+            "label": "Logo",
+            "desc": "Always takes you to the portal home page."
+          },
+          "home": {
+            "label": "Home",
+            "desc": "Jump back to the main screen anytime."
+          },
+          "notifications": {
+            "label": "Notifications",
+            "link": "Profile",
+            "desc": {
+              "before": "See proposals/suggestions for profiles you’ve created. More in",
+              "after": "."
+            }
+          },
+          "search": {
+            "label": "Search",
+            "link": "Search",
+            "desc": {
+              "before": "Find people, places or cemeteries. Explained in",
+              "after": "."
+            }
+          },
+          "add_profile": {
+            "label": "Add profile",
+            "link": "Profile",
+            "desc": {
+              "before": "Quickly create a new profile. Full guide in",
+              "after": "."
+            }
+          },
+          "my_profile": {
+            "label": "My profile",
+            "link": "Profile",
+            "desc": {
+              "before": "Open your personal profile. See",
+              "after": " for details."
+            }
+          },
+          "map": {
+            "label": "Map",
+            "link": "Map",
+            "desc": {
+              "before": "Opens the geographic view,",
+              "after": " explained in the next step."
+            }
+          },
+          "partners": {
+            "label": "Partners",
+            "link": "Partners Portal",
+            "desc": {
+              "before": "Takes you to the partners’ portal,",
+              "after": " covered in the Partners section."
+            }
+          },
+          "lang": {
+            "label": "Language",
+            "desc": "Switch between Romanian and English."
+          },
+          "help": {
+            "label": "Help",
+            "link": "Users",
+            "desc": {
+              "before": "Opens the mini help chat,",
+              "after": " detailed in the Users section."
+            }
+          },
+          "settings": {
+            "label": "Settings",
+            "link": "Users",
+            "desc": {
+              "before": "Account preferences, security, public profile,",
+              "after": " see Users section."
+            }
+          },
+          "logout": {
+            "label": "Logout",
+            "desc": "Safely ends your session."
+          },
+          "initial": {
+            "label": "Initial",
+            "desc": "The initial of your username – a quick visual cue for the active account."
+          }
+        }
+      },
+      "map": {
+        "title": "Map",
+        "badge": "Overview",
+        "p1": "The map shows the geographic distribution of profiles and the places / cemeteries (black) used across the platform. Denser areas indicate more profiles linked to those localities / cemeteries (black).",
+        "image_alt": "Map with profile and place frequency",
+        "p2": {
+          "before": "Learn more about how places are used in",
+          "link_places": "the Places article",
+          "mid": "and about creating/attaching profiles in",
+          "link_profiles": "the Profile article",
+          "after": "."
+        },
+        "tips_title": "Quick tips",
+        "tip_density": "Color/intensity reflects how frequently places are referenced by profiles.",
+        "tip_zoom": "Zoom in to see specific localities and the number of linked profiles.",
+        "tip_click": "Click a region/locality to explore sources and profiles related to that place."
+      },
+      "actions": {
+        "title": "Action buttons",
+        "badge": "Quick access",
+        "p1": "On the home page you have three handy actions: Family Tree, My Profile and Created Content.",
+        "image_alt": "Main action buttons in the portal",
+        "items": {
+          "tree": {
+            "label": "Family Tree",
+            "link": "the Tree page",
+            "desc": {
+              "before": "Takes you to",
+              "after": "where you can view and edit family connections."
+            }
+          },
+          "my_profile": {
+            "label": "My Profile",
+            "link": "the Profile article",
+            "desc": {
+              "before": "Opens your own profile. Learn more about profiles in",
+              "after": "."
+            }
+          },
+          "created": {
+            "label": "Created content",
+            "link": "your content page",
+            "desc": {
+              "before": "See everything you’ve created (profiles, places, sources, etc.). Go to",
+              "after": "for details."
+            }
+          }
+        }
+      },
+      "columns": {
+        "title": "Three columns: activity & stats",
+        "badge": "Main dashboard",
+        "p1": "On the home page you get a quick snapshot of recent work, today’s anniversaries, and live platform stats.",
+        "image_alt": "Three-column dashboard in the portal",
+        "left": {
+          "label": "Latest profiles created",
+          "desc": "A feed with the most recent profiles created. Click “Load more” to expand the list."
+        },
+        "center": {
+          "label": "Profiles of the day",
+          "desc": "Profiles whose birth or death date matches today—great for anniversaries and remembrances."
+        },
+        "right": {
+          "label": "Live statistics",
+          "desc": "The total number of profiles, cemeteries, sources, and users updates in real time to reflect the community’s activity."
+        },
+        "cta_add": {
+          "label": "Add profile",
+          "link": "the Profile guide",
+          "desc": {
+            "before": "Want to add someone new? See",
+            "after": "for the recommended steps."
+          }
+        }
+      }
+    }
+  },
+
+  "learnProfiles": {
+    "title": "Profiles",
+    "desc": "Profiles guide – what they are, how they work, and how to use them.",
+    "what": {
+      "title": "What is a profile?",
+      "badge": "core concept",
+      "image_alt": "Profile overview",
+      "ui_title": "Main elements of a profile",
+      "ui_picture": "There is a default picture per gender. You can upload a real photo if available.",
+      "ui_name": "The example shows “ROMANIAN BIOGRAPHY”. If the profile represents a public figure, a yellow star appears next to the name.",
+      "ui_life": "Under the name you’ll see “Birth date – death date”. If the person is alive, it shows “living”. In parentheses you may see the age (e.g., “(? years)”) only when both dates exist.",
+      "ui_tree_ref": "“Tree ref: CUB-01” is the profile identifier. Next to it, a tree icon with a number (e.g., 5) shows how many people are connected in this person’s family.",
+      "ui_actions": "Includes the blue family tree button linking to the tree page, a share button, a delete button (visible only to the owner), a Copy button to propose a duplicate, an Eye button to view potential duplicates, and a Star button to see connections to public figures.",
+      "ui_owner": "The user who owns the profile can edit fields, add/remove data, manage relationships, and delete the profile.",
+      "p1": "A profile represents a person—living or deceased—and it’s the starting point for building family relationships, attaching sources, and documenting key life events.",
+      "p2": "Each profile has an owner (the user who created it or to whom it was assigned). The owner has full control: they can edit any fields, add or remove data, manage relationships, and delete the profile.",
+      "p3": "Profiles link to each other through relationships (parent, child, spouse/partner, etc.). As you attach relatives, the family tree builds up automatically.",
+      "p4": "You can report and resolve duplicates: either copy a link to a suspected duplicate, or use the duplicates view to review them.",
+      "cta_next": "Next: how to create a profile and add the first details."
+    },
+    "links": {
+      "onboarding": "Onboarding guide",
+      "this": "What is a profile?"
+    },
+    "sections": {
+      "create_attach": {
+        "title": "Create or attach a profile",
+        "badge": "Create / Attach",
+        "form": {
+          "title": "Create profile — the form",
+          "image_alt": "Create profile form",
+          "p1": {
+            "before": "Start by filling out the basic details. You can also set the birthplace using the Places selector (see",
+            "link": "Places",
+            "after": "for how locations work). If the place you need isn’t found, you can add a new one."
+          },
+          "fields": {
+            "sex": {
+              "label": "Sex",
+              "desc": "Pick the person’s sex (male, female, or unknown)."
+            },
+            "name": {
+              "label": "Name",
+              "desc": "Enter the person’s name. Surnames can be multiple; maiden names are supported."
+            },
+            "birth": {
+              "label": "Birth date",
+              "desc": "At minimum, add the birth year if known. Use the approximate flags for uncertain dates: “circa”, “BC”, “before”, “after”."
+            },
+            "birthplace": {
+              "label": "Birthplace",
+              "desc_before": "Search and select the birthplace. Learn more in",
+              "desc_link": "Places",
+              "desc_after": ". If the location doesn’t exist yet, use “Add new place”."
+            },
+            "deceased": {
+              "label": "Deceased (optional)",
+              "desc": "If the person has passed away, you can mark them as deceased. Death details are optional—fill them only if you know them."
+            }
+          }
+        },
+        "attach": {
+          "title": "Create or attach (when an existing profile may already exist)",
+          "image_alt": "Create or attach dialog",
+          "p1": "In some flows—especially when adding family members or events—you can search for an existing profile and attach it instead of creating a new one.",
+          "p2": "Use the search box to find a matching person. If nothing matches, continue with creation."
+        },
+        "duplicates": {
+          "title": "Possible duplicates",
+          "image_alt": "Possible duplicates list",
+          "p1": "Before the profile is created, we’ll show a list of possible duplicates based on names and years. Pick one if it matches to avoid duplicate profiles.",
+          "p2": "If none of them matches, use “Proceed anyway” to continue creating the profile.",
+          "p3": {
+            "before": "After you create (or attach) the profile, you’re ready to build their family tree. See",
+            "link": "Tree",
+            "after": "for how to add relatives."
+          },
+          "cta_proceed_label": "Proceed anyway"
+        }
+      },
+      "profile": {
+        "title": "My profile / A profile",
+        "badge": "Ownership & About",
+        "p1": "A profile can be owned or not. The owner has full control: edit all fields, delete the profile, attach it to relatives, and manage sources and events.",
+        "p2": "If you don’t own a profile, you can still propose edits. Your proposals go to the owner’s suggestions feed, where they can accept or reject them.",
+        "images": {
+          "owned_alt": "Profile page when you are the owner",
+          "not_owned_alt": "Profile page when you are not the owner"
+        },
+        "claim": {
+          "title": "Claim a profile",
+          "p1": "If the profile represents you (or someone you legally manage), use the Claim button. You’ll be asked to upload an ID or a document to prove your identity or guardianship.",
+          "p2": "A moderator/admin will review your request. Once approved, you’ll become the owner and you’ll be able to edit or delete the profile."
+        },
+        "about": {
+          "title": "About tab",
+          "p1": "The About tab groups the core identity details. Each box can be edited by the owner, and suggested by anyone else.",
+          "fields": {
+            "name": {
+              "label": "Name",
+              "desc": "Titles, given names, family names, maiden name, and suffix. Use the appropriate field for each component."
+            },
+            "ethnicity": {
+              "label": "Ethnicity",
+              "desc": "Pick an existing ethnicity. If it’s missing, you can create a new one with localized labels (English and Romanian) and a flag."
+            },
+            "gender": {
+              "label": "Gender",
+              "desc": "Male, female, or unknown."
+            },
+            "birth": {
+              "label": "Birth",
+              "desc": "Date (supports circa/BC/before/after), and birthplace. Uncertain dates are supported. The place is managed via Places."
+            },
+            "death": {
+              "label": "Death",
+              "desc": "If deceased, add date and (optionally) place of death. If living, the page shows “Living”."
+            },
+            "burials": {
+              "label": "Burials",
+              "desc": "A person can have multiple burials (exhumation/reburial cases). Each burial includes date and place."
+            }
+          },
+          "p2": {
+            "before": "If you don’t own the profile, edits are submitted as suggestions and appear in the owner’s notifications",
+            "link": "Notifications",
+            "after": " area (bell icon). Owners can accept or decline each change."
+          },
+          "p3": "Tip: even without ownership, your suggestions help keep data accurate and reduce duplicates."
+        }
+      },
+      "family": {
+        "title": "Family, Sources & Timeline",
+        "badge": "Relations & Evidence",
+        "p1": "From a single profile you can build the family around it, keep evidence organized through sources, and browse a unified timeline of life events.",
+        "p2": "Tip: small, frequent updates (with sources) keep profiles trustworthy and help other collaborators follow changes.",
+        "rel": {
+          "title": "Family",
+          "image_alt": "Family relationships section",
+          "p1": "Add parents (up to two), spouses/partners, and children. When you add a child, you’ll be prompted to select or create the other parent to keep the family consistent.",
+          "parents": {
+            "label": "Parents",
+            "desc": "A profile can have up to two parents. Use existing profiles where possible to avoid duplicates."
+          },
+          "spouses": {
+            "label": "Spouses/partners",
+            "desc": "Add one or more relationships over time (marriage, partnership, divorce)."
+          },
+          "children": {
+            "label": "Children",
+            "desc": "Create new or attach existing profiles. After adding a child, you can confirm or create the other parent."
+          },
+          "tips": {
+            "label": "Tip",
+            "desc_before": "For a full family view, open the tree",
+            "link": "Family Tree",
+            "desc_after": " to see relationships at a glance."
+          }
+        },
+        "sources": {
+          "title": "Sources",
+          "p1": "The Sources list shows all evidence attached to this profile (documents, links, files). Owners can add, open, and remove sources; others can propose them as suggestions.",
+          "list": {
+            "attach": {
+              "label": "Add/attach",
+              "desc": "Attach new or existing sources to support dates, places, and relationships."
+            },
+            "open": {
+              "label": "Open",
+              "desc": "Open a source in a new tab to verify details before accepting changes."
+            },
+            "remove": {
+              "label": "Remove",
+              "desc": "Owners can detach a source if it’s wrong or duplicated."
+            },
+            "suggest": {
+              "label": "Suggest",
+              "desc_before": "If you don’t own the profile, your source additions appear in the owner’s",
+              "link": "Notifications",
+              "desc_after": " (bell icon) for review."
+            }
+          }
+        },
+        "timeline": {
+          "title": "Timeline",
+          "image_alt": "Timeline of events",
+          "p1": "The timeline aggregates the person’s life events (birth, death, marriages, moves, occupations, etc.) and overlays notable historical events for context.",
+          "items": {
+            "events": {
+              "label": "Events",
+              "desc": "Add or edit life events with dates and places. Uncertain dates are supported (circa/BC/before/after)."
+            },
+            "history": {
+              "label": "Historical overlay",
+              "desc": "See how larger historical events intersect with this person’s life period."
+            },
+            "filters": {
+              "label": "Filters & view",
+              "desc": "Filter by event type, zoom the timeline, and expand details to compare sources."
+            },
+            "ownership": {
+              "label": "Ownership & suggestions",
+              "desc_before": "Owners edit directly; others submit suggestions visible in",
+              "link": "Notifications",
+              "desc_after": "."
+            }
+          }
+        }
+      }
+    }
+  },
+  "learnSearch": {
+    "title": "Search",
+    "desc": "Find people, places, cemeteries, and sources — with powerful filters for precise results.",
+    "section": {
+      "title": "How search works",
+      "badge": "Overview",
+      "p1": {
+        "before": "Start from the global search page",
+        "link": "Search",
+        "after": "and narrow down by category or switch to Advanced for people."
+      },
+      "targets_title": "What you can search",
+      "targets": {
+        "profiles": {
+          "label": "Profiles",
+          "desc": {
+            "before": "Find a person by name and details. Learn how profiles work in the",
+            "after": "article.",
+            "link": "Profile"
+          },
+          "link": "Profile"
+        },
+        "sources": {
+          "label": "Sources",
+          "desc": "Documents you or partners added (files, links, books). Use keywords from titles, authors, volumes, or pages."
+        },
+        "places": {
+          "label": "Places",
+          "desc": {
+            "before": "Settlements/regions/countries. See the",
+            "after": "guide for how places connect to profiles and burials.",
+            "link": "Places"
+          }
+        },
+        "cemeteries": {
+          "label": "Cemeteries",
+          "desc": "Search burial grounds by name/location; see people linked to them."
+        }
+      },
+      "advanced": {
+        "title": "Advanced search (profiles)",
+        "image_alt": "Advanced search form",
+        "p1": "Use advanced filters to refine person matches when names are common or incomplete.",
+        "fields": {
+          "name": {
+            "label": "Name & maiden name",
+            "desc": "Given/family names and maiden name (for women) — helpful for married names."
+          },
+          "birth_year": {
+            "label": "Birth year",
+            "desc": "Exact year or ranges (e.g., 1880–1890). Supports circa / before / after."
+          },
+          "death_year": {
+            "label": "Death year",
+            "desc": "Exact or range; set “living” if no death recorded."
+          },
+          "cemetery": {
+            "label": "Cemetery",
+            "desc": "Filter by cemetery where the person might be buried."
+          },
+          "maiden": {
+            "label": "Maiden name",
+            "desc": "Search specifically by maiden name when known."
+          },
+          "parents": {
+            "label": "Parents",
+            "desc": "Parent names (one or both) to reduce ambiguity."
+          },
+          "residence": {
+            "label": "Residences",
+            "desc": "Places of residence over time (village, town, region)."
+          }
+        },
+        "p2": "Combine several filters for best results. When unsure about spelling, try partial names."
+      },
+      "results": {
+        "title": "Results & next steps",
+        "p1": "All matching items are listed together. Open a result to view details; for profiles you’ll see life dates, place links, and possible relatives.",
+        "p2": {
+          "before": "Didn’t find a person? You can create a new profile (see",
+          "after": "for step-by-step).",
+          "link_profiles": "Create profile"
+        }
+      }
+    }
+  },
+  "learnSources": {
+    "title": "Sources",
+    "desc": "What a source is, how source pages look, and how to attach sources to profiles.",
+    "section": {
+      "create_title": "Creating a source / collection",
+      "create_image_alt": "Create source / collection form",
+      "create_p1": "Fill in the source creation form. Add a clear title for the collection/source (e.g., “Register X…”, “Bellu Cemetery”). Select the appropriate type and, optionally, provide author, volume, year, page and/or link/description.",
+      "create_how_title": "How files work:",
+      "create_pdf_label": "PDF:",
+      "create_pdf_text": "If you upload a PDF, the platform automatically splits it into pages: each page becomes a file within the same collection (page order is preserved).",
+      "create_images_label": "Images:",
+      "create_images_text": "If you upload images (JPG/PNG, etc.), all are added under the same collection. For example, “Bellu-01…Bellu-10” become files 1–10 of the same source.",
+      "create_examples_label": "Examples:",
+      "create_examples_text": "“Register X – 1898 (Parish Y)” (PDF with 10 pages → 10 files in the source). “Bellu Cemetery – sector Z” (10 photos → 10 files in the source).",
+      "create_note": "When uploading from the Partners Portal, the source is sent for admin approval before it becomes public.",
+      "title": "What is a source?",
+      "badge": "Evidence",
+      "p1": "A source is any piece of evidence that helps confirm facts about a person or their family: scans, photos, registers, books, links—anything that supports dates, places, and relationships.",
+      "image_alt": "Source page overview",
+      "types_title": "Examples of sources",
+      "types": {
+        "borderou": {
+          "label": "Register/extract",
+          "desc": "Parish registers, civil records, census sheets, ledgers, index cards."
+        },
+        "grave": {
+          "label": "Grave photo",
+          "desc": "A photo of a cross or tombstone in a cemetery; often shows names and dates."
+        },
+        "book": {
+          "label": "Genealogy book / article",
+          "desc": "Printed works, family genealogies, local histories—cite title, author, volume, page."
+        },
+        "other": {
+          "label": "Other evidence",
+          "desc": "Obituaries, wedding announcements, military cards, school records, credible websites."
+        }
+      },
+      "view_title": "On a source page you’ll see",
+      "view": {
+        "uploader": {
+          "label": "Uploader",
+          "desc": "Who added the source (user or partner)."
+        },
+        "description": {
+          "label": "Description",
+          "desc": "A short summary: what the document is, from where, and what it proves."
+        },
+        "where": {
+          "label": "Where to view",
+          "desc": "A viewer or external link to the file(s) or the archive record."
+        },
+        "year": {
+          "label": "Year / date",
+          "desc": "The year or date covered by the document (if available)."
+        },
+        "files_count": {
+          "label": "Files in collection",
+          "desc": "How many files/pages belong to this source or collection."
+        },
+        "used_by": {
+          "label": "Profiles using this source",
+          "desc": {
+            "before": "A list of profiles that cite this source as evidence. You can open the profile to review the",
+            "after": "tab and confirm the data."
+          },
+          "link": "About"
+        }
+      },
+      "proc_title": "Processed vs unprocessed",
+      "proc_p1": {
+        "before": "Some sources are uploaded by partners and then processed (pages labeled, names indexed, dates extracted). Learn more in the",
+        "link": "Partner Portal",
+        "after": ". Unprocessed sources may still be useful—they can be attached as raw evidence."
+      },
+      "attach_title": "Adding a source while editing a profile",
+      "attach_p1": {
+        "before": "When you edit a profile you can attach sources to support names, dates, places, and relations. If you’re not a partner, you can still attach existing sources. To upload and process new collections, see",
+        "link_profile": "Profile",
+        "mid": "guide. For partnerships and bulk uploads, read",
+        "link_partner": "Partners",
+        "after": "."
+      }
+    }
+  },
+  "learnPlaces": {
+    "title": "Places & Cemeteries",
+    "desc": "How places (settlements/regions/countries) work and how they connect to burials and cemeteries.",
+    "section1": {
+      "title": "What is a place and how to search/create it",
+      "badge": "Step 1",
+      "p1": "Places are essential to anchor people and events in time. They can be cities, towns, regions, or countries — modern or historical. When creating a new place, fill in both current and historical data where relevant. This helps identify places that changed names or borders over time (e.g., “Ghiris” is the old name for modern-day Câmpia Turzii).",
+      "image1_alt": "Searching for an existing place",
+      "image2_alt": "Creating a new place entry",
+      "p2": "Each place has six key fields:",
+      "list": [
+        "Modern name (e.g., “Câmpia Turzii”)",
+        "Historical name (e.g., “Ghiris”)",
+        "Modern region (e.g., “Cluj” county)",
+        "Historical region (leave blank if unknown)",
+        "Modern country (e.g., “Romania”)",
+        "Historical country (e.g., “Principality of Transylvania”, “Yugoslavia”, “Principality of Moldavia”, etc.)"
+      ],
+      "p3": "When searching while editing a profile or a burial, type a few characters — if the place exists, you’ll get suggestions (settlements, counties, or countries). If you’re unsure, pick a higher-level unit (county/country) or click “Create new place”. The more details you add — especially for historical places — the more helpful it becomes to others."
+    },
+    "section2": {
+      "title": "Place details page",
+      "badge": "Step 2",
+      "p1": "A place page shows a map (on the left) with the current coordinates and two tabs (on the right) to explore related content.",
+      "image_alt": "Place detailed view",
+      "p2": "The two tabs are:",
+      "tabs": [
+        {
+          "label": "Profiles",
+          "desc": "People born, living or otherwise associated with the place. Use the letter index above the list to filter by initial."
+        },
+        {
+          "label": "Cemeteries",
+          "desc": "All cemeteries tagged within this place. From each cemetery you can view burials and, if permitted, add or edit details."
+        }
+      ],
+      "p3": "The map provides geographic context to historical data. Even if a name changed (e.g., Roman “Napoca” → modern “Cluj-Napoca”), coordinates connect past and present. Zoom to explore nearby settlements or other places in the same county."
+    },
+    "section3": {
+      "title": "Cemeteries & Burial Sites",
+      "badge": "Step 3",
+      "image_alt": "Search/create cemetery",
+      "p1": "A “cemetery” in RoBio means any burial site: organized cemetery, churchyard, monastery grounds, military plot, ossuary/crypt, or even a single isolated grave on a hill/field/forest. What matters is the exact spot where the person was buried.",
+      "search_title": "Search or create",
+      "search_p1": "Use the first field to search and select an existing cemetery. If it doesn’t exist, click “Create cemetery”.",
+      "fields_title": "Fields when creating",
+      "required_title": "Required",
+      "required": [
+        "Latitude (decimal degrees, e.g., 46.5593)",
+        "Longitude (decimal degrees, e.g., 23.7857)"
+      ],
+      "optional_title": "Optional",
+      "optional": [
+        "Cemetery name (e.g., “La Coloană Cemetery”)",
+        "Place (settlement) — if it belongs to a known locality",
+        "Description / notes (e.g., “military plot”, “St. X churchyard”)",
+        "Alternate names / aliases",
+        "Photos"
+      ],
+      "types_title": "Accepted types",
+      "types": [
+        "Public or parish cemetery",
+        "Churchyard / monastery",
+        "Military plot / ossuary / crypt",
+        "Isolated grave (mound, field, hill, forest)"
+      ],
+      "examples_title": "Practical examples",
+      "examples": [
+        "“La Coloană Cemetery” — Câmpia Turzii (Cluj): precise coordinates; Place can be set to Câmpia Turzii.",
+        "Isolated hill grave (no locality): provide only lat/lon; you may leave Name and Place empty."
+      ],
+      "notes_title": "Recommendations",
+      "notes": [
+        "Use decimal degrees (WGS84).",
+        "If you don’t know the name or locality, still create the cemetery with coordinates — you can fill missing fields later.",
+        "For accuracy, drop the pin at a high zoom level (ideally entrance or site center).",
+        "You can link the cemetery to a Place later once the locality/region is confirmed."
+      ]
+    }
+  }
 }

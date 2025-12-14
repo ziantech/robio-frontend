@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from 'react';
 import ro from '@/locales/ro.json';
 import en from '@/locales/en.json';
 
-type Language = 'ro' | 'en';
+export type Language = 'ro' | 'en';
 const locales = { ro, en };
 
 interface LanguageContextType {
