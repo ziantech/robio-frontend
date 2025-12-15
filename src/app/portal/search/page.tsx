@@ -15,7 +15,10 @@ import {
   Tooltip,
   CircularProgress,
   Button,
-
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Chip,
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import api from "@/lib/api";
@@ -24,6 +27,7 @@ import { formatDateObject } from "@/utils/formatDateObject";
 import { highlightAccentsAware } from "@/utils/highlight";
 import { simplifySearch } from "@/utils/diacritics";
 import { formatName } from "@/utils/formatName";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 type MinimalProfileOut = {
   id: string;
@@ -85,7 +89,6 @@ function formatNameSafe(n: any, lang: "ro" | "en"): string {
     }
   );
 }
-
 
 function uniqById<T extends { id: string | number }>(arr: T[]): T[] {
   const seen = new Set<string | number>();
@@ -459,10 +462,8 @@ function SectionPlaces({
       "") as string;
 
   const subtitleOf = (p: PlaceHit) => {
-    const region =
-      p.region_name || p.region_name_historical || "";
-    const country =
-      p.country_name || p.country_name_historical || "";
+    const region = p.region_name || p.region_name_historical || "";
+    const country = p.country_name || p.country_name_historical || "";
     // dacă titlul e deja region/country, evită dublura
     const title = titleOf(p);
     const bits = [];
@@ -536,7 +537,6 @@ function SectionPlaces({
   );
 }
 
-
 function SectionSources({
   loading,
   items,
@@ -552,6 +552,8 @@ function SectionSources({
   q: string;
   t: (en: string, ro: string) => string;
 }) {
+  const router = useRouter();
+
   return (
     <Stack spacing={1.5}>
       {loading && items.length === 0 ? (
@@ -562,29 +564,149 @@ function SectionSources({
         </Typography>
       ) : (
         <Stack spacing={1}>
-          {items.map((s, i) => (
-            <Typography
-              key={i}
-              variant="body2"
-              dangerouslySetInnerHTML={{
-                __html: highlightAccentsAware(s.title || s.citation || "—", q),
-              }}
-            />
-          ))}
+          {items.map((s, i) => {
+            const secondaryParts: string[] = [];
+
+            if (s.year) secondaryParts.push(String(s.year));
+            if (s.volume)
+              secondaryParts.push(`${t("Vol.", "Vol.")} ${s.volume}`);
+            if (s.location) secondaryParts.push(s.location);
+
+            const secondary = secondaryParts.join(" • ");
+            const processedFiles =
+              typeof s.processed_files === "number"
+                ? s.processed_files
+                : s.files
+                ? s.files.length
+                : undefined;
+
+            return (
+              <Accordion
+                key={s.id || i}
+                disableGutters
+                sx={{
+                  bgcolor: i % 2 ? "action.hover" : "background.paper",
+                  borderRadius: 1,
+                  "&:before": { display: "none" },
+                }}
+              >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ width: "100%" }}
+                  >
+                    <Stack minWidth={0} sx={{ flex: 1 }}>
+                      <Typography
+                        noWrap
+                        dangerouslySetInnerHTML={{
+                          __html: highlightAccentsAware(
+                            s.title || s.citation || "—",
+                            q
+                          ),
+                        }}
+                      />
+                      {secondary && (
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          noWrap
+                          dangerouslySetInnerHTML={{
+                            __html: highlightAccentsAware(secondary, q),
+                          }}
+                        />
+                      )}
+                    </Stack>
+
+                    {processedFiles !== undefined && (
+                      <Chip
+                        size="small"
+                        variant="outlined"
+                        label={t(
+                          `${processedFiles} processed`,
+                          `${processedFiles} procesate`
+                        )}
+                      />
+                    )}
+
+                    {s.status && (
+                      <Chip size="small" label={s.status} sx={{ ml: 0.5 }} />
+                    )}
+                    <Tooltip title={t("Open source page", "Deschide sursa")}>
+                      <IconButton
+                        size="small"
+                        onClick={(e) => {
+                          e.stopPropagation(); // keep accordion from toggling
+                          router.push(
+                            `/portal/sources/${encodeURIComponent(`s:${s.id}`)}`
+                          );
+                        }}
+                      >
+                        <OpenInNewIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  </Stack>
+                </AccordionSummary>
+
+                <AccordionDetails>
+                  {s.files && s.files.length > 0 ? (
+                    <Stack spacing={0.75}>
+                      {s.files.map((sf: any) => (
+                        <Stack
+                          key={sf.id}
+                          direction="row"
+                          alignItems="center"
+                          spacing={1}
+                        >
+                          <Typography variant="body2">
+                            {t("File", "Fișier")} #{sf.position ?? "—"}
+                          </Typography>
+                          <Chip
+                            size="small"
+                            variant="outlined"
+                            label={sf.status}
+                          />
+                          <Chip
+                            size="small"
+                            variant="outlined"
+                            label={sf.moderation_status}
+                          />
+                          <Box sx={{ flex: 1 }} />
+                          <IconButton
+                            size="small"
+                            onClick={() =>
+                              router.push(`/portal/sources/sf:${sf.id}`)
+                            }
+                          >
+                            <OpenInNewIcon fontSize="small" />
+                          </IconButton>
+                        </Stack>
+                      ))}
+                    </Stack>
+                  ) : (
+                    <Typography variant="body2" color="text.secondary">
+                      {t(
+                        "No processed files in this source.",
+                        "Nu există fișiere procesate în această sursă."
+                      )}
+                    </Typography>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+            );
+          })}
         </Stack>
       )}
+
       <Box>
-        <Button
-          variant="outlined"
-          onClick={onLoadMore}
-          disabled={loading || !nextCursor}
-        >
-          {loading
-            ? t("Loading…", "Se încarcă…")
-            : nextCursor
-            ? t("Load more", "Încarcă mai multe")
-            : t("No more", "Nu mai sunt")}
-        </Button>
+        {nextCursor ? (
+          <Button variant="outlined" onClick={onLoadMore} disabled={loading}>
+            {loading
+              ? t("Loading…", "Se încarcă…")
+              : t("Load more", "Încarcă mai multe")}
+          </Button>
+        ) : null}
       </Box>
     </Stack>
   );
@@ -614,11 +736,9 @@ function ProfileRow({
 }) {
   const router = useRouter();
   const birthTxt = formatDateObject(p.birth?.date, lang, "birth");
-  const deathTxt =  formatDateObject(p.death?.date, lang, "death", p.deceased)
- 
+  const deathTxt = formatDateObject(p.death?.date, lang, "death", p.deceased);
 
   const nameHTML = highlightAccentsAware(formatNameSafe(p.name, lang), q);
-
 
   function placeToLine(pr?: PlaceHit | null) {
     if (!pr) return "";

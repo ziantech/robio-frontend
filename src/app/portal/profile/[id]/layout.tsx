@@ -78,7 +78,7 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
   const { id: currentUserId } = useAuth();
   const { lang } = useLanguage();
   const [isUploading, setIsUploading] = useState(false);
-
+  const [deleting, setDeleting] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
   const { isAdmin } = useAuth();
   const [promoting, setPromoting] = useState(false);
@@ -213,41 +213,49 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
       setIsModalOpen(true);
     }
   };
-  const handleDeleteProfile = async () => {
-    if (!profile) return;
-    const msg =
-      lang === "ro"
-        ? "Sigur vrei să ștergi acest profil? Acțiunea este ireversibilă."
-        : "Are you sure you want to delete this profile? This action is irreversible.";
-    if (!confirm(msg)) return;
+const handleDeleteProfile = async () => {
+  if (!profile || deleting) return;
 
-    try {
-      const res = await api.delete<{
-        removed_profile_tree_ref: string;
-        unset_current_user_profile: boolean;
-      }>(`/profiles/${profile.tree_ref}`);
-      // redirect după ștergere
+  const msg =
+    lang === "ro"
+      ? "Sigur vrei să ștergi acest profil? Acțiunea este ireversibilă."
+      : "Are you sure you want to delete this profile? This action is irreversible.";
+  if (!confirm(msg)) return;
 
-      // dacă backend-ul a dezlegat profilul curent, setăm localStorage
-      if (res?.data?.unset_current_user_profile) {
-        localStorage.setItem("treeId", "not-set");
-      } else {
-        // fallback defensiv: dacă în localStorage treeId e chiar acesta, marcăm not-set
-        if (localStorage.getItem("treeId") === profile.tree_ref) {
-          localStorage.setItem("treeId", "not-set");
-        }
-      }
+  try {
+    setDeleting(true);
 
-      window.location.href = "/portal";
-    } catch (e) {
-      console.error("Failed to delete profile", e);
-      alert(
-        lang === "ro"
-          ? "Ștergerea a eșuat. Încearcă din nou."
-          : "Deletion failed. Please try again."
-      );
+    const res = await api.delete<{
+      removed_profile_tree_ref: string;
+      unset_current_user_profile: boolean;
+    }>(`/profiles/${profile.tree_ref}`);
+
+    if (res?.data?.unset_current_user_profile) {
+      localStorage.setItem("treeId", "not-set");
+    } else if (localStorage.getItem("treeId") === profile.tree_ref) {
+      localStorage.setItem("treeId", "not-set");
     }
-  };
+
+    notify(
+      lang === "ro"
+        ? "Profilul a fost șters."
+        : "The profile has been deleted.",
+      "success"
+    );
+
+    window.location.href = "/portal";
+  } catch (e: any) {
+    console.error("Failed to delete profile", e);
+    notify(
+      lang === "ro"
+        ? "Ștergerea a eșuat. Încearcă din nou."
+        : "Deletion failed. Please try again.",
+      "error"
+    );
+  } finally {
+    setDeleting(false);
+  }
+};
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -350,12 +358,21 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
       ? calcAge(profile.birth?.date as any, profile.death?.date as any)
       : null;
 
-  const ageText =
-    profile?.birth?.date && profile?.death?.date
-      ? `${ageYears ?? "?"} ${lang === "ro" ? "ani" : "years"}`
-      : profile?.birth?.date || profile?.death?.date
-      ? `? ${lang === "ro" ? "ani" : "years"}`
-      : "";
+const ageUnit =
+  ageYears === 1
+    ? lang === "ro"
+      ? "an"
+      : "year"
+    : lang === "ro"
+    ? "ani"
+    : "years";
+
+const ageText =
+  profile?.birth?.date && profile?.death?.date
+    ? `${ageYears ?? "?"} ${ageUnit}`
+    : profile?.birth?.date || profile?.death?.date
+    ? `? ${lang === "ro" ? "ani" : "years"}`
+    : "";
   return (
     <Box sx={{ px: { xs: 2, md: 4 }, py: 4, maxWidth: "1300px", mx: "auto" }}>
       {profile && (
@@ -643,13 +660,24 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
               )}
 
               {canEdit && (
-                <Tooltip
-                  title={lang === "ro" ? "Șterge profilul" : "Delete profile"}
-                >
-                  <IconButton size="small" onClick={handleDeleteProfile}>
-                    <DeleteForeverIcon fontSize="small" color="error" />
-                  </IconButton>
-                </Tooltip>
+               <Tooltip
+  title={lang === "ro" ? "Șterge profilul" : "Delete profile"}
+>
+  <span>
+    <IconButton
+      size="small"
+      onClick={handleDeleteProfile}
+      disabled={deleting}
+    >
+      {deleting ? (
+        <CircularProgress size={16} />
+      ) : (
+        <DeleteForeverIcon fontSize="small" color="error" />
+      )}
+    </IconButton>
+  </span>
+</Tooltip>
+
               )}
 
               <Tooltip
