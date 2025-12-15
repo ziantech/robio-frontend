@@ -361,7 +361,7 @@ export default function PortalHomePage() {
         <Stack spacing={0.25} sx={{ mt: 1 }}>
           <Typography variant="body2" color="text.secondary">
             {labels.credits}
-            ATATEA AVEM DE DAT HAHA
+          
           </Typography>
           <Typography variant="h5" sx={{ fontWeight: 800, lineHeight: 1 }}>
             {totalCredits.toLocaleString()}

@@ -1,3 +1,4 @@
+
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
@@ -39,6 +40,10 @@ import { formatDateObject } from "@/utils/formatDateObject";
 import { useLanguage } from "@/context/LanguageContext";
 import StarIcon from "@mui/icons-material/Star";
 import { formatName } from "@/utils/formatName";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import CreateProfileFromSourceDialog from "@/components/CreateProfileFromSource";
+
+
 
 type UserMini = { id: string; username?: string | null; email?: string | null };
 
@@ -149,6 +154,7 @@ export default function SourcePage() {
   const [profiles, setProfiles] = useState<ProfileMini[]>([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
+  const [createProfileOpen, setCreateProfileOpen] = useState(false);
 
   // viewer state
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -160,6 +166,7 @@ export default function SourcePage() {
   const [brightness, setBrightness] = useState(1);
   const [contrast, setContrast] = useState(1);
   const [invert, setInvert] = useState(false);
+  const [activeFileId, setActiveFileId] = useState<string | null>(null);
 
   const { lang } = useLanguage();
 
@@ -208,6 +215,9 @@ const sortedProfiles = useMemo(() => {
     numeric: true,
   });
 
+  
+
+
   const lastText = (n: any) =>
     Array.isArray(n?.last) ? n.last.join(" ") : n?.last || "";
   const firstText = (n: any) =>
@@ -227,7 +237,17 @@ const sortedProfiles = useMemo(() => {
     return collator.compare(a.tree_ref || "", b.tree_ref || "");
   });
 }, [profiles, lang]);
-
+  const reloadProfiles = useCallback(async () => {
+    try {
+      const pr = await api
+        .get(`/sources/byref/${encodeURIComponent(id)}/profiles`)
+        .catch(() => ({ data: [] }));
+      const profs = (pr.data || []) as ProfileMini[];
+      setProfiles(profs);
+    } catch (e: any) {
+      console.error("Failed to reload profiles for source", e?.response?.data || e);
+    }
+  }, [id]);
   // fetch
   useEffect(() => {
     let cancelled = false;
@@ -252,13 +272,27 @@ const sortedProfiles = useMemo(() => {
         setProfiles(profs);
 
         // select active page:
+        let initialIdx = 0;
+
         if (singleFileMode) {
-          setActiveIdx(0); // only one URL shown
+          initialIdx = 0;
         } else if (src?.selected_file_id && Array.isArray(src.files)) {
           const idx = src.files.findIndex((f) => f.id === src.selected_file_id);
-          setActiveIdx(idx >= 0 ? idx : 0);
+          initialIdx = idx >= 0 ? idx : 0;
+        }
+
+        setActiveIdx(initialIdx);
+
+        // setăm și file-ul activ, dacă avem fișiere
+        if (src?.files?.length) {
+          const fileFromId =
+            singleFileMode && src.selected_file_id
+              ? src.files.find((f) => f.id === src.selected_file_id)
+              : src.files[initialIdx];
+
+          setActiveFileId(fileFromId?.id ?? null);
         } else {
-          setActiveIdx(0);
+          setActiveFileId(null);
         }
       } catch (e: any) {
         if (!cancelled)
@@ -364,8 +398,19 @@ const sortedProfiles = useMemo(() => {
         display: "grid",
         gap: 2.5,
         gridTemplateColumns: { xs: "1fr", lg: "1.5fr 1fr" },
+         alignItems: "flex-start", // ⬅️ ADD THIS
       }}
     >
+       <CreateProfileFromSourceDialog
+        open={createProfileOpen}
+        onClose={() => setCreateProfileOpen(false)}
+        fileId={activeFileId}
+        sourceTitle={source.title}
+        onCreated={() => {
+          setCreateProfileOpen(false);
+          reloadProfiles();
+        }}
+      />
       {/* Left: Viewer + thumbs */}
       <Card
         sx={{
@@ -569,12 +614,15 @@ const sortedProfiles = useMemo(() => {
             <Grid container spacing={1}>
               {fileUrls.map((u, idx) => {
                 const pdf = isPdfUrl(u);
+                  const fileObj =
+    source?.files?.find((f) => f.url === u) || null;
                 return (
                   <Grid key={idx}>
                     <Box
                       onClick={() => {
                         setActiveIdx(idx);
                         doReset();
+                        setActiveFileId(fileObj?.id ?? null);
                       }}
                       sx={{
                         width: 72,
@@ -741,6 +789,16 @@ const sortedProfiles = useMemo(() => {
                 ? "Profile care folosesc această sursă"
                 : "Profiles using this source"
             }
+            action={
+              <Button
+                size="small"
+                variant="outlined"
+                startIcon={<PersonAddIcon fontSize="small" />}
+                onClick={() => setCreateProfileOpen(true)}
+              >
+                {lang === "ro" ? "Creează profil" : "Create profile"}
+              </Button>
+            }
           />
           <CardContent sx={{ pt: 0 }}>
             {sortedProfiles.length === 0 ? (
@@ -823,6 +881,8 @@ const sortedProfiles = useMemo(() => {
           </CardContent>
         </Card>
       </Stack>
+           
+
     </Box>
   );
 }
