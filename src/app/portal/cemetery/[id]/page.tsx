@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
-import type { LatLngTuple } from "leaflet";
+
 import {
   RLMapContainer as MapContainer,
   RLTileLayer as TileLayer,
@@ -37,7 +37,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { formatName } from "@/utils/formatName";
 
 
-
+type LatLngTuple = [number, number];
 // Default Leaflet assets
 const DEFAULT_ICON_URL =
   "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png";
@@ -182,7 +182,11 @@ export default function CemeteryPage() {
     });
   }, [profiles, lang]);
 
-  
+  const [mapMounted, setMapMounted] = useState(false);
+
+useEffect(() => {
+  setMapMounted(true);
+}, []);
 const filteredProfilesLocal = useMemo(() => {
   const q = qLocal.trim();
   if (!q) return sortedProfiles;
@@ -298,35 +302,39 @@ const filteredProfilesLocal = useMemo(() => {
         {/* Map */}
         <Card sx={{ height: { xs: 320, md: 480 }, overflow: "hidden" }}>
           <CardContent sx={{ height: "100%", p: 0 }}>
-            {coords ? (
-              <div style={{ height: "100%" }}>
-               <MapContainer
-  key={`${center[0]}-${center[1]}-${coords ? 12 : 6}`}
-  style={{ height: "100%", width: "100%" }}
-  center={center}
-  zoom={coords ? 12 : 6}
->
-  <TileLayer
-    attribution='&copy; <a href="https://osm.org/copyright">OSM</a>'
-    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  />
-  {pinIcon && (
-    <Marker position={center} icon={pinIcon}>
-      <Popup>
-        <strong>{cemetery.name || ""}</strong>
-        <div style={{ opacity: 0.75, marginTop: 4 }}>
-          {hasPlace(cemetery.place) ? formatPlaceTitle(cemetery.place) : ""}
-        </div>
-      </Popup>
-    </Marker>
-  )}
-</MapContainer>
+       {coords ? (
+  <div style={{ height: "100%" }}>
+    {mapMounted ? (
+      <MapContainer
+        key={`${center[0]}-${center[1]}-${coords ? 12 : 6}`}
+        style={{ height: "100%", width: "100%" }}
+        center={center}
+        zoom={coords ? 12 : 6}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://osm.org/copyright">OSM</a>'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {pinIcon && (
+          <Marker position={center} icon={pinIcon}>
+            <Popup>
+              <strong>{cemetery.name || ""}</strong>
+              <div style={{ opacity: 0.75, marginTop: 4 }}>
+                {hasPlace(cemetery.place) ? formatPlaceTitle(cemetery.place) : ""}
               </div>
-            ) : (
-              <Stack height="100%" alignItems="center" justifyContent="center">
-                <CircularProgress size={24} />
-              </Stack>
-            )}
+            </Popup>
+          </Marker>
+        )}
+      </MapContainer>
+    ) : (
+      <div style={{ height: "100%", width: "100%" }} />
+    )}
+  </div>
+) : (
+  <Stack height="100%" alignItems="center" justifyContent="center">
+    <CircularProgress size={24} />
+  </Stack>
+)}
           </CardContent>
         </Card>
 

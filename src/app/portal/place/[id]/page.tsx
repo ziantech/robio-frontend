@@ -23,7 +23,7 @@ import {
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
-import type { LatLngTuple } from "leaflet";
+
 import {
   RLMapContainer as MapContainer,
   RLTileLayer as TileLayer,
@@ -37,6 +37,7 @@ import { formatDateObject } from "@/utils/formatDateObject";
 import StarIcon from "@mui/icons-material/Star";
 import { formatName } from "@/utils/formatName";
 
+type LatLngTuple = [number, number];
 
 const DEFAULT_ICON_URL =
   "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png";
@@ -216,7 +217,11 @@ export default function PlacePage() {
   const [nextCursor, setNextCursor] = useState<number | null>(null);
   const [loadingProfiles, setLoadingProfiles] = useState(false);
   const [profileSearch, setProfileSearch] = useState("");
+const [mapMounted, setMapMounted] = useState(false);
 
+useEffect(() => {
+  setMapMounted(true);
+}, []);
   // load icon for map
   useEffect(() => {
     let mounted = true;
@@ -425,49 +430,50 @@ export default function PlacePage() {
         <Card sx={{ height: { xs: 320, md: 480 }, overflow: "hidden" }}>
           <CardContent sx={{ height: "100%", p: 0 }}>
             <div style={{ height: "100%", position: "relative" }}>
-            <MapContainer
-  key={`${center[0]}-${center[1]}-${coords ? 11 : 2}`}
-  style={{ height: "100%", width: "100%" }}
-  center={center}
-  zoom={coords ? 11 : 2}
->
-  <TileLayer
-    attribution='&copy; <a href="https://osm.org/copyright">OSM</a>'
-    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  />
+  {mapMounted ? (
+    <MapContainer
+      key={`${center[0]}-${center[1]}-${coords ? 11 : 2}`}
+      style={{ height: "100%", width: "100%" }}
+      center={center}
+      zoom={coords ? 11 : 2}
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://osm.org/copyright">OSM</a>'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
 
-  {coords && pinIcon && (
-    <Marker position={center} icon={pinIcon}>
-      <Popup>
-        <strong>{title}</strong>
-        {subtitle ? (
-          <div style={{ opacity: 0.75, marginTop: 4 }}>{subtitle}</div>
-        ) : null}
-      </Popup>
-    </Marker>
+      {coords && pinIcon && (
+        <Marker position={center} icon={pinIcon}>
+          <Popup>
+            <strong>{title}</strong>
+            {subtitle ? (
+              <div style={{ opacity: 0.75, marginTop: 4 }}>{subtitle}</div>
+            ) : null}
+          </Popup>
+        </Marker>
+      )}
+    </MapContainer>
+  ) : (
+    <div style={{ height: "100%", width: "100%" }} />
   )}
-</MapContainer>
-              {/* overlay informativ când nu avem coordonate */}
-              {!coords && (
-                <Stack
-                  position="absolute"
-                  top={0}
-                  left={0}
-                  right={0}
-                  bottom={0}
-                  alignItems="center"
-                  justifyContent="center"
-                  sx={{ pointerEvents: "none" }}
-                >
-                  <Typography variant="body2" color="text.secondary">
-                    {t(
-                      "Location not set yet.",
-                      "Locația nu a fost setată încă."
-                    )}
-                  </Typography>
-                </Stack>
-              )}
-            </div>
+
+  {!coords && (
+    <Stack
+      position="absolute"
+      top={0}
+      left={0}
+      right={0}
+      bottom={0}
+      alignItems="center"
+      justifyContent="center"
+      sx={{ pointerEvents: "none" }}
+    >
+      <Typography variant="body2" color="text.secondary">
+        {t("Location not set yet.", "Locația nu a fost setată încă.")}
+      </Typography>
+    </Stack>
+  )}
+</div>
           </CardContent>
         </Card>
 

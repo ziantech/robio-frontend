@@ -963,6 +963,16 @@ function MapFrame({ children }: { children: React.ReactNode }) {
 }
 
 function BaseMap({ children }: { children: React.ReactNode }) {
+  const [mapMounted, setMapMounted] = useState(false);
+
+  useEffect(() => {
+    setMapMounted(true);
+  }, []);
+
+  if (!mapMounted) {
+    return <div style={{ height: "100%", width: "100%" }} />;
+  }
+
   return (
     <MapContainer
       style={{ height: "100%", width: "100%" }}

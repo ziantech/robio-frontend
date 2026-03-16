@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { LatLngTuple } from "leaflet";
+
 import api from "@/lib/api";
 import { formatDateObject } from "@/utils/formatDateObject";
 import {
@@ -11,7 +11,7 @@ import {
   RLMarker as Marker,
   RLPopup as Popup,
 } from "@/components/map/leaflet-client";
-
+type LatLngTuple = [number, number];
 // ---- app types ----
 type EventDTO = {
   id: string;
@@ -213,6 +213,12 @@ export default function TimelineMap({
     }[]
   >([]);
 
+const [mapMounted, setMapMounted] = useState(false);
+
+useEffect(() => {
+  setMapMounted(true);
+}, []);
+
   useEffect(() => {
     let alive = true;
 
@@ -380,7 +386,10 @@ export default function TimelineMap({
   }, [markers]);
 
   return (
-    <div style={{ height }}>
+  <div style={{ height }}>
+    {!mapMounted ? (
+      <div style={{ height: "100%", width: "100%" }} />
+    ) : (
       <MapContainer
         key={`${center[0]}-${center[1]}-${markers.length}`}
         style={{ height: "100%", width: "100%", borderRadius: 12 }}
@@ -400,6 +409,7 @@ export default function TimelineMap({
           />
         ))}
       </MapContainer>
-    </div>
-  );
+    )}
+  </div>
+);
 }
