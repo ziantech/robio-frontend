@@ -1,5 +1,5 @@
 import "./globals.css";
-
+import "leaflet/dist/leaflet.css";
 import ThemeRegistry from "@/components/ThemeRegistry";
 import { AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageContext"; // ✅ import your context

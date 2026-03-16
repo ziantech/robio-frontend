@@ -244,10 +244,15 @@ export default function SelectOrCreateProfileModal({
     const timer = setTimeout(async () => {
       try {
         setLoading(true);
-        const res = await api.get("/profiles/search_profiles/register", {
-          params: { query: isWildcard ? "?" : simplifySearch(q) },
-        });
-        const incoming = (res.data || []) as MinimalProfileSearchHit[];
+        const res = await api.post("/profiles/search", {
+  mode: "autocomplete",
+  query: isWildcard ? "?" : q,
+  limit: 20,
+  offset: 0,
+  exclude_profile_ids: myProfileId ? [myProfileId] : [],
+  exclude_tree_refs: myTreeId ? [myTreeId] : [],
+});
+const incoming = (res.data?.items || []) as MinimalProfileSearchHit[];
         const seen = new Set<string>();
         const uniq = incoming.filter((x) => {
           const id = x?.id ?? x?.tree_ref;
@@ -379,76 +384,7 @@ export default function SelectOrCreateProfileModal({
       .map((s) => s.trim().toLocaleLowerCase())
       .filter(Boolean);
   };
-  const makeFirstScore = (inputFirstTokens: string[]) => {
-    const input = new Set(inputFirstTokens);
-    const hasLooseMatch = (cand: string) =>
-      [...input].some(
-        (tok) => tok && (cand.includes(tok) || tok.includes(cand))
-      );
-    return (dupFirst: any): number => {
-      const candTokens = toTokens(dupFirst);
-      if (candTokens.length === 0 || input.size === 0) return 0;
-      const strong = candTokens.some((t) => input.has(t));
-      if (strong) {
-        const allIn = [...input].every((t) => candTokens.includes(t));
-        return allIn ? 4 : 3;
-      }
-      const loose = candTokens.some((t) => hasLooseMatch(t));
-      return loose ? 2 : 0;
-    };
-  };
 
-  const sortDuplicatesClient = (items: DuplicateHit[]) => {
-    const inputFirstTokens = toTokens(name?.first);
-    const scoreOf = makeFirstScore(inputFirstTokens);
-
-    const normFirst = (n: any) => {
-      const v = Array.isArray(n?.first) ? n.first.join(" ") : n?.first || "";
-      return v.toString().trim().toLocaleLowerCase();
-    };
-    const normLast = (n: any) => {
-      const v = Array.isArray(n?.last) ? n.last.join(" ") : n?.last || "";
-      return v.toString().trim().toLocaleLowerCase();
-    };
-    const nameKey = (it: DuplicateHit) =>
-      `${normFirst(it.name)} ${normLast(it.name)}`.trim();
-
-    const toTuple = (d?: any): [number, number, number] | null => {
-      if (!d) return null;
-      const y = Number(d.year);
-      if (!Number.isFinite(y)) return null;
-      const m = Number(d.month);
-      const day = Number(d.day);
-      return [y, Number.isFinite(m) ? m : 12, Number.isFinite(day) ? day : 31];
-    };
-    const dateKey = (it: DuplicateHit) =>
-      toTuple(it?.birth?.date) || toTuple(it?.death?.date) || null;
-
-    return [...items].sort((a, b) => {
-      const sa = scoreOf(a.name?.first);
-      const sb = scoreOf(b.name?.first);
-      if (sa !== sb) return sb - sa;
-
-      const na = nameKey(a);
-      const nb = nameKey(b);
-      if (na !== nb) return na < nb ? -1 : 1;
-
-      const da = dateKey(a);
-      const db = dateKey(b);
-      if (da === null && db !== null) return -1;
-      if (da !== null && db === null) return 1;
-
-      if (da && db) {
-        if (da[0] !== db[0]) return da[0] - db[0];
-        if (da[1] !== db[1]) return da[1] - db[1];
-        if (da[2] !== db[2]) return da[2] - db[2];
-      }
-
-      const ka = a.id || a.tree_ref || "";
-      const kb = b.id || b.tree_ref || "";
-      return ka < kb ? -1 : ka > kb ? 1 : 0;
-    });
-  };
 
   const uniqueById = (items: DuplicateHit[]) => {
     const seen = new Set<string>();
@@ -462,35 +398,56 @@ export default function SelectOrCreateProfileModal({
     return out;
   };
 
-  const fetchDuplicates = async (append = false) => {
-    setDupLoading(true);
-    try {
-      const payload = buildDuplicatePayload();
-      const res = await api.post("/profiles/duplicates_suggest", payload);
-      const raw: DuplicateHit[] = res.data?.items || [];
+ const fetchDuplicates = async (append = false) => {
+  setDupLoading(true);
 
-      const filtered = filterOutSelf(raw);
-      const items = sortDuplicatesClient(filtered);
-      const hasMore: boolean = !!res.data?.has_more;
+  const nextOffset = append ? dupOffset + DUP_PAGE : 0;
 
-      if (append) {
-        const merged = uniqueById([...dupItems, ...items]);
-        setDupItems(sortDuplicatesClient(merged));
-      } else {
-        setDupItems(items);
-      }
-      setDupHasMore(hasMore);
+  try {
+    const res = await api.post("/profiles/search", {
+      mode: "duplicates",
+      draft_name: {
+        title: name?.title ?? "",
+        first: Array.isArray(name?.first) ? name.first : [],
+        last: Array.isArray(name?.last)
+          ? name.last
+          : name?.last
+          ? String(name.last).split(/\s+/).filter(Boolean)
+          : [],
+        maiden: name?.maiden ?? "",
+        suffix: name?.suffix ?? "",
+      },
+      limit: DUP_PAGE,
+      offset: nextOffset,
+      exclude_profile_ids: myProfileId ? [myProfileId] : [],
+      exclude_tree_refs: [subjectTreeRef, myTreeId].filter(Boolean) as string[],
+    });
 
-      if (!append && items.length === 0) {
-        setDupOpen(false);
-        await handleCreateAndAttach(); // 🔑 în suggestion mode va face onPicked(...)
-      }
-    } catch (e) {
-      console.error("duplicates_suggest failed", e);
-    } finally {
-      setDupLoading(false);
+    const raw: DuplicateHit[] = res.data?.items || [];
+    const items = filterOutSelf(uniqueById(raw));
+    const hasMore: boolean = !!res.data?.has_more;
+
+    if (append) {
+      const merged = uniqueById([...dupItems, ...items]);
+      setDupItems(merged);
+    } else {
+      setDupItems(items);
     }
-  };
+
+    setDupOffset(nextOffset);
+    setDupHasMore(hasMore);
+
+    if (!append && items.length === 0) {
+      setDupOpen(false);
+      await handleCreateAndAttach();
+    }
+  } catch (e) {
+    console.error("profiles/search failed", e);
+    setDupHasMore(false);
+  } finally {
+    setDupLoading(false);
+  }
+};
 
   const openDuplicates = async () => {
     if (searchOnly) return;
@@ -1116,8 +1073,7 @@ export default function SelectOrCreateProfileModal({
               <Button
                 size="small"
                 onClick={async () => {
-                  setDupOffset((o) => o + DUP_PAGE);
-                  await fetchDuplicates(true);
+                await fetchDuplicates(true);
                 }}
                 disabled={dupLoading}
               >

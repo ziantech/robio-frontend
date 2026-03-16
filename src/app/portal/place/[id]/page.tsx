@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useCallback } from "react";
-import dynamic from "next/dynamic";
+
 import { useParams, useRouter } from "next/navigation";
 import {
   Box,
@@ -22,9 +22,14 @@ import {
   Chip,
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import "leaflet/dist/leaflet.css";
+
 import type { LatLngTuple } from "leaflet";
-import { Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+  RLMapContainer as MapContainer,
+  RLTileLayer as TileLayer,
+  RLMarker as Marker,
+  RLPopup as Popup,
+} from "@/components/map/leaflet-client";
 
 import api from "@/lib/api";
 import { useLanguage } from "@/context/LanguageContext";
@@ -32,11 +37,6 @@ import { formatDateObject } from "@/utils/formatDateObject";
 import StarIcon from "@mui/icons-material/Star";
 import { formatName } from "@/utils/formatName";
 
-/* ---------------- Map (client-only) ---------------- */
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((m) => m.MapContainer),
-  { ssr: false }
-);
 
 const DEFAULT_ICON_URL =
   "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png";
@@ -45,13 +45,6 @@ const DEFAULT_ICON_2X_URL =
 const DEFAULT_SHADOW_URL =
   "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png";
 
-function SetViewOnChange({ center, zoom }: { center: LatLngTuple; zoom: number }) {
-  const map = useMap();
-  useEffect(() => {
-    map.setView(center, zoom, { animate: true });
-  }, [center, zoom, map]);
-  return null;
-}
 
 
 /* ---------------- Types ---------------- */
@@ -432,33 +425,28 @@ export default function PlacePage() {
         <Card sx={{ height: { xs: 320, md: 480 }, overflow: "hidden" }}>
           <CardContent sx={{ height: "100%", p: 0 }}>
             <div style={{ height: "100%", position: "relative" }}>
-              <MapContainer
-                style={{ height: "100%", width: "100%" }}
-                center={center}
-                zoom={coords ? 11 : 6}
-              >
-                <SetViewOnChange center={center} zoom={coords ? 11 : 2} />
+            <MapContainer
+  key={`${center[0]}-${center[1]}-${coords ? 11 : 2}`}
+  style={{ height: "100%", width: "100%" }}
+  center={center}
+  zoom={coords ? 11 : 2}
+>
+  <TileLayer
+    attribution='&copy; <a href="https://osm.org/copyright">OSM</a>'
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
 
-                <TileLayer
-                  attribution='&copy; <a href="https://osm.org/copyright">OSM</a>'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-
-                {/* marker DOAR dacă avem coordonate */}
-                {coords && pinIcon && (
-                  <Marker position={center} icon={pinIcon}>
-                    <Popup>
-                      <strong>{title}</strong>
-                      {subtitle ? (
-                        <div style={{ opacity: 0.75, marginTop: 4 }}>
-                          {subtitle}
-                        </div>
-                      ) : null}
-                    </Popup>
-                  </Marker>
-                )}
-              </MapContainer>
-
+  {coords && pinIcon && (
+    <Marker position={center} icon={pinIcon}>
+      <Popup>
+        <strong>{title}</strong>
+        {subtitle ? (
+          <div style={{ opacity: 0.75, marginTop: 4 }}>{subtitle}</div>
+        ) : null}
+      </Popup>
+    </Marker>
+  )}
+</MapContainer>
               {/* overlay informativ când nu avem coordonate */}
               {!coords && (
                 <Stack

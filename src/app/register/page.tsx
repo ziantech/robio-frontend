@@ -91,7 +91,7 @@ export default function RegisterPage() {
       setLoading(true);
       const payload = user
 
-      const res = await api.post("/users/", payload);
+      const res = await api.post("/users/create", payload);
       if (res.status >= 200 && res.status < 300) {
         const data = res.data;
 

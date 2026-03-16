@@ -84,6 +84,10 @@ const toLabel = (n: string | NameObject, lang: "ro" | "en"): string => {
   return label || "N/A";
 };
 
+const isPlaceholderParentId = (id?: string | null) =>
+  typeof id === "string" && id.startsWith("VP__");
+
+
 export default function FamilyTreePage() {
   const { tree_ref } = useParams<{ tree_ref: string }>();
   const search = useSearchParams();
@@ -283,6 +287,24 @@ const idToRef = useMemo(() => {
   return m;
 }, [ftNodes]);
 
+const ftNodeById = useMemo(() => {
+  const m: Record<string, any> = {};
+  for (const n of ftNodes) m[n.id] = n;
+  return m;
+}, [ftNodes]);
+
+const getRealParentsCount = React.useCallback(
+  (nodeId: string) => {
+    const node = ftNodeById[nodeId];
+    if (!node) return 0;
+
+    return [node.mid, node.fid].filter(
+      (pid) => pid && !isPlaceholderParentId(String(pid))
+    ).length;
+  },
+  [ftNodeById]
+);
+
 // 2) owners by canonical ref (nu pe id-ul nodului, ca aliasurile au id-uri diferite)
 // const ownersByRef = useMemo(() => {
 //   const m: Record<string, string | null> = {};
@@ -458,13 +480,36 @@ const hopIdxRef = useRef<Record<string, number>>({});
     openRel("add_child", ref);
   }
     }, 
-    add_parent: { 
-        text: lang === "ro" ? "Adaugă părinte" : "Add parent", 
-        icon: (FamilyTree as any).icon.add?.(18, 18, "#2563EB"), 
-        disabled: (id: string, node: any) => !canEditNode(id) || !!(node?.mid && node?.fid), 
-        tooltip: (id: string, node: any) => !canEditNode(id) ? lang === "ro" ? "Doar proprietarul acestui profil poate edita" : "Only this profile's owner can edit" : node?.mid && node?.fid ? lang === "ro" ? "Are deja doi părinți" : "Already has two parents" : undefined, 
-        onClick: (id: string) => { if (!canEditNode(id)) return; const n = (family as any).getNode?.(id); if (n?.mid && n?.fid) return; const ref = n?.ref || id; openRel("add_parent", ref); }, 
-    }, 
+   add_parent: {
+  text: lang === "ro" ? "Adaugă părinte" : "Add parent",
+  icon: (FamilyTree as any).icon.add?.(18, 18, "#2563EB"),
+  onClick: (id: string) => {
+    const n = ftNodeById[id] || (family as any).getNode?.(id);
+
+    if (!canEditNode(id)) {
+      alert(
+        lang === "ro"
+          ? "Doar proprietarul acestui profil poate edita."
+          : "Only this profile's owner can edit."
+      );
+      return;
+    }
+
+    const realParentsCount = getRealParentsCount(id);
+
+    if (realParentsCount >= 2) {
+      alert(
+        lang === "ro"
+          ? "Profilul are deja doi părinți reali."
+          : "This profile already has two real parents."
+      );
+      return;
+    }
+
+    const ref = n?.ref || idToRef[id] || id;
+    openRel("add_parent", ref);
+  },
+},
 },
       nodes: ftNodes,
     };

@@ -161,7 +161,7 @@ export default function EditDeathModal({
     // date
     const prevD = originalDeath?.date || {};
     const nextD = workingDate || {};
-    (["day", "month", "year", "circa", "bc"] as (keyof DateObject)[]).forEach(
+    (["day", "month", "year", "circa", "bc", "after", "before"] as (keyof DateObject)[]).forEach(
       (f) => {
         const before = (prevD as any)[f];
         const after = (nextD as any)[f];

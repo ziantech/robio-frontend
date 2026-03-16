@@ -1207,7 +1207,11 @@ function LeftForm({
       {children}
     </Typography>
   );
+const myProfileId =
+  typeof window !== "undefined" ? localStorage.getItem("profileId") : null;
 
+const myTreeId =
+  typeof window !== "undefined" ? localStorage.getItem("treeId") : null;
   // ---------- state ----------
   const [name, setName] = useState<NameObject>({
     title: "",
@@ -1309,32 +1313,52 @@ function LeftForm({
   });
 
   // înainte: const fetchDuplicates = async (append = false) => {
-  const fetchDuplicates = async (append = false): Promise<number> => {
-    setDupLoading(true);
-    try {
-      const payload = buildDuplicatePayload();
-      const res = await api.post("/profiles/duplicates_suggest", payload);
-      const raw: DuplicateHit[] = res.data?.items || [];
-      const uniq = uniqueById(raw);
+const fetchDuplicates = async (append = false): Promise<number> => {
+  setDupLoading(true);
 
-      if (append) {
-        const merged = uniqueById([...dupItems, ...uniq]);
-        setDupItems(sortDuplicatesClient(merged));
-      } else {
-        setDupItems(sortDuplicatesClient(uniq));
-      }
+  const nextOffset = append ? dupOffset + DUP_PAGE : 0;
 
-      setDupHasMore(!!res.data?.has_more);
-      // 🆕 întoarcem numărul de rezultate noi (la primul fetch ne interesează)
-      return uniq.length;
-    } catch (e) {
-      notify("Failed to fetch duplicates", "error");
-      return 0;
-    } finally {
-      setDupLoading(false);
+  try {
+    const res = await api.post("/profiles/search", {
+      mode: "duplicates",
+      draft_name: {
+        title: name?.title ?? "",
+        first: Array.isArray(name?.first) ? name.first : [],
+        last: Array.isArray(name?.last)
+          ? name.last
+          : name?.last
+          ? String(name.last).split(/\s+/).filter(Boolean)
+          : [],
+        maiden: name?.maiden ?? "",
+        suffix: name?.suffix ?? "",
+      },
+      limit: DUP_PAGE,
+      offset: nextOffset,
+      exclude_profile_ids: myProfileId ? [myProfileId] : [],
+      exclude_tree_refs: myTreeId ? [myTreeId] : [],
+    });
+
+    const raw: DuplicateHit[] = res.data?.items || [];
+    const uniq = uniqueById(raw);
+
+    if (append) {
+      const merged = uniqueById([...dupItems, ...uniq]);
+      setDupItems(merged);
+    } else {
+      setDupItems(uniq);
     }
-  };
 
+    setDupOffset(nextOffset);
+    setDupHasMore(!!res.data?.has_more);
+
+    return uniq.length;
+  } catch (e) {
+    notify("Failed to fetch duplicates", "error");
+    return 0;
+  } finally {
+    setDupLoading(false);
+  }
+};
   const openDuplicatesThenCreateIfEmpty = async () => {
     const lastExists = Array.isArray(name.last) && name.last.length > 0;
     if (!lastExists) {
@@ -1480,13 +1504,13 @@ function LeftForm({
       }
       try {
         setSearching(true);
-        const r = await api.get<SearchProfileHit[]>(
-          "/profiles/search_profiles/register",
-          {
-            params: { query: q },
-          }
-        );
-        if (alive) setOptions(r.data || []);
+       const r = await api.post("/profiles/search", {
+  mode: "autocomplete",
+  query: q,
+  limit: 20,
+  offset: 0,
+});
+if (alive) setOptions(r.data?.items || []);
       } catch {
         if (alive) setOptions([]);
       } finally {
@@ -2542,8 +2566,7 @@ function LeftForm({
               <Button
                 size="small"
                 onClick={async () => {
-                  setDupOffset((o) => o + DUP_PAGE);
-                  await fetchDuplicates(true);
+                await fetchDuplicates(true);
                 }}
                 disabled={dupLoading}
               >

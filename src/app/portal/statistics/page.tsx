@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -160,17 +159,24 @@ function UsersStatsTab() {
   }, [users, username]);
 
   // fetch lista minimală de useri (pt comparație în grafic)
-  useEffect(() => {
-    (async () => {
-      try {
-        const r = await api.get<UserMin[]>("/users/min");
-        setUsers(r.data || []);
-      } catch {
-        setUsers([]);
-      }
-    })();
-  }, []);
+useEffect(() => {
+  let alive = true;
 
+  (async () => {
+    try {
+      const r = await api.get<UserMin[]>("/users/min");
+      if (!alive) return;
+      setUsers(r.data || []);
+    } catch {
+      if (!alive) return;
+      setUsers([]);
+    }
+  })();
+
+  return () => {
+    alive = false;
+  };
+}, []);
   const fetchWindow = async (opts?: {
     endISO?: string;
     days?: number;
@@ -257,20 +263,28 @@ function UsersStatsTab() {
   const todayISO = dayjs().format("YYYY-MM-DD");
 
   // --- fetch leaderboard ---
-  useEffect(() => {
-    (async () => {
-      try {
-        const r = await api.get<LeaderboardResponse>(
-          "/users/stats/profiles-leaderboard"
-        );
-        setLeaderboard(r.data?.top || []);
-        setLeaderboardTotal(r.data?.total_profiles || 0);
-      } catch {
-        setLeaderboard([]);
-        setLeaderboardTotal(0);
-      }
-    })();
-  }, []);
+useEffect(() => {
+  let alive = true;
+
+  (async () => {
+    try {
+      const r = await api.get<LeaderboardResponse>(
+        "/users/stats/profiles-leaderboard"
+      );
+      if (!alive) return;
+      setLeaderboard(r.data?.top || []);
+      setLeaderboardTotal(r.data?.total_profiles || 0);
+    } catch {
+      if (!alive) return;
+      setLeaderboard([]);
+      setLeaderboardTotal(0);
+    }
+  })();
+
+  return () => {
+    alive = false;
+  };
+}, []);
 
   return (
     <Stack spacing={3}>
@@ -609,7 +623,17 @@ type PrematureDeathsResponse = {
   count: number;
   base_with_birth_and_death: number;
 };
+type LongevityPersonStat = {
+  available: boolean;
+  note?: string | null;
+  profile_id?: string | null;
+  age_years?: number | null;
+};
 
+type DeathsLongevityResponse = {
+  longest_lived: LongevityPersonStat;
+  oldest_living: LongevityPersonStat;
+};
 type YoungestMotherStat = {
   available: boolean;
   note?: string | null;
@@ -706,26 +730,34 @@ function BirthsStatsTab() {
     (t as unknown as Record<string, string>)[monthKeys[index]] ||
     (index + 1).toString();
 
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const r = await api.get<BirthsOverviewResponse>(
-          "/users/stats/births-overview"
-        );
-        setData(r.data);
-        setError(null);
-      } catch (e) {
-        setError(
-          lang === "ro"
-            ? "Nu s-au putut încărca statisticile de nașteri."
-            : "Could not load births statistics."
-        );
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [lang]);
+useEffect(() => {
+  let alive = true;
+
+  (async () => {
+    setLoading(true);
+    try {
+      const r = await api.get<BirthsOverviewResponse>(
+        "/users/stats/births-overview"
+      );
+      if (!alive) return;
+      setData(r.data);
+      setError(null);
+    } catch {
+      if (!alive) return;
+      setError(
+        lang === "ro"
+          ? "Nu s-au putut încărca statisticile de nașteri."
+          : "Could not load births statistics."
+      );
+    } finally {
+      if (alive) setLoading(false);
+    }
+  })();
+
+  return () => {
+    alive = false;
+  };
+}, [lang]);
 
   const handleSearchBirthsOnDate = async () => {
     const hasAny =
@@ -1639,26 +1671,34 @@ function MarriagesStatsTab() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const r = await api.get<MarriagesOverviewResponse>(
-          "/users/stats/marriages-overview"
-        );
-        setData(r.data);
-        setError(null);
-      } catch (e) {
-        setError(
-          lang === "ro"
-            ? "Nu s-au putut încărca statisticile de căsătorii."
-            : "Could not load marriages statistics."
-        );
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [lang]);
+ useEffect(() => {
+  let alive = true;
+
+  (async () => {
+    setLoading(true);
+    try {
+      const r = await api.get<MarriagesOverviewResponse>(
+        "/users/stats/marriages-overview"
+      );
+      if (!alive) return;
+      setData(r.data);
+      setError(null);
+    } catch {
+      if (!alive) return;
+      setError(
+        lang === "ro"
+          ? "Nu s-au putut încărca statisticile de căsătorii."
+          : "Could not load marriages statistics."
+      );
+    } finally {
+      if (alive) setLoading(false);
+    }
+  })();
+
+  return () => {
+    alive = false;
+  };
+}, [lang]);
 
   if (loading && !data) {
     return (
@@ -2128,11 +2168,13 @@ function MarriagesStatsTab() {
 }
 function DeathsStatsTab() {
   const { t, lang } = useLanguage();
-
+const router = useRouter();
   const [deathYear, setDeathYear] = useState<string>("");
   const [deathMonth, setDeathMonth] = useState<number | "">("");
   const [deathDay, setDeathDay] = useState<string>("");
-
+const [longevity, setLongevity] = useState<DeathsLongevityResponse | null>(null);
+const [longevityLoading, setLongevityLoading] = useState(false);
+const [longevityError, setLongevityError] = useState<string | null>(null);
   const [deathsOnDate, setDeathsOnDate] = useState<CountOnDateResponse | null>(
     null
   );
@@ -2146,6 +2188,9 @@ function DeathsStatsTab() {
     useState<PrematureDeathsResponse | null>(null);
   const [prematureLoading, setPrematureLoading] = useState(false);
   const [prematureError, setPrematureError] = useState<string | null>(null);
+
+
+
 
   const monthKeys = [
     "month_january",
@@ -2208,7 +2253,25 @@ function DeathsStatsTab() {
       setDeathsOnDateLoading(false);
     }
   };
-
+const fetchLongevity = async () => {
+  setLongevityLoading(true);
+  try {
+    const r = await api.get<DeathsLongevityResponse>(
+      "/users/stats/deaths-longevity"
+    );
+    setLongevity(r.data);
+    setLongevityError(null);
+  } catch {
+    setLongevity(null);
+    setLongevityError(
+      lang === "ro"
+        ? "Nu s-au putut încărca statisticile de longevitate."
+        : "Could not load longevity statistics."
+    );
+  } finally {
+    setLongevityLoading(false);
+  }
+};
   const handleResetDeathsOnDate = () => {
     setDeathYear("");
     setDeathMonth("");
@@ -2264,6 +2327,12 @@ function DeathsStatsTab() {
     fetchPremature(maxAge);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxAge]);
+
+  useEffect(() => {
+  fetchLongevity();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
+
 
   return (
     <Stack spacing={3}>
@@ -2451,6 +2520,119 @@ function DeathsStatsTab() {
             )}
         </Box>
       </Paper>
+      <Stack
+  direction={{ xs: "column", md: "row" }}
+  spacing={2}
+  alignItems="stretch"
+>
+  <Paper variant="outlined" sx={{ p: 2, flex: 1 }}>
+    <Typography variant="h6" sx={{ mb: 1 }}>
+      {lang === "ro"
+        ? "Cea mai longevivă persoană"
+        : "Most long-lived person"}
+    </Typography>
+
+    {longevityLoading && (
+      <Typography variant="body2">
+        {lang === "ro" ? "Se calculează..." : "Calculating..."}
+      </Typography>
+    )}
+
+    {longevityError && !longevityLoading && (
+      <Typography variant="body2" color="error">
+        {longevityError}
+      </Typography>
+    )}
+
+    {longevity &&
+      !longevityLoading &&
+      !longevityError &&
+      (!longevity.longest_lived?.available ? (
+        <Typography variant="body2">
+          {longevity.longest_lived?.note ||
+            (lang === "ro"
+              ? "Nu există suficiente date."
+              : "There is not enough data.")}
+        </Typography>
+      ) : (
+        <>
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            {lang === "ro"
+              ? `A trăit aproximativ ${longevity.longest_lived.age_years?.toFixed(
+                  1
+                )} ani.`
+              : `Lived approximately ${longevity.longest_lived.age_years?.toFixed(
+                  1
+                )} years.`}
+          </Typography>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() =>
+              longevity.longest_lived.profile_id &&
+              router.push(`/portal/profile/${longevity.longest_lived.profile_id}`)
+            }
+          >
+            {lang === "ro" ? "Vezi profilul" : "View profile"}
+          </Button>
+        </>
+      ))}
+  </Paper>
+
+  <Paper variant="outlined" sx={{ p: 2, flex: 1 }}>
+    <Typography variant="h6" sx={{ mb: 1 }}>
+      {lang === "ro"
+        ? "Cea mai vârstnică persoană în viață"
+        : "Oldest living person"}
+    </Typography>
+
+    {longevityLoading && (
+      <Typography variant="body2">
+        {lang === "ro" ? "Se calculează..." : "Calculating..."}
+      </Typography>
+    )}
+
+    {longevityError && !longevityLoading && (
+      <Typography variant="body2" color="error">
+        {longevityError}
+      </Typography>
+    )}
+
+    {longevity &&
+      !longevityLoading &&
+      !longevityError &&
+      (!longevity.oldest_living?.available ? (
+        <Typography variant="body2">
+          {longevity.oldest_living?.note ||
+            (lang === "ro"
+              ? "Nu există suficiente date."
+              : "There is not enough data.")}
+        </Typography>
+      ) : (
+        <>
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            {lang === "ro"
+              ? `Are aproximativ ${longevity.oldest_living.age_years?.toFixed(
+                  1
+                )} ani.`
+              : `Is approximately ${longevity.oldest_living.age_years?.toFixed(
+                  1
+                )} years old.`}
+          </Typography>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() =>
+              longevity.oldest_living.profile_id &&
+              router.push(`/portal/profile/${longevity.oldest_living.profile_id}`)
+            }
+          >
+            {lang === "ro" ? "Vezi profilul" : "View profile"}
+          </Button>
+        </>
+      ))}
+  </Paper>
+</Stack>
     </Stack>
   );
 }

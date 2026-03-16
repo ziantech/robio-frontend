@@ -245,14 +245,23 @@ const handleDeleteProfile = async () => {
 
     window.location.href = "/portal";
   } catch (e: any) {
-    console.error("Failed to delete profile", e);
-    notify(
-      lang === "ro"
+  const status = e?.response?.status;
+  const detail =
+    e?.response?.data?.detail ||
+    e?.response?.data?.message ||
+    e?.message;
+
+  console.error("Failed to delete profile", { status, data: e?.response?.data, e });
+
+  notify(
+    detail ||
+      (lang === "ro"
         ? "Ștergerea a eșuat. Încearcă din nou."
-        : "Deletion failed. Please try again.",
-      "error"
-    );
-  } finally {
+        : "Deletion failed. Please try again."),
+    "error"
+  );
+}
+ finally {
     setDeleting(false);
   }
 };

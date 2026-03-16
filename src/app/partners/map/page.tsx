@@ -1,24 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+
 import {
   Box, CircularProgress, Stack, Typography, Alert, Button, Tooltip
 } from "@mui/material";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import AddHomeWorkIcon from "@mui/icons-material/AddHomeWork";
-import "leaflet/dist/leaflet.css";
 
+import {
+  RLMapContainer as MapContainer,
+  RLTileLayer as TileLayer,
+  RLMarker as Marker,
+  RLTooltip as TooltipRL,
+} from "@/components/map/leaflet-client";
 import api from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import AddPartnerInfoDialog from "@/components/AddPartnerInfoDialog";
 
-// react-leaflet (no SSR)
-const MapContainer = dynamic(() => import("react-leaflet").then(m => m.MapContainer), { ssr: false });
-const TileLayer     = dynamic(() => import("react-leaflet").then(m => m.TileLayer),     { ssr: false });
-const Marker        = dynamic(() => import("react-leaflet").then(m => m.Marker),        { ssr: false });
-const TooltipRL     = dynamic(() => import("react-leaflet").then(m => m.Tooltip),       { ssr: false });
+
 
 type Item = {
   id: string;
@@ -81,7 +82,7 @@ export default function PartnerInfoMapPage() {
     load();
   }, []);
 
-  const hasMap = useMemo(() => !!(MapContainer as any), []);
+
 
   // icons (DivIcon) — 📖 pentru parohie / ✝ pentru cimitir
   const getIcon = (kind: "parohie" | "cimitir") => {
@@ -152,7 +153,7 @@ export default function PartnerInfoMapPage() {
       )}
 
       <div style={{ height: 640, borderRadius: 12, overflow: "hidden", border: "1px solid rgba(0,0,0,0.08)" }}>
-        {hasMap && (
+      
           <MapContainer
             style={{ height: "100%", width: "100%" }}
             center={RO_CENTER}
@@ -186,7 +187,7 @@ export default function PartnerInfoMapPage() {
                 </Marker>
               ))}
           </MapContainer>
-        )}
+       
       </div>
 
       {/* Dialoguri admin-only */}

@@ -3,7 +3,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import dynamic from "next/dynamic";
+
 import {
   Box,
   Stack,
@@ -28,29 +28,18 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
-import "leaflet/dist/leaflet.css";
+import {
+  RLMapContainer as MapContainer,
+  RLTileLayer as TileLayer,
+  RLCircleMarker as CircleMarker,
+  RLMarker as Marker,
+  RLTooltip as Tooltip,
+} from "@/components/map/leaflet-client";
 import api from "@/lib/api";
 import { useLanguage } from "@/context/LanguageContext";
 
 // react-leaflet (no SSR)
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((m) => m.MapContainer),
-  { ssr: false }
-);
-const TileLayer = dynamic(
-  () => import("react-leaflet").then((m) => m.TileLayer),
-  { ssr: false }
-);
-const CircleMarker = dynamic(
-  () => import("react-leaflet").then((m) => m.CircleMarker),
-  { ssr: false }
-);
-const Marker = dynamic(() => import("react-leaflet").then((m) => m.Marker), {
-  ssr: false,
-});
-const Tooltip = dynamic(() => import("react-leaflet").then((m) => m.Tooltip), {
-  ssr: false,
-});
+
 
 // Types
 type Bubble = {

@@ -249,7 +249,7 @@ export default function EditBurialModal({
     const changes: ChangeRecord[] = [];
 
     // date fields
-    (["day", "month", "year", "circa", "bc"] as (keyof DateObject)[]).forEach((f) => {
+    (["day", "month", "year", "circa", "bc", "after", "before"] as (keyof DateObject)[]).forEach((f) => {
       const a = ser((prevDate as any)?.[f]);
       const b = ser((nextDate as any)?.[f]);
       if (a !== b) {
@@ -332,13 +332,15 @@ export default function EditBurialModal({
       const before = cur.id ? normOrig.find((x) => x.id === cur.id) : undefined;
       if (!before) return false; // new item
 
-      const fieldsChanged =
-        (before?.cemetery?.cemetery_id ?? "") !== (cur?.cemetery?.cemetery_id ?? "") ||
-        String(before?.date?.day ?? "") !== String(cur?.date?.day ?? "") ||
-        String(before?.date?.month ?? "") !== String(cur?.date?.month ?? "") ||
-        String(before?.date?.year ?? "") !== String(cur?.date?.year ?? "") ||
-        String(before?.date?.circa ?? "") !== String(cur?.date?.circa ?? "") ||
-        String(before?.date?.bc ?? "") !== String(cur?.date?.bc ?? "");
+    const fieldsChanged =
+  (before?.cemetery?.cemetery_id ?? "") !== (cur?.cemetery?.cemetery_id ?? "") ||
+  String(before?.date?.day ?? "") !== String(cur?.date?.day ?? "") ||
+  String(before?.date?.month ?? "") !== String(cur?.date?.month ?? "") ||
+  String(before?.date?.year ?? "") !== String(cur?.date?.year ?? "") ||
+  String(before?.date?.circa ?? "") !== String(cur?.date?.circa ?? "") ||
+  String(before?.date?.bc ?? "") !== String(cur?.date?.bc ?? "") ||
+  String(before?.date?.before ?? "") !== String(cur?.date?.before ?? "") ||
+  String(before?.date?.after ?? "") !== String(cur?.date?.after ?? "");
 
       if (fieldsChanged) return false;
 

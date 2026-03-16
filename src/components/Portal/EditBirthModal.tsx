@@ -154,7 +154,7 @@ export default function EditBirthModal({
     // date
     const prevD = originalBirth?.date || {};
     const nextD = workingDate || {};
-    (["day", "month", "year", "circa", "bc"] as (keyof DateObject)[]).forEach(
+    (["day", "month", "year", "circa", "bc", "before", "after"] as (keyof DateObject)[]).forEach(
       (f) => {
         const before = (prevD as any)[f];
         const after = (nextD as any)[f];

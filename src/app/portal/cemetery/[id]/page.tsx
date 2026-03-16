@@ -4,7 +4,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import dynamic from "next/dynamic";
+
 import { useParams, useRouter } from "next/navigation";
 import {
   Box,
@@ -20,9 +20,14 @@ import {
   TextField,
 } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Marker, Popup, TileLayer, useMap } from "react-leaflet";
+
 import type { LatLngTuple } from "leaflet";
-import "leaflet/dist/leaflet.css";
+import {
+  RLMapContainer as MapContainer,
+  RLTileLayer as TileLayer,
+  RLMarker as Marker,
+  RLPopup as Popup,
+} from "@/components/map/leaflet-client";
 
 import api from "@/lib/api";
 import { useLanguage } from "@/context/LanguageContext";
@@ -31,11 +36,7 @@ import { highlightAccentsAware } from "@/utils/highlight";
 import StarIcon from "@mui/icons-material/Star";
 import { formatName } from "@/utils/formatName";
 
-// MapContainer only client-side
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((m) => m.MapContainer),
-  { ssr: false }
-);
+
 
 // Default Leaflet assets
 const DEFAULT_ICON_URL =
@@ -115,13 +116,7 @@ async function geocodeText(
   return null;
 }
 
-function SetViewOnChange({ center }: { center: LatLngTuple }) {
-  const map = useMap();
-  useEffect(() => {
-    map.setView(center, 12, { animate: true });
-  }, [center, map]);
-  return null;
-}
+
 
 function hasPlace(p?: PlaceSearchHit | null): boolean {
   if (!p) return false;
@@ -305,29 +300,27 @@ const filteredProfilesLocal = useMemo(() => {
           <CardContent sx={{ height: "100%", p: 0 }}>
             {coords ? (
               <div style={{ height: "100%" }}>
-                <MapContainer
-                  style={{ height: "100%", width: "100%" }}
-                  center={center}
-                  zoom={coords ? 12 : 6}
-                >
-                  <SetViewOnChange center={center} />
-                  <TileLayer
-                    attribution='&copy; <a href="https://osm.org/copyright">OSM</a>'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  {pinIcon && (
-                    <Marker position={center} icon={pinIcon}>
-                      <Popup>
-                        <strong>{cemetery.name || ""}</strong>
-                        <div style={{ opacity: 0.75, marginTop: 4 }}>
-                          {hasPlace(cemetery.place)
-                            ? formatPlaceTitle(cemetery.place)
-                            : ""}
-                        </div>
-                      </Popup>
-                    </Marker>
-                  )}
-                </MapContainer>
+               <MapContainer
+  key={`${center[0]}-${center[1]}-${coords ? 12 : 6}`}
+  style={{ height: "100%", width: "100%" }}
+  center={center}
+  zoom={coords ? 12 : 6}
+>
+  <TileLayer
+    attribution='&copy; <a href="https://osm.org/copyright">OSM</a>'
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+  {pinIcon && (
+    <Marker position={center} icon={pinIcon}>
+      <Popup>
+        <strong>{cemetery.name || ""}</strong>
+        <div style={{ opacity: 0.75, marginTop: 4 }}>
+          {hasPlace(cemetery.place) ? formatPlaceTitle(cemetery.place) : ""}
+        </div>
+      </Popup>
+    </Marker>
+  )}
+</MapContainer>
               </div>
             ) : (
               <Stack height="100%" alignItems="center" justifyContent="center">

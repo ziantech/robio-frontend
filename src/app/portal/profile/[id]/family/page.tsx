@@ -288,9 +288,9 @@ function formatNameSafe(n: any, lang: "ro" | "en"): string {
 
 function FormattedNameDisplay({
   name,
-  after, // opțional (ex: <StarIcon .../>)
-  titleTooltip, // opțional: tooltip
-  lineVariant = "body2", // varianta tipografiei pe linii
+  after,
+  titleTooltip,
+  lineVariant = "body2",
 }: {
   name: any;
   after?: React.ReactNode;
@@ -298,13 +298,38 @@ function FormattedNameDisplay({
   lineVariant?: any;
 }) {
   const { title, first, last, suffix, full } = splitNameParts(name);
+
+  const fullWithoutTitle = formatName(
+    {
+      title: "",
+      first: Array.isArray(name?.first)
+        ? name.first
+        : name?.first
+        ? [String(name.first)]
+        : [],
+      last: Array.isArray(name?.last)
+        ? name.last
+        : name?.last
+        ? [String(name.last)]
+        : [],
+      maiden: name?.maiden ?? "",
+      suffix: name?.suffix ?? "",
+    },
+    {
+      lang,
+      maidenStyle: "label",
+    }
+  );
+
   const isLong = full.length > 25;
 
   if (!isLong) {
     return (
       <Stack direction="row" alignItems="center" spacing={0.5} minWidth={0}>
-        <Typography noWrap title={titleTooltip ?? full} sx={{textAlign:"center", }}>
-         <span style={{fontWeight:"700"}}>{title}</span> {full}
+        <Typography noWrap title={titleTooltip ?? full} sx={{ textAlign: "center" }}>
+          {title ? <span style={{ fontWeight: 700 }}>{title}</span> : null}
+          {title && fullWithoutTitle ? " " : ""}
+          {title ? fullWithoutTitle : full}
         </Typography>
         {after}
       </Stack>
@@ -317,18 +342,19 @@ function FormattedNameDisplay({
       alignItems="flex-start"
       minWidth={0}
       title={titleTooltip ?? full}
-      
     >
       {!!title && (
         <Typography variant={lineVariant} fontWeight={700} noWrap>
           {title}
         </Typography>
       )}
+
       {!!first && (
         <Typography variant={lineVariant} noWrap>
           {first}
         </Typography>
       )}
+
       <Stack direction="row" alignItems="center" spacing={0.5} minWidth={0}>
         <Typography variant={lineVariant} noWrap>
           {[last, suffix].filter(Boolean).join(" ")}

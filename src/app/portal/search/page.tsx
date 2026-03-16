@@ -141,8 +141,9 @@ export default function SearchPage() {
         params.limit = PAGE_SIZE;
         if (cursor) params.cursor = cursor;
 
-        if (params.q) params.q = simplifySearch(params.q);
-        if (params.name) params.name = simplifySearch(params.name);
+        ["q", "name", "maiden", "parent_name", "residence_q", "cem_q"].forEach((key) => {
+  if (params[key]) params[key] = simplifySearch(params[key]);
+});
 
         const res = await api.get("/search/profiles", { params });
         const data = res.data;

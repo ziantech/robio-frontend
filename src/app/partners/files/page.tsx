@@ -271,13 +271,18 @@ export default function FilesBrowsePage() {
                           >
                             <ExpandMoreIcon fontSize="small" />
                           </IconButton>
-                          <Typography
-                            variant="subtitle2"
-                            noWrap
-                            title={g.title}
-                          >
-                            {g.title}
-                          </Typography>
+                         <Typography
+  variant="subtitle2"
+  title={g.title}
+  sx={{
+    maxWidth: 420,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  }}
+>
+  {g.title}
+</Typography>
                           <Chip
                             size="small"
                             label={`${g.files_count}`}
