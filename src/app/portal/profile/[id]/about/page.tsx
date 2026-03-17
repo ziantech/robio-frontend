@@ -57,7 +57,7 @@ type CemeteryDTO = {
 
 export default function ProfileAboutPage() {
   const { profile, ethnicity } = useProfile();
-  const { id: currentUserId } = useAuth();
+  const { id: currentUserId, isAdmin} = useAuth();
   const { lang } = useLanguage();
   const router = useRouter();
 
@@ -100,8 +100,8 @@ export default function ProfileAboutPage() {
   };
 
   useEffect(() => {
-    if (profile?.owner_id === currentUserId) setCanEdit(true);
-  }, [profile?.owner_id, currentUserId]);
+    if (profile?.owner_id === currentUserId || isAdmin ) setCanEdit(true);
+  }, [profile?.owner_id, currentUserId, isAdmin]);
 
   // Fetch cimitire pentru burials
   useEffect(() => {

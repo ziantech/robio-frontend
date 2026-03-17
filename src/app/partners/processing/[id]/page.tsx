@@ -186,14 +186,14 @@ export default function ProcessingRunPage() {
 
   const [profilesLoading, setProfilesLoading] = useState(true);
   const [profiles, setProfiles] = useState<ProfileMini[]>([]);
-const [createQOpen, setCreateQOpen] = useState(false);
+  const [createQOpen, setCreateQOpen] = useState(false);
 
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const toggleSelect = (id: string, checked: boolean) =>
     setSelectedIds((prev) =>
       checked
         ? Array.from(new Set([...prev, id]))
-        : prev.filter((x) => x !== id)
+        : prev.filter((x) => x !== id),
     );
   const selectAllIds = (ids: string[]) => setSelectedIds(ids);
   const clearSelection = () => setSelectedIds([]);
@@ -204,7 +204,7 @@ const [createQOpen, setCreateQOpen] = useState(false);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const [imgNatural, setImgNatural] = useState<{ w: number; h: number } | null>(
-    null
+    null,
   );
   const [fitZoom, setFitZoom] = useState(1);
   const [imgZoom, setImgZoom] = useState<number>(1); // will snap to "fit" on load
@@ -248,7 +248,7 @@ const [createQOpen, setCreateQOpen] = useState(false);
     setProfilesLoading(true);
     try {
       const r = await api.get<ProfileMini[]>(
-        `/partners/runs/${runId}/profiles-using-file`
+        `/partners/runs/${runId}/profiles-using-file`,
       );
       setProfiles(r.data || []);
     } catch {
@@ -278,7 +278,7 @@ const [createQOpen, setCreateQOpen] = useState(false);
       notify(
         lang === "ro"
           ? `Termen prelungit (+5z). Noua scadență: ${when}`
-          : `Deadline extended (+5d). New due: ${when}`
+          : `Deadline extended (+5d). New due: ${when}`,
       );
       await load();
     } catch (e: any) {
@@ -299,7 +299,7 @@ const [createQOpen, setCreateQOpen] = useState(false);
         lang === "ro"
           ? "Runda a fost eliberată — fișierul a revenit în listă"
           : "Run released — file returned to pool",
-        "success"
+        "success",
       );
       setReleaseOpen(false);
       setReleaseNotes("");
@@ -322,7 +322,7 @@ const [createQOpen, setCreateQOpen] = useState(false);
         lang === "ro"
           ? "Procesarea a fost finalizată — fișierul marcat ca procesat"
           : "Processing finalized — file marked as processed",
-        "success"
+        "success",
       );
       setFinalizeOpen(false);
       setFinalizeNotes("");
@@ -615,22 +615,21 @@ const [createQOpen, setCreateQOpen] = useState(false);
             </IconButton>
           </Tooltip>
           <Tooltip
-  title={
-    lang === "ro"
-      ? "Pune o întrebare (se va atașa acest fișier)"
-      : "Ask a question (this file will be linked)"
-  }
-  arrow
->
-  <IconButton
-    size="medium"
-    color="primary"
-    onClick={() => setCreateQOpen(true)}
-  >
-    <QuestionAnswerIcon />
-  </IconButton>
-</Tooltip>
-
+            title={
+              lang === "ro"
+                ? "Pune o întrebare (se va atașa acest fișier)"
+                : "Ask a question (this file will be linked)"
+            }
+            arrow
+          >
+            <IconButton
+              size="medium"
+              color="primary"
+              onClick={() => setCreateQOpen(true)}
+            >
+              <QuestionAnswerIcon />
+            </IconButton>
+          </Tooltip>
         </CardContent>
 
         <Divider />
@@ -844,10 +843,10 @@ const [createQOpen, setCreateQOpen] = useState(false);
                                 imgRotation === 0
                                   ? "none"
                                   : imgRotation === 90
-                                  ? "rotate(90deg) translate(0, -100%)"
-                                  : imgRotation === 180
-                                  ? "rotate(180deg) translate(-100%, -100%)"
-                                  : "rotate(270deg) translate(-100%, 0)",
+                                    ? "rotate(90deg) translate(0, -100%)"
+                                    : imgRotation === 180
+                                      ? "rotate(180deg) translate(-100%, -100%)"
+                                      : "rotate(270deg) translate(-100%, 0)",
                               display: "block",
                             }}
                           />
@@ -896,7 +895,7 @@ const [createQOpen, setCreateQOpen] = useState(false);
             clearSelection();
             notify(
               lang === "ro" ? "Eveniment creat" : "Event created",
-              "success"
+              "success",
             );
           }}
         />
@@ -963,18 +962,20 @@ const [createQOpen, setCreateQOpen] = useState(false);
       </Dialog>
 
       <CreateForumQuestionModal
-  open={createQOpen}
-  onClose={() => setCreateQOpen(false)}
-  defaultSourceFileId={data?.file?.id || undefined}
-  defaultSourceLabel={data?.file?.source?.title || undefined}
-  afterCreate={() => {
-    setCreateQOpen(false);
-    notify(lang === "ro" ? "Întrebare creată" : "Question created", "success");
-    // optional: navigate to forum list or refresh something
-    // router.push("/partners/forum"); // if you want
-  }}
-/>
-
+        open={createQOpen}
+        onClose={() => setCreateQOpen(false)}
+        defaultSourceFileId={data?.file?.id || undefined}
+        defaultSourceLabel={data?.file?.source?.title || undefined}
+        afterCreate={() => {
+          setCreateQOpen(false);
+          notify(
+            lang === "ro" ? "Întrebare creată" : "Question created",
+            "success",
+          );
+          // optional: navigate to forum list or refresh something
+          // router.push("/partners/forum"); // if you want
+        }}
+      />
     </Box>
   );
 }
@@ -1045,7 +1046,7 @@ function PeopleUsing({
                 }
                 onChange={(e) =>
                   onSelectAll?.(
-                    e.target.checked ? profiles.map((p) => p.id) : []
+                    e.target.checked ? profiles.map((p) => p.id) : [],
                   )
                 }
               />
@@ -1082,77 +1083,83 @@ function PeopleUsing({
       ) : profiles.length === 0 ? (
         <Typography color="text.secondary">{t.none}</Typography>
       ) : (
-      <List dense sx={{ borderRadius: 1.5, overflow: "hidden" }}>
-  {profiles.map((p, idx) => (
-    <ListItem
-      key={p.id}
-      alignItems="flex-start"
-      sx={{
-        bgcolor: idx % 2 === 0 ? "background.paper" : "grey.50",
-        pr: 12, // ensure space for secondary action when text wraps
-      }}
-      secondaryAction={
-        p.tree_ref ? (
-          <Stack direction="row" spacing={0.5} alignItems="center">
-            <Tooltip
-              title={t.copyRef ?? (lang === "ro" ? "Copiază ref" : "Copy ref")}
+        <List dense sx={{ borderRadius: 1.5, overflow: "hidden" }}>
+          {profiles.map((p, idx) => (
+            <ListItem
+              key={p.id}
+              alignItems="flex-start"
+              sx={{
+                bgcolor: idx % 2 === 0 ? "background.paper" : "grey.50",
+                pr: 12, // ensure space for secondary action when text wraps
+              }}
+              secondaryAction={
+                p.tree_ref ? (
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <Tooltip
+                      title={
+                        t.copyRef ??
+                        (lang === "ro" ? "Copiază ref" : "Copy ref")
+                      }
+                    >
+                      <IconButton
+                        size="small"
+                        onClick={() => {
+                          navigator.clipboard.writeText(p.tree_ref!);
+                          notify(
+                            lang === "ro" ? "Copiat" : "Copied",
+                            "success",
+                          );
+                        }}
+                      >
+                        <ContentCopyIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title={lang === "ro" ? "Deschide" : "Open"}>
+                      <IconButton
+                        size="small"
+                        onClick={() =>
+                          window.open(
+                            `/portal/profile/${encodeURIComponent(p.tree_ref!)}`,
+                            "_blank",
+                          )
+                        }
+                      >
+                        <OpenInNewIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  </Stack>
+                ) : null
+              }
             >
-              <IconButton
+              <Checkbox
                 size="small"
-                onClick={() => {
-                  navigator.clipboard.writeText(p.tree_ref!);
-                  notify(lang === "ro" ? "Copiat" : "Copied", "success");
+                checked={selectedIds.includes(p.id)}
+                onChange={(e) => onToggle?.(p.id, e.target.checked)}
+                sx={{ mr: 1, mt: 0.25 }}
+              />
+
+              <ListItemText
+                primary={p.display_name || p.id}
+                secondary={p.tree_ref ? `ref: ${p.tree_ref}` : undefined}
+                primaryTypographyProps={{
+                  sx: {
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                    overflowWrap: "anywhere",
+                  },
                 }}
-              >
-                <ContentCopyIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-
-            <Tooltip title={lang === "ro" ? "Deschide" : "Open"}>
-              <IconButton
-                size="small"
-                onClick={() =>
-                  window.open(
-                    `/portal/profile/${encodeURIComponent(p.tree_ref!)}`,
-                    "_blank"
-                  )
-                }
-              >
-                <OpenInNewIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
-          </Stack>
-        ) : null
-      }
-    >
-      <Checkbox
-        size="small"
-        checked={selectedIds.includes(p.id)}
-        onChange={(e) => onToggle?.(p.id, e.target.checked)}
-        sx={{ mr: 1, mt: 0.25 }}
-      />
-
-      <ListItemText
-        primary={p.display_name || p.id}
-        secondary={p.tree_ref ? `ref: ${p.tree_ref}` : undefined}
-        primaryTypographyProps={{
-          sx: {
-            whiteSpace: "normal",
-            wordBreak: "break-word",
-            overflowWrap: "anywhere",
-          },
-        }}
-        secondaryTypographyProps={{
-          sx: {
-            whiteSpace: "normal",
-            wordBreak: "break-word",
-            overflowWrap: "anywhere",
-          },
-        }}
-      />
-    </ListItem>
-  ))}
-</List>
+                secondaryTypographyProps={{
+                  sx: {
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                    overflowWrap: "anywhere",
+                  },
+                }}
+              />
+            </ListItem>
+          ))}
+        </List>
       )}
     </Paper>
   );
@@ -1207,11 +1214,11 @@ function LeftForm({
       {children}
     </Typography>
   );
-const myProfileId =
-  typeof window !== "undefined" ? localStorage.getItem("profileId") : null;
+  const myProfileId =
+    typeof window !== "undefined" ? localStorage.getItem("profileId") : null;
 
-const myTreeId =
-  typeof window !== "undefined" ? localStorage.getItem("treeId") : null;
+  const myTreeId =
+    typeof window !== "undefined" ? localStorage.getItem("treeId") : null;
   // ---------- state ----------
   const [name, setName] = useState<NameObject>({
     title: "",
@@ -1276,7 +1283,7 @@ const myTreeId =
   // pending select -> ask kind dialog
   const [relationDialogOpen, setRelationDialogOpen] = useState(false);
   const [pendingProfile, setPendingProfile] = useState<SearchProfileHit | null>(
-    null
+    null,
   );
 
   // ---------- duplicates modal ----------
@@ -1301,7 +1308,7 @@ const myTreeId =
   const [uploadingPicAfterCreate, setUploadingPicAfterCreate] = useState(false);
   const [uploadingPic, setUploadingPic] = useState(false);
   const hiddenFileInputRef = useRef<HTMLInputElement | null>(null);
-  
+
   const buildDuplicatePayload = () => ({
     name: {
       last: Array.isArray(name.last)
@@ -1313,52 +1320,52 @@ const myTreeId =
   });
 
   // înainte: const fetchDuplicates = async (append = false) => {
-const fetchDuplicates = async (append = false): Promise<number> => {
-  setDupLoading(true);
+  const fetchDuplicates = async (append = false): Promise<number> => {
+    setDupLoading(true);
 
-  const nextOffset = append ? dupOffset + DUP_PAGE : 0;
+    const nextOffset = append ? dupOffset + DUP_PAGE : 0;
 
-  try {
-    const res = await api.post("/profiles/search", {
-      mode: "duplicates",
-      draft_name: {
-        title: name?.title ?? "",
-        first: Array.isArray(name?.first) ? name.first : [],
-        last: Array.isArray(name?.last)
-          ? name.last
-          : name?.last
-          ? String(name.last).split(/\s+/).filter(Boolean)
-          : [],
-        maiden: name?.maiden ?? "",
-        suffix: name?.suffix ?? "",
-      },
-      limit: DUP_PAGE,
-      offset: nextOffset,
-      exclude_profile_ids: myProfileId ? [myProfileId] : [],
-      exclude_tree_refs: myTreeId ? [myTreeId] : [],
-    });
+    try {
+      const res = await api.post("/profiles/search", {
+        mode: "duplicates",
+        draft_name: {
+          title: name?.title ?? "",
+          first: Array.isArray(name?.first) ? name.first : [],
+          last: Array.isArray(name?.last)
+            ? name.last
+            : name?.last
+              ? String(name.last).split(/\s+/).filter(Boolean)
+              : [],
+          maiden: name?.maiden ?? "",
+          suffix: name?.suffix ?? "",
+        },
+        limit: DUP_PAGE,
+        offset: nextOffset,
+        exclude_profile_ids: myProfileId ? [myProfileId] : [],
+        exclude_tree_refs: myTreeId ? [myTreeId] : [],
+      });
 
-    const raw: DuplicateHit[] = res.data?.items || [];
-    const uniq = uniqueById(raw);
+      const raw: DuplicateHit[] = res.data?.items || [];
+      const uniq = uniqueById(raw);
 
-    if (append) {
-      const merged = uniqueById([...dupItems, ...uniq]);
-      setDupItems(merged);
-    } else {
-      setDupItems(uniq);
+      if (append) {
+        const merged = uniqueById([...dupItems, ...uniq]);
+        setDupItems(merged);
+      } else {
+        setDupItems(uniq);
+      }
+
+      setDupOffset(nextOffset);
+      setDupHasMore(!!res.data?.has_more);
+
+      return uniq.length;
+    } catch (e) {
+      notify("Failed to fetch duplicates", "error");
+      return 0;
+    } finally {
+      setDupLoading(false);
     }
-
-    setDupOffset(nextOffset);
-    setDupHasMore(!!res.data?.has_more);
-
-    return uniq.length;
-  } catch (e) {
-    notify("Failed to fetch duplicates", "error");
-    return 0;
-  } finally {
-    setDupLoading(false);
-  }
-};
+  };
   const openDuplicatesThenCreateIfEmpty = async () => {
     const lastExists = Array.isArray(name.last) && name.last.length > 0;
     if (!lastExists) {
@@ -1412,7 +1419,7 @@ const fetchDuplicates = async (append = false): Promise<number> => {
     const input = new Set(inputFirstTokens);
     const hasLooseMatch = (cand: string) =>
       [...input].some(
-        (tok) => tok && (cand.includes(tok) || tok.includes(cand))
+        (tok) => tok && (cand.includes(tok) || tok.includes(cand)),
       );
 
     return (dupFirst: any): number => {
@@ -1504,13 +1511,13 @@ const fetchDuplicates = async (append = false): Promise<number> => {
       }
       try {
         setSearching(true);
-       const r = await api.post("/profiles/search", {
-  mode: "autocomplete",
-  query: q,
-  limit: 20,
-  offset: 0,
-});
-if (alive) setOptions(r.data?.items || []);
+        const r = await api.post("/profiles/search", {
+          mode: "autocomplete",
+          query: q,
+          limit: 20,
+          offset: 0,
+        });
+        if (alive) setOptions(r.data?.items || []);
       } catch {
         if (alive) setOptions([]);
       } finally {
@@ -1615,7 +1622,7 @@ if (alive) setOptions(r.data?.items || []);
           setTimeout(
             () =>
               setQ((prev) => displayLabel({ ...cem } as CemeteryHit) || prev),
-            0
+            0,
           );
         } catch {
           setSelected(null);
@@ -1644,7 +1651,7 @@ if (alive) setOptions(r.data?.items || []);
 
           // prefetch places necunoscute
           const needPlace = Array.from(
-            new Set(arr.map((x) => x.place_id).filter((v): v is string => !!v))
+            new Set(arr.map((x) => x.place_id).filter((v): v is string => !!v)),
           ).filter((pid) => !(pid in places));
 
           if (needPlace.length) {
@@ -1657,7 +1664,7 @@ if (alive) setOptions(r.data?.items || []);
                 } catch {
                   fetched[pid] = null;
                 }
-              })
+              }),
             );
             if (!alive) return;
             setPlaces((prev) => ({ ...prev, ...fetched }));
@@ -1749,7 +1756,7 @@ if (alive) setOptions(r.data?.items || []);
   };
   const updateBurial = (idx: number, patch: Partial<BurialItem>) => {
     setBurials((prev) =>
-      prev.map((b, i) => (i === idx ? { ...b, ...patch } : b))
+      prev.map((b, i) => (i === idx ? { ...b, ...patch } : b)),
     );
   };
   const removeBurial = (idx: number) => {
@@ -1831,7 +1838,7 @@ if (alive) setOptions(r.data?.items || []);
 
       const res = await api.post(
         `/partners/runs/${runId}/profiles/create`,
-        payload
+        payload,
       );
 
       notify(lang === "ro" ? "Profil creat" : "Profile created", "success");
@@ -1846,7 +1853,7 @@ if (alive) setOptions(r.data?.items || []);
           // ⚠️ ajustează prefixul dacă ruta e montată sub /profiles:
           // ex: const UPLOAD_PATH = `/profiles/upload_picture/${encodeURIComponent(treeRef)}`;
           const UPLOAD_PATH = `/profiles/upload_picture/${encodeURIComponent(
-            treeRef
+            treeRef,
           )}`;
 
           const up = await api.post(UPLOAD_PATH, fd, {
@@ -1855,7 +1862,7 @@ if (alive) setOptions(r.data?.items || []);
           // serverul ți-a setat deja picture_url în DB
           notify(
             lang === "ro" ? "Poză încărcată" : "Picture uploaded",
-            "success"
+            "success",
           );
         } catch (e: any) {
           notify(e?.response?.data?.detail || "Upload picture failed", "error");
@@ -1894,7 +1901,7 @@ if (alive) setOptions(r.data?.items || []);
         lang === "ro"
           ? "Nu există fișier în această rundă pentru a-l atașa ca sursă."
           : "No file in this run to attach as source.",
-        "warning"
+        "warning",
       );
       return;
     }
@@ -1904,13 +1911,13 @@ if (alive) setOptions(r.data?.items || []);
         {
           file_id: fileId,
           scope: "name",
-        }
+        },
       );
       notify(
         lang === "ro"
           ? "Sursa a fost atașată la profilul selectat"
           : "Source attached to selected profile",
-        "success"
+        "success",
       );
       resetForm();
       onCreated?.();
@@ -1935,7 +1942,7 @@ if (alive) setOptions(r.data?.items || []);
     const f = dupTreeRefFilter.trim().toLowerCase();
     if (!f) return dupItems;
     return dupItems.filter((it) =>
-      (it.tree_ref || "").toLowerCase().includes(f)
+      (it.tree_ref || "").toLowerCase().includes(f),
     );
   }, [dupItems, dupTreeRefFilter]);
   // ---------- UI ----------
@@ -2209,12 +2216,12 @@ if (alive) setOptions(r.data?.items || []);
             const life = `${formatDateObject(
               option.birth?.date,
               lang,
-              "birth"
+              "birth",
             )} — ${formatDateObject(
               option.death?.date,
               lang,
               "death",
-              option.deceased
+              option.deceased,
             )}`;
             return (
               <li {...props} key={option.id}>
@@ -2330,7 +2337,7 @@ if (alive) setOptions(r.data?.items || []);
               if (relInputRef.current) {
                 relInputRef.current.value = ""; // golește textul vizual
                 relInputRef.current.dispatchEvent(
-                  new Event("input", { bubbles: true })
+                  new Event("input", { bubbles: true }),
                 );
               }
             }}
@@ -2347,7 +2354,7 @@ if (alive) setOptions(r.data?.items || []);
               if (relInputRef.current) {
                 relInputRef.current.value = ""; // golește textul vizual
                 relInputRef.current.dispatchEvent(
-                  new Event("input", { bubbles: true })
+                  new Event("input", { bubbles: true }),
                 );
               }
             }}
@@ -2493,7 +2500,7 @@ if (alive) setOptions(r.data?.items || []);
                         opt.death?.date,
                         "en",
                         "death",
-                        opt.deceased ?? false
+                        opt.deceased ?? false,
                       )}
                     </Typography>
 
@@ -2566,7 +2573,7 @@ if (alive) setOptions(r.data?.items || []);
               <Button
                 size="small"
                 onClick={async () => {
-                await fetchDuplicates(true);
+                  await fetchDuplicates(true);
                 }}
                 disabled={dupLoading}
               >
@@ -2676,7 +2683,7 @@ function CreateEventForSelectedDialog({
         lang === "ro"
           ? "Selectează exact o persoană pentru acest tip."
           : "Select exactly one person for this type.",
-        "warning"
+        "warning",
       );
       return;
     }
@@ -2685,7 +2692,7 @@ function CreateEventForSelectedDialog({
         lang === "ro"
           ? "Selectează exact două persoane pentru acest tip."
           : "Select exactly two people for this type.",
-        "warning"
+        "warning",
       );
       return;
     }
@@ -2698,7 +2705,7 @@ function CreateEventForSelectedDialog({
           ? "Lipsesc tree_ref pentru: "
           : "Missing tree_ref for: ") +
           missingRef.map((p) => p.display_name || p.id).join(", "),
-        "error"
+        "error",
       );
       return;
     }
@@ -2735,7 +2742,7 @@ function CreateEventForSelectedDialog({
     try {
       await api.post(
         `/events/profile/${encodeURIComponent(subject.tree_ref!)}`,
-        base
+        base,
       );
       onCreated();
     } catch (e: any) {
