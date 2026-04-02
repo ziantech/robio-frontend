@@ -43,7 +43,7 @@ import { PlaceHit } from "@/types/geo";
 import { formatPlaceLine } from "@/utils/formatPlace";
 import { useAuth } from "@/context/AuthContext";
 import { formatName } from "@/utils/formatName";
-
+import { useNotify } from "@/context/NotifyContext";
 // harta, încărcată fără SSR
 const TimelineMap = dynamic(() => import("@/components/map/TimelineMap"), {
   ssr: false,
@@ -268,7 +268,7 @@ export default function ProfileTimelinePage() {
   const { profile } = useProfile();
   const { lang } = useLanguage();
   const L = (en: string, ro: string) => (lang === "ro" ? ro : en);
-  const { id: currentUserId } = useAuth();
+  const { id: currentUserId, isAdmin } = useAuth();
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState<EventDTO[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -278,7 +278,8 @@ export default function ProfileTimelinePage() {
   const [sourceTitles, setSourceTitles] = useState<Record<string, string>>({});
   const [tlEvents, setTlEvents] = useState<TimelineEventPublic[]>([]);
   const [descOpen, setDescOpen] = useState(false);
-  const [descFor, setDescFor] = useState<TimelineEventPublic | null>(null);
+  const [descFor, setDescFor] = useState<TimelineEventPublic | null>(null)
+  const notify = useNotify();
   // lookup pentru cimitire (burial -> cemetery_id)
   const [cemLookup, setCemLookup] = useState<
     Record<
@@ -302,10 +303,9 @@ export default function ProfileTimelinePage() {
 
 
 
-  useEffect(() => {
-    if (profile?.owner_id === currentUserId) setCanEdit(true);
-  }, [profile?.owner_id, currentUserId]);
-
+useEffect(() => {
+  setCanEdit(profile?.owner_id === currentUserId || !!isAdmin);
+}, [profile?.owner_id, currentUserId, isAdmin]);
   // load events for profile
   useEffect(() => {
     if (!profile?.id) return;
@@ -869,20 +869,18 @@ export default function ProfileTimelinePage() {
             justifyContent="space-between"
           >
             <Typography variant="h6">{L("Timeline", "Cronologie")}</Typography>
-            {canEdit && (
-              <Tooltip title={L("Add event", "Adaugă eveniment")}>
-                <span>
-                  <IconButton
-                    size="small"
-                    color="primary"
-                    onClick={handleAddEvent}
-                    disabled={!profile?.tree_ref}
-                  >
-                    <AddIcon fontSize="small" />
-                  </IconButton>
-                </span>
-              </Tooltip>
-            )}
+          <Tooltip title={canEdit ? L("Add event", "Adaugă eveniment") : L("Suggest event", "Sugerează eveniment")}>
+  <span>
+    <IconButton
+      size="small"
+      color="primary"
+      onClick={handleAddEvent}
+      disabled={!profile?.tree_ref}
+    >
+      <AddIcon fontSize="small" />
+    </IconButton>
+  </span>
+</Tooltip>
           </Stack>
           {left}
         </Stack>
@@ -906,6 +904,7 @@ export default function ProfileTimelinePage() {
           lang={lang}
           initialEvent={editingEvent}
           existingEvents={events}
+          canEdit={canEdit}
           onSaved={() => {
             setEventDialogOpen(false);
             // cerință: după edit/creare, facem refresh hard
@@ -979,6 +978,7 @@ function AddOrEditEventDialog({
   lang,
   initialEvent,
   existingEvents,
+  canEdit,
   onSaved,
 }: {
   open: boolean;
@@ -987,11 +987,12 @@ function AddOrEditEventDialog({
   lang: "ro" | "en";
   initialEvent: EventDTO | null;
   existingEvents: EventDTO[];
+  canEdit: boolean;
   onSaved: () => void;
 }) {
   const L = (en: string, ro: string) => (lang === "ro" ? ro : en);
   const isEdit = !!initialEvent;
-
+const notify = useNotify();
   const [type, setType] = useState<(typeof ALLOWED_TYPES)[number] | "">(
     (initialEvent?.type as any) || ""
   );
@@ -1127,25 +1128,43 @@ function AddOrEditEventDialog({
     extraPeople,
   ]);
 
-  const handleSubmit = async () => {
-    if (!canSave || saving) return;
+const handleSubmit = async () => {
+  if (!canSave || saving) return;
 
-    try {
-      setSaving(true);
-      if (isEdit && initialEvent) {
-        await api.patch(`/events/${treeRef}/${initialEvent.id}`, payload);
-        onSaved(); // la 200 dăm refresh în părinte
-      } else {
-        await api.post(`/events/profile/${treeRef}`, payload);
-        onSaved();
-      }
-    } catch (e) {
-      console.error("Failed to save event", e);
-    } finally {
-      setSaving(false);
+  try {
+    setSaving(true);
+
+    if (isEdit && initialEvent) {
+      await api.patch(`/events/${treeRef}/${initialEvent.id}`, payload);
+      notify(L("Event updated.", "Eveniment actualizat."), "success");
+      onSaved();
+      return;
     }
-  };
 
+    if (canEdit) {
+      await api.post(`/events/profile/${treeRef}`, payload);
+      notify(L("Event created.", "Eveniment creat."), "success");
+    } else {
+      await api.post("/suggestions/create", {
+        profile_tree_ref: treeRef,
+        type: "event_create",
+        payload,
+        comment: "",
+      });
+      notify(
+        L("Your suggestion has been submitted.", "Sugestia ta a fost trimisă."),
+        "success"
+      );
+    }
+
+    onSaved();
+  } catch (e) {
+    console.error("Failed to save event", e);
+    notify(L("Failed to save event.", "Salvarea evenimentului a eșuat."), "error");
+  } finally {
+    setSaving(false);
+  }
+};
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>

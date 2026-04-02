@@ -243,10 +243,23 @@ const formatFullName = (raw: any): string => {
       family_remove_parent: ["Remove parent", "Șterge părinte"],
       family_remove_spouse: ["Remove spouse/partner", "Șterge soț/partener"],
       family_remove_child: ["Remove child", "Șterge copil"],
+      event_create: ["Create event", "Creează eveniment"],
     };
     return lang === "ro" ? (map[t]?.[1] ?? t) : (map[t]?.[0] ?? t);
   };
-
+const eventTypeLabel = (t?: string): string => {
+  const map: Record<string, [string, string]> = {
+    baptize: ["Baptism", "Botez"],
+    residence: ["Residence", "Domiciliu"],
+    marriage: ["Marriage", "Căsătorie"],
+    divorce: ["Divorce", "Divorț"],
+    retirement: ["Retirement", "Pensionare"],
+    enrollment: ["Enrollment", "Înrolare"],
+    employment: ["Employment", "Angajare"],
+    other: ["Other event", "Alt eveniment"],
+  };
+  return lang === "ro" ? (map[t || ""]?.[1] ?? (t || "—")) : (map[t || ""]?.[0] ?? (t || "—"));
+};
  const placeLabel = (id?: string | null) => {
   if (!id) return "";
   const pl = placeMap[id];
@@ -773,8 +786,152 @@ const afterBurials = normalizeBurial(after.burial!).map((u) =>
     );
   };
 
+  const EventCreatePreview = ({ s }: { s: SuggestionItem }) => {
+  const p = s.payload || {};
+
+  const eventDate =
+    p.date ? formatDateObject(p.date, lang, "event") : "—";
+
+  const eventPlace =
+    p.place_id ? placeLabel(p.place_id) : "—";
+
+  const extraPeopleCount = Array.isArray(p.also_profile_ids)
+    ? p.also_profile_ids.length
+    : 0;
+
+  return (
+    <Card variant="outlined">
+      <CardContent>
+        <Stack spacing={1.25}>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: isSmall ? "1fr" : "180px 1fr",
+              gap: 1,
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="body2" color="text.secondary">
+              {L("Event type", "Tip eveniment")}
+            </Typography>
+            <Chip
+              size="small"
+              color="primary"
+              variant="outlined"
+              label={eventTypeLabel(p.type)}
+              sx={{ width: "fit-content" }}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: isSmall ? "1fr" : "180px 1fr",
+              gap: 1,
+              alignItems: "start",
+            }}
+          >
+            <Typography variant="body2" color="text.secondary">
+              {L("Date", "Data")}
+            </Typography>
+            <Typography variant="body2">{eventDate}</Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: isSmall ? "1fr" : "180px 1fr",
+              gap: 1,
+              alignItems: "start",
+            }}
+          >
+            <Typography variant="body2" color="text.secondary">
+              {L("Place", "Loc")}
+            </Typography>
+            <Typography variant="body2">{eventPlace}</Typography>
+          </Box>
+
+          {(p.title || p.type === "other") && (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: isSmall ? "1fr" : "180px 1fr",
+                gap: 1,
+                alignItems: "start",
+              }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                {L("Title", "Titlu")}
+              </Typography>
+              <Typography variant="body2">{p.title || "—"}</Typography>
+            </Box>
+          )}
+
+          {!!p.details && (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: isSmall ? "1fr" : "180px 1fr",
+                gap: 1,
+                alignItems: "start",
+              }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                {L("Details", "Detalii")}
+              </Typography>
+              <Typography variant="body2" whiteSpace="pre-wrap">
+                {p.details}
+              </Typography>
+            </Box>
+          )}
+
+          {(p.type === "marriage" || p.type === "divorce") && (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: isSmall ? "1fr" : "180px 1fr",
+                gap: 1,
+                alignItems: "start",
+              }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                {L("Spouse profile", "Profil soț/partener")}
+              </Typography>
+              <Typography variant="body2">{p.spouse_id || "—"}</Typography>
+            </Box>
+          )}
+
+          {(p.type === "residence" || p.type === "other") && (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: isSmall ? "1fr" : "180px 1fr",
+                gap: 1,
+                alignItems: "start",
+              }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                {L("Additional people", "Persoane suplimentare")}
+              </Typography>
+              <Typography variant="body2">{extraPeopleCount}</Typography>
+            </Box>
+          )}
+
+          <Box>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+              {L("Sources", "Surse")}
+            </Typography>
+            <SourcesChip sources={Array.isArray(p.sources) ? p.sources : []} />
+          </Box>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+};
+
   // derive which preview to show
   const isFamily = !!active?.type && active.type.startsWith("family_");
+const isEventCreate = active?.type === "event_create";
   
 
   // ================= UI =================
@@ -889,12 +1046,17 @@ const afterBurials = normalizeBurial(after.burial!).map((u) =>
           ) : (
             <Stack spacing={2}>
               {/* câmpuri update: before vs after (diferențele reale) */}
-              {!isFamily && <UpdatePreview s={active} p={currentProfile} />}
+               {!isFamily && !isEventCreate && (
+    <UpdatePreview s={active} p={currentProfile} />
+  )}
 
-              {/* relații familiale — previzualizare */}
-              {isFamily && (
-                <FamilyPreview s={active} p={currentProfile} related={relatedProfile} />
-              )}
+  {isFamily && (
+    <FamilyPreview s={active} p={currentProfile} related={relatedProfile} />
+  )}
+
+  {isEventCreate && (
+    <EventCreatePreview s={active} />
+  )}
 
               {!!active.comment && (
                 <>
