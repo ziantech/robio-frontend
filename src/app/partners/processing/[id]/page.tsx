@@ -160,6 +160,15 @@ type DuplicateHit = {
   score: number;
   personality?: boolean | null;
 };
+
+type CemeteryDTO = {
+  id: string;
+  name?: string | null;
+  place_id?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+};
+
 const TOP_OFFSET = 96; // ~ navbar + spațiu sus; ajustează la nevoie
 type ProfileMini = { id: string; display_name: string; tree_ref?: string };
 
@@ -1932,9 +1941,9 @@ function LeftForm({
     setCemModalOpen(true);
   };
 
-  const handleCemeteryPicked = (cemeteryId: string) => {
+  const handleCemeteryPicked = (cemetery: CemeteryDTO) => {
     if (activeBurialIndexForCem == null) return;
-    updateBurial(activeBurialIndexForCem, { cemetery_id: cemeteryId });
+    updateBurial(activeBurialIndexForCem, { cemetery_id: cemetery.id });
     setCemModalOpen(false);
     setActiveBurialIndexForCem(null);
   };
