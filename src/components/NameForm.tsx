@@ -37,26 +37,30 @@ const NameForm: React.FC<Props> = ({ name, sex, onChange }) => {
       });
     };
 
-  // separatori: spațiu, virgulă, punct, ; : / |
-  const splitTokens = (raw: string) =>
-    raw
-      .split(/[,\.\s;:\/|]+/g)
-      .map((s) => s.trim())
-      .filter(Boolean);
 
-  const addTokensToField = (field: "first" | "last", raw: string) => {
-    const tokens = splitTokens(raw);
-    if (tokens.length === 0) return;
+const splitTokens = (raw: string) =>
+  raw
+    .split(/[;|]+/g)
+    .map((s) => s.trim())
+    .filter(Boolean);
 
-    const current = (name[field] || []) as string[];
-    const next = [...current];
+const addTokensToField = (field: "first" | "last", raw: string) => {
+  const tokens = splitTokens(raw);
+  if (tokens.length === 0) return;
 
-    tokens.forEach((tok) => {
-      if (!next.includes(tok)) next.push(tok);
-    });
+  const current = (name[field] || []) as string[];
+  const next = [...current];
 
-    onChange({ ...name, [field]: next });
-  };
+  tokens.forEach((tok) => {
+    const exists = next.some(
+      (item) => item.trim().toLowerCase() === tok.trim().toLowerCase()
+    );
+
+    if (!exists) next.push(tok);
+  });
+
+  onChange({ ...name, [field]: next });
+};
 
   // Acceptă textul rămas în input la Enter/Tab/Blur
   const acceptPending = (field: "first" | "last") => {

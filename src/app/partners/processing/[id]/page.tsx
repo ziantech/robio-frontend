@@ -2500,7 +2500,7 @@ function LeftForm({
                         opt.death?.date,
                         "en",
                         "death",
-                        opt.deceased ?? false,
+                        opt.deceased!,
                       )}
                     </Typography>
 

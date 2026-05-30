@@ -301,6 +301,40 @@ export default function ProfileTimelinePage() {
     Record<string, PlaceHit | null>
   >({});
 
+  const profileBirthPlaceId = profile?.birth?.place_id
+    ? String(profile.birth.place_id)
+    : null;
+
+  const profileDeathPlaceId = profile?.death?.place_id
+    ? String(profile.death.place_id)
+    : null;
+
+  const getEventPlaceId = (ev: { type?: string; place?: string | null }) => {
+    if (ev?.place) return String(ev.place);
+
+    // Backend-generated birth/death events sometimes arrive without place,
+    // even when the profile has birth.place_id / death.place_id.
+    if (ev?.type === "birth") return profileBirthPlaceId;
+    if (ev?.type === "death") return profileDeathPlaceId;
+
+    return null;
+  };
+
+  const renderPlaceText = (placeId?: string | null) => {
+    if (!placeId) return "—";
+
+    const p = placeLookup[placeId];
+
+    if (p === undefined) return L("Loading place…", "Se încarcă locul…");
+    if (p === null) return L("Unknown place", "Loc necunoscut");
+
+    const { title, subtitle } = formatPlaceLine(p);
+    return (
+      [title, subtitle].filter(Boolean).join(", ") ||
+      L("Unknown place", "Loc necunoscut")
+    );
+  };
+
 
 
 useEffect(() => {
@@ -430,21 +464,24 @@ useEffect(() => {
   }, [events, cemLookup]);
 
   // places (non-burial) -> /places/{place_id}
+  // Includes fallback IDs from profile.birth.place_id / profile.death.place_id
+  // because generated birth/death timeline events can come without ev.place.
   useEffect(() => {
     (async () => {
       const ids = Array.from(
         new Set(
           events
-            .filter(
-              (e) =>
-                e.type !== "burial" && typeof e.place === "string" && e.place
-            )
-            .map((e) => String(e.place))
+            .filter((e) => e.type !== "burial")
+            .map((e) => getEventPlaceId(e))
+            .filter((pid): pid is string => Boolean(pid))
             .filter((pid) => !(pid in placeLookup))
         )
       );
+
       if (!ids.length) return;
+
       const fetched: Record<string, PlaceHit | null> = {};
+
       await Promise.all(
         ids.map(async (pid) => {
           try {
@@ -455,9 +492,10 @@ useEffect(() => {
           }
         })
       );
+
       setPlaceLookup((prev) => ({ ...prev, ...fetched }));
     })();
-  }, [events, placeLookup]);
+  }, [events, placeLookup, profileBirthPlaceId, profileDeathPlaceId]);
 
   useEffect(() => {
     if (!profile?.tree_ref) return;
@@ -521,6 +559,20 @@ useEffect(() => {
     return compareEventsChrono(a, b);  // altfel ordinea cronologică existentă
   });
 }, [events, tlEvents]);
+
+  const eventsForMap = useMemo<EventDTO[]>(() => {
+    return events.map((ev) => {
+      if (ev.type === "birth" && !ev.place && profileBirthPlaceId) {
+        return { ...ev, place: profileBirthPlaceId };
+      }
+
+      if (ev.type === "death" && !ev.place && profileDeathPlaceId) {
+        return { ...ev, place: profileDeathPlaceId };
+      }
+
+      return ev;
+    });
+  }, [events, profileBirthPlaceId, profileDeathPlaceId]);
 
 
   const left = useMemo(() => {
@@ -788,17 +840,7 @@ useEffect(() => {
                       ) : (
                         <>
                           <Typography variant="body2" color="text.secondary">
-                            {(() => {
-                              if (!ev.place) return "—";
-                              const p = placeLookup[String(ev.place)];
-                              if (p === undefined) return String(ev.place);
-                              if (p === null) return String(ev.place);
-                              const { title, subtitle } = formatPlaceLine(p);
-                              return (
-                                [title, subtitle].filter(Boolean).join(", ") ||
-                                String(ev.place)
-                              );
-                            })()}
+                            {renderPlaceText(getEventPlaceId(ev))}
                           </Typography>
                           {(ev.type === "employment" || ev.type === "other") &&
                             ev.details && (
@@ -828,7 +870,7 @@ useEffect(() => {
                             {ev.sources.map((sid) => (
                               <Tooltip key={sid} title={sid}>
                                 <Chip
-                                  label={sourceTitles[sid]}
+                                  label={sourceTitles[sid] || sid}
                                   size="small"
                                   variant="outlined"
                                   onClick={() =>
@@ -853,7 +895,18 @@ useEffect(() => {
         </Stack>
       </Box>
     );
-  }, [events, loading, error, lang, cemLookup, placeLookup, canEdit]);
+  }, [
+    mergedEvents,
+    loading,
+    error,
+    lang,
+    cemLookup,
+    placeLookup,
+    canEdit,
+    sourceTitles,
+    profileBirthPlaceId,
+    profileDeathPlaceId,
+  ]);
 
   return (
     <Box sx={{ p: 2 }}>
@@ -886,7 +939,7 @@ useEffect(() => {
         </Stack>
         <Stack spacing={1.5}>
           <Typography variant="h6">{L("Map", "Hartă")}</Typography>
-          <TimelineMap events={events} lang={lang} height={480} />
+          <TimelineMap events={eventsForMap} lang={lang} height={480} />
           <Typography variant="caption" color="text.secondary">
             {L(
               "Markers appear only for events with a resolvable location.",

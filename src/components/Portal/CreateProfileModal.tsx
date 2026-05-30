@@ -494,7 +494,7 @@ const sortDuplicatesClient = (items: DuplicateHit[]) => {
                   opt.death?.date,
                   lang,
                   "death",
-                  opt.deceased ?? false
+                  opt.deceased!
                 )}
               </Typography>
 

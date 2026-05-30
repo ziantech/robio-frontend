@@ -26,7 +26,7 @@ type CemeteryDTO = {
 interface Props {
   open: boolean;
   onClose: () => void;
-  onCemeteryPicked: (cemeteryId: string) => void;
+  onCemeteryPicked: (cemetery: CemeteryDTO) => void;
 }
 
 export default function CreateCemeteryModal({ open, onClose, onCemeteryPicked }: Props) {
@@ -123,13 +123,12 @@ export default function CreateCemeteryModal({ open, onClose, onCemeteryPicked }:
   };
 
   const handlePickFromSearch = (_: any, v: CemeteryDTO | null) => {
-    setSelected(v);
-    if (v?.id) {
-      onCemeteryPicked(v.id);
-      onClose();
-    }
-  };
-
+  setSelected(v);
+  if (v?.id) {
+    onCemeteryPicked(v);
+    onClose();
+  }
+};
   // create rules
   const hasCoords = lat.trim() !== "" || lng.trim() !== "";
   const coordsValid =
@@ -150,10 +149,9 @@ export default function CreateCemeteryModal({ open, onClose, onCemeteryPicked }:
         latitude: lat.trim() === "" ? undefined : parseFloat(lat),
         longitude: lng.trim() === "" ? undefined : parseFloat(lng),
       };
-      const res = await api.post("/places/cemeteries", payload);
-      const { id } = res.data as { id: string };
-      onCemeteryPicked(id);
-      onClose();
+     const res = await api.post("/places/cemeteries", payload);
+onCemeteryPicked(res.data as CemeteryDTO);
+onClose();
     } catch (e) {
       console.error("create cemetery failed", e);
     } finally {

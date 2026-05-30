@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import {
@@ -265,6 +266,30 @@ const handleDeleteProfile = async () => {
     setDeleting(false);
   }
 };
+
+
+const handleCopyTreeRef = async () => {
+  if (!profile?.tree_ref) return;
+
+  try {
+    await navigator.clipboard.writeText(profile.tree_ref);
+    setCopied(true);
+
+    notify(
+      lang === "ro" ? "Tree Ref copiat." : "Tree Ref copied.",
+      "success"
+    );
+
+    setTimeout(() => setCopied(false), 1500);
+  } catch (e) {
+    console.error("Failed to copy tree ref", e);
+    notify(
+      lang === "ro" ? "Nu s-a putut copia Tree Ref." : "Could not copy Tree Ref.",
+      "error"
+    );
+  }
+};
+
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -585,51 +610,83 @@ const ageText =
                 {ageText && <> ({ageText})</>}
               </span>
             </Typography>
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ display: "flex", flexDirection: "row" }}
-            >
-              Tree Ref: {profile.tree_ref}
-              <Divider
-                orientation="vertical"
-                flexItem
-                sx={{ mx: 1, my: 0.2 }}
-              />
-              <Tooltip
-                title={
-                  isCountLoading
-                    ? lang === "ro"
-                      ? "Se calculează..."
-                      : "Calculating..."
-                    : lang === "ro"
-                    ? "Membri în familie"
-                    : "Family members"
-                }
-              >
-                <Box
-                  sx={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 0.5,
-                  }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/tree.svg"
-                    alt="Tree"
-                    width={20}
-                    height={20}
-                    loading="lazy"
-                    style={{ display: "inline-block", verticalAlign: "middle" }}
-                  />
-                  <Typography variant="caption" color="text.secondary">
-                    {isCountLoading ? "…" : familyCount ?? "—"}
-                  </Typography>
-                </Box>
-              </Tooltip>
-            </Typography>
+          <Typography
+  variant="caption"
+  color="text.secondary"
+  sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+>
+  <Box component="span" sx={{ display: "inline-flex", alignItems: "center" }}>
+    Tree Ref:
+    <Tooltip
+      title={
+        copied
+          ? lang === "ro"
+            ? "Copiat!"
+            : "Copied!"
+          : lang === "ro"
+          ? "Copiază Tree Ref"
+          : "Copy Tree Ref"
+      }
+    >
+      <Button
+        size="small"
+        variant="text"
+        onClick={handleCopyTreeRef}
+        
+        sx={{
+          ml: 0.5,
+          p: 0,
+          minWidth: 0,
+          textTransform: "none",
+          fontSize: "inherit",
+          lineHeight: "inherit",
+          color: "text.secondary",
+          backgroundColor: "transparent",
+          "&:hover": {
+            backgroundColor: "transparent",
+            textDecoration: "underline",
+          },
+        }}
+      >
+        {profile.tree_ref}
+      </Button>
+    </Tooltip>
+  </Box>
 
+  <Divider orientation="vertical" flexItem sx={{ mx: 1, my: 0.2 }} />
+
+  <Tooltip
+    title={
+      isCountLoading
+        ? lang === "ro"
+          ? "Se calculează..."
+          : "Calculating..."
+        : lang === "ro"
+        ? "Membri în familie"
+        : "Family members"
+    }
+  >
+    <Box
+      sx={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 0.5,
+      }}
+    >
+      <img
+        src="/tree.svg"
+        alt="Tree"
+        width={20}
+        height={20}
+        loading="lazy"
+        style={{ display: "inline-block", verticalAlign: "middle" }}
+      />
+      <Typography variant="caption" color="text.secondary">
+        {isCountLoading ? "…" : familyCount ?? "—"}
+      </Typography>
+    </Box>
+  </Tooltip>
+</Typography>
             <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
               {/* View Tree */}
               <Tooltip

@@ -353,21 +353,25 @@ export default function EditBurialModal({
   }, [items, originalBurial]);
 
   // helper de afișare pentru cimitir
-  const renderCemeteryPreview = (cemId?: string | null) => {
-    if (!cemId) return label("None", "Nespecificat");
-    const c = cemPreview[cemId];
-    if (!c) return cemId; // pending / eșuat
-    const name = c?.name || "";
-    const title = c?.place_title || "";
-    const subtitle = c?.place_subtitle || "";
-    if (name && title) return `${name} · ${title}`;
-    if (name && subtitle) return `${name} · ${subtitle}`;
-    if (name) return name;
-    if (title) return title;
-    if (subtitle) return subtitle;
-    return cemId;
-  };
+ const renderCemeteryPreview = (cemId?: string | null) => {
+  if (!cemId) return label("None", "Nespecificat");
 
+  const c = cemPreview[cemId];
+
+  if (!c) return label("Loading cemetery…", "Se încarcă cimitirul…");
+
+  const name = c?.name || "";
+  const title = c?.place_title || "";
+  const subtitle = c?.place_subtitle || "";
+
+  if (name && title) return `${name} · ${title}`;
+  if (name && subtitle) return `${name} · ${subtitle}`;
+  if (name) return name;
+  if (title) return title;
+  if (subtitle) return subtitle;
+
+  return label("Unknown cemetery", "Cimitir necunoscut");
+};
   return (
     <>
       <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
@@ -610,50 +614,43 @@ export default function EditBurialModal({
           setCemModalOpen(false);
           setActiveIndexForCem(null);
         }}
-        onCemeteryPicked={async (id) => {
-          if (activeIndexForCem == null) return;
+      onCemeteryPicked={async (cem) => {
+  if (activeIndexForCem == null || !cem?.id) return;
 
-          // setează pe item
-          setItem(activeIndexForCem, (prev) => ({
-            ...prev,
-            cemetery: id ? { cemetery_id: id } : undefined,
-          }));
+  const id = cem.id;
 
-          // adu detaliile pentru preview (nume + place)
-          try {
-            const rCem = await api.get(`/cemeteries/${id}`);
-            const cem = rCem.data as CemeteryDTO;
+  setItem(activeIndexForCem, (prev) => ({
+    ...prev,
+    cemetery: { cemetery_id: id },
+  }));
 
-            let place_title: string | undefined;
-            let place_subtitle: string | undefined;
+  let place_title: string | undefined;
+  let place_subtitle: string | undefined;
 
-            if (cem?.place_id) {
-              try {
-                const rPlace = await api.get(`/places/${cem.place_id}`);
-                const line = formatPlaceLine(rPlace.data);
-                place_title = line.title || undefined;
-                place_subtitle = line.subtitle || undefined;
-              } catch {
-                // ignore
-              }
-            }
+  if (cem?.place_id) {
+    try {
+      const rPlace = await api.get(`/places/${cem.place_id}`);
+      const line = formatPlaceLine(rPlace.data);
+      place_title = line.title || undefined;
+      place_subtitle = line.subtitle || undefined;
+    } catch {
+      // ignore place fetch errors
+    }
+  }
 
-            setCemPreview((prev) => ({
-              ...prev,
-              [id]: {
-                name: cem?.name ?? null,
-                place_id: cem?.place_id ?? null,
-                place_title,
-                place_subtitle,
-              },
-            }));
-          } catch {
-            // fallback: lăsăm id-ul
-          }
+  setCemPreview((prev) => ({
+    ...prev,
+    [id]: {
+      name: cem?.name ?? null,
+      place_id: cem?.place_id ?? null,
+      place_title,
+      place_subtitle,
+    },
+  }));
 
-          setCemModalOpen(false);
-          setActiveIndexForCem(null);
-        }}
+  setCemModalOpen(false);
+  setActiveIndexForCem(null);
+}}
       />
     </>
   );

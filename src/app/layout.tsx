@@ -2,11 +2,10 @@ import "./globals.css";
 import "leaflet/dist/leaflet.css";
 import ThemeRegistry from "@/components/ThemeRegistry";
 import { AuthProvider } from "@/context/AuthContext";
-import { LanguageProvider } from "@/context/LanguageContext"; // ✅ import your context
+import { LanguageProvider } from "@/context/LanguageContext";
 import { NotifyProvider } from "@/context/NotifyContext";
 import { ProfileProvider } from "@/context/ProfileContext";
-
-
+import { UploadsProvider } from "@/context/UploadContext";
 
 export const metadata = {
   title: "RoBio",
@@ -24,11 +23,11 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <LanguageProvider>
-            {" "}
-            {/* ✅ Wrap here */}
             <NotifyProvider>
               <ProfileProvider>
-                <ThemeRegistry>{children}</ThemeRegistry>
+                <UploadsProvider>
+                  <ThemeRegistry>{children}</ThemeRegistry>
+                </UploadsProvider>
               </ProfileProvider>
             </NotifyProvider>
           </LanguageProvider>

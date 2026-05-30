@@ -1,4 +1,3 @@
-
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
@@ -64,13 +63,18 @@ export type NodeIn = {
   tags?: string[];
   owner_id?: string | null;
   deceased?: boolean;
+  ethnicity?: {
+    ethnicity_id?: string | null;
+    name_en?: string | null;
+    name_ro?: string | null;
+    flag_url?: string | null;
+  } | null;
 };
-
 
 const coerceNameArrays = (n: NameObject | undefined | null) => ({
   title: n?.title ?? "",
-  first: Array.isArray(n?.first) ? n!.first : (n?.first ? [String(n.first)] : []),
-  last: Array.isArray(n?.last) ? n!.last : (n?.last ? [String(n.last)] : []),
+  first: Array.isArray(n?.first) ? n!.first : n?.first ? [String(n.first)] : [],
+  last: Array.isArray(n?.last) ? n!.last : n?.last ? [String(n.last)] : [],
   maiden: n?.maiden ?? "",
   suffix: n?.suffix ?? "",
 });
@@ -80,13 +84,15 @@ const toLabel = (n: string | NameObject, lang: "ro" | "en"): string => {
   if (n?.display && typeof n.display === "string") return n.display;
 
   // folosim formatName (maiden cu etichetă "born/născută", fără virgulă înainte de sufix)
-  const label = formatName(coerceNameArrays(n), { lang, maidenStyle: "label" }).trim();
+  const label = formatName(coerceNameArrays(n), {
+    lang,
+    maidenStyle: "label",
+  }).trim();
   return label || "N/A";
 };
 
 const isPlaceholderParentId = (id?: string | null) =>
   typeof id === "string" && id.startsWith("VP__");
-
 
 export default function FamilyTreePage() {
   const { tree_ref } = useParams<{ tree_ref: string }>();
@@ -98,14 +104,16 @@ export default function FamilyTreePage() {
   const [up, setUp] = useState<number>(Number(search.get("up")) || 5);
   const [down, setDown] = useState<number>(Number(search.get("down")) || 3);
   const [maxNodes, setMaxNodes] = useState<number>(
-    Number(search.get("max_nodes")) || 2500
+    Number(search.get("max_nodes")) || 2500,
   );
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [data, setData] = useState<
-    { root_id: string; nodes: NodeIn[]; meta?: any } | null
-  >(null);
+  const [data, setData] = useState<{
+    root_id: string;
+    nodes: NodeIn[];
+    meta?: any;
+  } | null>(null);
 
   const ftOwners = useMemo(() => {
     const m: Record<string, string | null> = {};
@@ -119,14 +127,12 @@ export default function FamilyTreePage() {
     mode?: "add_parent" | "add_spouse" | "add_child";
   }>({ open: false });
 
-
-  
   const canEditNode = (id: string) =>
     !!currentUserId && ftOwners[id] === currentUserId;
 
   const openRel = (
     mode: "add_parent" | "add_spouse" | "add_child",
-    subject: string
+    subject: string,
   ) => setRelModal({ open: true, mode, subject });
 
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -173,7 +179,9 @@ export default function FamilyTreePage() {
           return {
             ...prev,
             nodes: prev.nodes.map((n) =>
-             (n.profile_ref === ref || n.id === ref) ? { ...n, picture_url: newUrl } : n
+              n.profile_ref === ref || n.id === ref
+                ? { ...n, picture_url: newUrl }
+                : n,
             ),
           } as any;
         });
@@ -199,7 +207,7 @@ export default function FamilyTreePage() {
           params: { up, down, max_nodes: maxNodes },
           signal: ctrl.signal as any,
         });
-       
+
         if (!cancelled) setData(res.data);
       } catch (e: any) {
         if (!cancelled && e?.name !== "CanceledError")
@@ -218,38 +226,43 @@ export default function FamilyTreePage() {
   }, [tree_ref, up, down, maxNodes]);
 
   const occCounts = useMemo(() => {
-  const m = new Map<string, number>();
-  for (const n of data?.nodes ?? []) {
-    const ref = n.profile_ref || String(n.id);
-    m.set(ref, (m.get(ref) || 0) + 1);
-  }
-  return m;
-}, [data]);
+    const m = new Map<string, number>();
+    for (const n of data?.nodes ?? []) {
+      const ref = n.profile_ref || String(n.id);
+      m.set(ref, (m.get(ref) || 0) + 1);
+    }
+    return m;
+  }, [data]);
 
   const ftNodes = useMemo(() => {
     if (!data?.nodes) return [] as any[];
     const rootId = data.root_id;
     return data.nodes.map((n) => {
-    const ref = n.profile_ref || String(n.id);
-    const occ = occCounts.get(ref) ?? 1;
-    const badge_text = occ > 1 ? String(occ) : "";
-    const badge_display = occ > 1 ? "block" : "none";
+      const ref = n.profile_ref || String(n.id);
+      const occ = occCounts.get(ref) ?? 1;
+      const badge_text = occ > 1 ? String(occ) : "";
+      const badge_display = occ > 1 ? "block" : "none";
 
-    const badge_tip =
-      occ > 1
-        ? (lang === "ro"
+      const badge_tip =
+        occ > 1
+          ? lang === "ro"
             ? `Apariții: ${occ}. Click pentru a sări între ele.`
-            : `Appears ${occ} times. Click to hop between them.`)
-        : "";
+            : `Appears ${occ} times. Click to hop between them.`
+          : "";
       const g =
         n?.sex?.value === "male"
           ? "male"
           : n?.sex?.value === "female"
-          ? "female"
-          : "unknown";
+            ? "female"
+            : "unknown";
       const tags = new Set<string>(n.tags ?? []);
       tags.add(g);
       if (n.id === rootId) tags.add("root");
+
+      const flag_url = n.ethnicity?.flag_url || "";
+      const flag_display = flag_url ? "block" : "none";
+      const flag_title =
+        lang === "ro" ? n.ethnicity?.name_ro || "" : n.ethnicity?.name_en || "";
 
       const life = [
         formatDateObject?.(n.birth ? n.birth.date : null, lang, "birth"),
@@ -257,78 +270,79 @@ export default function FamilyTreePage() {
           n.death ? n.death.date : null,
           lang,
           "death",
-          n.deceased
+          n.deceased,
         ),
       ]
         .filter(Boolean)
         .join(" – ");
 
       return {
-        id: String(n.id),                 
-      ref,  
+        id: String(n.id),
+        ref,
         mid: (n as any).mid,
         fid: (n as any).fid,
         pids: n.pids,
         name: toLabel(n.name, lang),
         img: n.picture_url || undefined,
         life,
+        flag_url,
+        flag_display,
+        flag_title,
         tags: Array.from(tags),
-         badge_text,
-          badge_display,
-          badge_tip,
-         owner_id: n.owner_id ?? null,
+        badge_text,
+        badge_display,
+        badge_tip,
+        owner_id: n.owner_id ?? null,
       } as any;
     });
   }, [data, lang]);
 
-const idToRef = useMemo(() => {
-  const m: Record<string, string> = {};
-  for (const n of ftNodes) m[n.id] = (n as any).ref || n.id;
-  return m;
-}, [ftNodes]);
+  const idToRef = useMemo(() => {
+    const m: Record<string, string> = {};
+    for (const n of ftNodes) m[n.id] = (n as any).ref || n.id;
+    return m;
+  }, [ftNodes]);
 
-const ftNodeById = useMemo(() => {
-  const m: Record<string, any> = {};
-  for (const n of ftNodes) m[n.id] = n;
-  return m;
-}, [ftNodes]);
+  const ftNodeById = useMemo(() => {
+    const m: Record<string, any> = {};
+    for (const n of ftNodes) m[n.id] = n;
+    return m;
+  }, [ftNodes]);
 
-const getRealParentsCount = React.useCallback(
-  (nodeId: string) => {
-    const node = ftNodeById[nodeId];
-    if (!node) return 0;
+  const getRealParentsCount = React.useCallback(
+    (nodeId: string) => {
+      const node = ftNodeById[nodeId];
+      if (!node) return 0;
 
-    return [node.mid, node.fid].filter(
-      (pid) => pid && !isPlaceholderParentId(String(pid))
-    ).length;
-  },
-  [ftNodeById]
-);
+      return [node.mid, node.fid].filter(
+        (pid) => pid && !isPlaceholderParentId(String(pid)),
+      ).length;
+    },
+    [ftNodeById],
+  );
 
-// 2) owners by canonical ref (nu pe id-ul nodului, ca aliasurile au id-uri diferite)
-// const ownersByRef = useMemo(() => {
-//   const m: Record<string, string | null> = {};
-//   for (const n of data?.nodes ?? []) {
-//     const ref = (n as any).profile_ref || String(n.id);
-//     m[ref] = n.owner_id ?? null;
-//   }
-//   return m;
-// }, [data]);
+  // 2) owners by canonical ref (nu pe id-ul nodului, ca aliasurile au id-uri diferite)
+  // const ownersByRef = useMemo(() => {
+  //   const m: Record<string, string | null> = {};
+  //   for (const n of data?.nodes ?? []) {
+  //     const ref = (n as any).profile_ref || String(n.id);
+  //     m[ref] = n.owner_id ?? null;
+  //   }
+  //   return m;
+  // }, [data]);
   const appearancesMap = useMemo(() => {
-  const m: Record<string, string[]> = {};
-  for (const nn of ftNodes) {
-    const r = (nn as any).ref;
-    if (!m[r]) m[r] = [];
-    m[r].push(nn.id);
-  }
-  // ordonare stabilă, dacă vrei
-  for (const k of Object.keys(m)) m[k] = Array.from(new Set(m[k]));
-  return m;
-}, [ftNodes]);
+    const m: Record<string, string[]> = {};
+    for (const nn of ftNodes) {
+      const r = (nn as any).ref;
+      if (!m[r]) m[r] = [];
+      m[r].push(nn.id);
+    }
+    // ordonare stabilă, dacă vrei
+    for (const k of Object.keys(m)) m[k] = Array.from(new Set(m[k]));
+    return m;
+  }, [ftNodes]);
 
-
-const hopIdxRef = useRef<Record<string, number>>({});
-
+  const hopIdxRef = useRef<Record<string, number>>({});
 
   // Linii vizibile
   useEffect(() => {
@@ -352,68 +366,119 @@ const hopIdxRef = useRef<Record<string, number>>({});
 
   // Templates (design-ul tău, neschimbat)
   useEffect(() => {
-    const W = 300, H = 140, PAD = 10, IMG = 56;
-    const TEXT_X = PAD + IMG + 8, NAME_WIDTH = W - TEXT_X - PAD;
+  const W = 315;
+const H = 136;
+const PAD = 10;
+const IMG = 58;
+
+const TEXT_X = PAD + IMG + 12;
+const TEXT_WIDTH = W - TEXT_X - PAD - 8;
+
+const FLAG_W = 30;
+const FLAG_H = 19;
+const FLAG_X = PAD + Math.round((IMG - FLAG_W) / 2);
+const FLAG_Y = PAD + IMG + 10;
+
+const MENU_X = W - PAD - 24;
+const MENU_Y = H - PAD - 12;
 
     const base = (src: any, stroke: string) => {
       const t = Object.assign({}, src);
       t.size = [W, H];
       t.node = `
-  <rect x="0" y="0" height="{h}" width="{w}" rx="12" ry="12" fill="#ffffff" stroke="${stroke}" stroke-width="2"></rect>
+  <rect x="0" y="0" height="{h}" width="{w}" rx="16" ry="16"
+        fill="#ffffff" stroke="${stroke}" stroke-width="2"></rect>
+
+  <rect x="1.5" y="1.5" height="{h}" width="{w}" rx="16" ry="16"
+        fill="none" stroke="rgba(15,23,42,0.06)" stroke-width="1"></rect>
+
   <rect data-ctrl-node-id="{id}" x="-1" y="-1" width="1" height="1" fill="transparent"></rect>`;
-      t.img_0 = `
+     t.img_0 = `
 <g data-node-id="{id}" data-avatar="1" style="cursor:pointer">
   <clipPath id="img_clip_{id}">
-    <rect x="${PAD}" y="${PAD}" rx="8" ry="8" height="${IMG}" width="${IMG}"></rect>
+    <rect x="${PAD}" y="${PAD}" rx="10" ry="10" height="${IMG}" width="${IMG}"></rect>
   </clipPath>
-  <image preserveAspectRatio="xMidYMid slice" clip-path="url(#img_clip_{id})"
-         xlink:href="{val}" x="${PAD}" y="${PAD}" height="${IMG}" width="${IMG}"
+
+  <image preserveAspectRatio="xMidYMid slice"
+         clip-path="url(#img_clip_{id})"
+         xlink:href="{val}"
+         x="${PAD}"
+         y="${PAD}"
+         height="${IMG}"
+         width="${IMG}"
          style="pointer-events:none"></image>
+
   <rect x="${PAD}" y="${PAD}" width="${IMG}" height="${IMG}"
         fill="#000" fill-opacity="0.001" pointer-events="all" data-avatar-hit="1"></rect>
 </g>`;
-      t.field_0 = `<text class="field_0" data-text-overflow="multiline" data-width="${NAME_WIDTH}"
-             style="font-size:13px;font-weight:600;line-height:1.2;"
-             x="${TEXT_X}" y="${PAD + 20}" text-anchor="start">{val}</text>`
-             
-       t.field_1 = `<text class="field_1" data-text-overflow="multiline" data-width="${NAME_WIDTH}"
-              style="font-size:11px;opacity:.75"
-             x="${TEXT_X}" y="${PAD + 64}" text-anchor="start">{val}</text>`;
-         
-            // field_2 = grupul badge-ului; {val} controlează vizibilitatea (block/none)
-   t.field_2 = `
-<g class="occ_badge"
-   data-tip="{val}"
-   title="{val}"
-   aria-label="{val}"
-   transform="translate(${TEXT_X}, ${PAD + 88})"
-   style="cursor:pointer">
-  <image xlink:href="/tree-multiple.svg" x="0" y="-12" width="44" height="24"></image>
-  <!-- strat de hit pentru click -->
-  <rect class="occ_badge" x="0" y="-12" width="44" height="24" fill="transparent"></rect>
+
+   t.field_0 = `
+<text class="field_0"
+      data-text-overflow="multiline"
+      data-width="${TEXT_WIDTH}"
+      style="font-size:13px;font-weight:700;fill:#111827;line-height:1.15;"
+      x="${TEXT_X}"
+      y="${PAD + 18}"
+      text-anchor="start">{val}</text>`;
+
+t.field_1 = `
+<text class="field_1"
+      data-text-overflow="multiline"
+      data-width="${TEXT_WIDTH}"
+      style="font-size:11px;font-weight:500;fill:#6B7280;line-height:1.15;"
+      x="${TEXT_X}"
+      y="${PAD + 61}"
+      text-anchor="start">{val}</text>`;
+
+  t.field_4 = `
+<g class="ethnicity_flag"
+   transform="translate(${FLAG_X}, ${FLAG_Y})"
+   style="display:{val};">
+  <rect x="0" y="0" width="${FLAG_W}" height="${FLAG_H}" rx="4" ry="4"
+        fill="#ffffff" stroke="#E5E7EB" stroke-width="1"></rect>
 </g>`;
 
-      // field_3 = numărul centrat peste SVG (pointer-events off ca să ia click grupul)
-      t.field_3 = `<text class="occ_badge"
-        x="${TEXT_X + 32}" y="${PAD + 89}"
-        text-anchor="middle" dominant-baseline="middle"
-        style="font-size:12px;font-weight:700;fill:#065F46;pointer-events:none">{val}</text>`;       
-
-      t.nodeMenuButton = `<g style="cursor:pointer;" transform="matrix(1,0,0,1,${W - PAD - 20},${H - PAD - 18})" data-ctrl-n-menu-id="{id}">
-         <rect x="-4" y="-10" fill="#000000" fill-opacity="0" width="22" height="22"></rect>
-         <circle cx="0"  cy="0" r="1.8" fill="#6B7280"></circle>
-         <circle cx="6"  cy="0" r="1.8" fill="#6B7280"></circle>
-         <circle cx="12" cy="0" r="1.8" fill="#6B7280"></circle>
-       </g>`;
+t.field_5 = `
+<image class="ethnicity_flag"
+       xlink:href="{val}"
+       x="${FLAG_X + 1}"
+       y="${FLAG_Y + 1}"
+       width="${FLAG_W - 2}"
+       height="${FLAG_H - 2}"
+       preserveAspectRatio="xMidYMid slice"></image>`;
+      
+   t.nodeMenuButton = `
+<g style="cursor:pointer;"
+   transform="matrix(1,0,0,1,${MENU_X},${MENU_Y})"
+   data-ctrl-n-menu-id="{id}">
+  <rect x="-6" y="-10" fill="#000000" fill-opacity="0" width="30" height="24"></rect>
+  <circle cx="0"  cy="0" r="2" fill="#6B7280"></circle>
+  <circle cx="7"  cy="0" r="2" fill="#6B7280"></circle>
+  <circle cx="14" cy="0" r="2" fill="#6B7280"></circle>
+</g>`;
       t.ripple = { radius: 0 };
       return t;
     };
 
-    (FamilyTree as any).templates.z_male = base((FamilyTree as any).templates.tommy, "#3B82F6");
-    (FamilyTree as any).templates.z_female = base((FamilyTree as any).templates.tommy, "#EC4899");
-    (FamilyTree as any).templates.z_unknown = base((FamilyTree as any).templates.tommy, "#9CA3AF");
-    (FamilyTree as any).templates.z_root = base((FamilyTree as any).templates.tommy, "#10B981");
-    (FamilyTree as any).templates.z_alias = (FamilyTree as any).templates.z_unknown;
+    (FamilyTree as any).templates.z_male = base(
+      (FamilyTree as any).templates.tommy,
+      "#3B82F6",
+    );
+    (FamilyTree as any).templates.z_female = base(
+      (FamilyTree as any).templates.tommy,
+      "#EC4899",
+    );
+    (FamilyTree as any).templates.z_unknown = base(
+      (FamilyTree as any).templates.tommy,
+      "#9CA3AF",
+    );
+    (FamilyTree as any).templates.z_root = base(
+      (FamilyTree as any).templates.tommy,
+      "#10B981",
+    );
+    (FamilyTree as any).templates.z_alias = (
+      FamilyTree as any
+    ).templates.z_unknown;
   }, []);
 
   useEffect(() => {
@@ -422,7 +487,9 @@ const hopIdxRef = useRef<Record<string, number>>({});
 
     // cleanup
     if (instanceRef.current) {
-      try { instanceRef.current.destroy?.(); } catch {}
+      try {
+        instanceRef.current.destroy?.();
+      } catch {}
       instanceRef.current = null;
       el.innerHTML = "";
     }
@@ -437,7 +504,15 @@ const hopIdxRef = useRef<Record<string, number>>({});
       miniMap: false,
       lazyLoading: false,
       nodeMouseClick: (FamilyTree as any).action.menu,
-       nodeBinding: { field_0: "name", field_1: "life", img_0: "img", field_2: "badge_tip", field_3: "badge_text" },
+     nodeBinding: {
+  field_0: "name",
+  field_1: "life",
+  img_0: "img",
+  field_2: "badge_tip",
+  field_3: "badge_text",
+  field_4: "flag_display",
+  field_5: "flag_url",
+},
       tags: {
         male: { template: "z_male" },
         female: { template: "z_female" },
@@ -446,71 +521,81 @@ const hopIdxRef = useRef<Record<string, number>>({});
         alias: { template: "z_alias" },
       },
       // FamilyTree știe slinks în config; îl păstrăm + fallback mai jos
-      
-      nodeMenu: { 
-    view_profile: { 
-        text: lang === "ro" ? "Vezi profil" : "View profile", 
-        icon: (FamilyTree as any).icon.add?.(18, 18, "#6B7280"), 
-        onClick: (id: string) => {
-          const ref = idToRef[id] || id;                                // <—
-      window.open(`/portal/profile/${ref}`, "_blank");
-        }, 
-    }, 
-    add_spouse: { 
-        text: lang === "ro" ? "Adaugă soț/partener" : "Add spouse/partner", 
-        icon: (FamilyTree as any).icon.add?.(18, 18, "#2563EB"), 
-        disabled: (id: string) => !canEditNode(id), 
-        tooltip: (id: string) => !canEditNode(id) ? lang === "ro" ? "Doar proprietarul acestui profil poate edita" : "Only this profile's owner can edit" : undefined, 
-        onClick: (id: string) => {
-          if (!canEditNode(id)) return;
-          const n = (family as any).getNode?.(id);
-          const ref = n?.ref || id;
-          openRel("add_spouse", ref);
-        }, 
-    }, 
-    add_child: { 
-        text: lang === "ro" ? "Adaugă copil" : "Add child", 
-        icon: (FamilyTree as any).icon.add?.(18, 18, "#2563EB"), 
-        disabled: (id: string) => !canEditNode(id), 
-        tooltip: (id: string) => !canEditNode(id) ? lang === "ro" ? "Doar proprietarul acestui profil poate edita" : "Only this profile's owner can edit" : undefined, 
-         onClick: (id: string) => {
-    if (!canEditNode(id)) return;
-    const n = (family as any).getNode?.(id);
-    const ref = n?.ref || id;
-    openRel("add_child", ref);
-  }
-    }, 
-   add_parent: {
-  text: lang === "ro" ? "Adaugă părinte" : "Add parent",
-  icon: (FamilyTree as any).icon.add?.(18, 18, "#2563EB"),
-  onClick: (id: string) => {
-    const n = ftNodeById[id] || (family as any).getNode?.(id);
 
-    if (!canEditNode(id)) {
-      alert(
-        lang === "ro"
-          ? "Doar proprietarul acestui profil poate edita."
-          : "Only this profile's owner can edit."
-      );
-      return;
-    }
+      nodeMenu: {
+        view_profile: {
+          text: lang === "ro" ? "Vezi profil" : "View profile",
+          icon: (FamilyTree as any).icon.add?.(18, 18, "#6B7280"),
+          onClick: (id: string) => {
+            const ref = idToRef[id] || id; // <—
+            window.open(`/portal/profile/${ref}`, "_blank");
+          },
+        },
+        add_spouse: {
+          text: lang === "ro" ? "Adaugă soț/partener" : "Add spouse/partner",
+          icon: (FamilyTree as any).icon.add?.(18, 18, "#2563EB"),
+          disabled: (id: string) => !canEditNode(id),
+          tooltip: (id: string) =>
+            !canEditNode(id)
+              ? lang === "ro"
+                ? "Doar proprietarul acestui profil poate edita"
+                : "Only this profile's owner can edit"
+              : undefined,
+          onClick: (id: string) => {
+            if (!canEditNode(id)) return;
+            const n = (family as any).getNode?.(id);
+            const ref = n?.ref || id;
+            openRel("add_spouse", ref);
+          },
+        },
+        add_child: {
+          text: lang === "ro" ? "Adaugă copil" : "Add child",
+          icon: (FamilyTree as any).icon.add?.(18, 18, "#2563EB"),
+          disabled: (id: string) => !canEditNode(id),
+          tooltip: (id: string) =>
+            !canEditNode(id)
+              ? lang === "ro"
+                ? "Doar proprietarul acestui profil poate edita"
+                : "Only this profile's owner can edit"
+              : undefined,
+          onClick: (id: string) => {
+            if (!canEditNode(id)) return;
+            const n = (family as any).getNode?.(id);
+            const ref = n?.ref || id;
+            openRel("add_child", ref);
+          },
+        },
+        add_parent: {
+          text: lang === "ro" ? "Adaugă părinte" : "Add parent",
+          icon: (FamilyTree as any).icon.add?.(18, 18, "#2563EB"),
+          onClick: (id: string) => {
+            const n = ftNodeById[id] || (family as any).getNode?.(id);
 
-    const realParentsCount = getRealParentsCount(id);
+            if (!canEditNode(id)) {
+              alert(
+                lang === "ro"
+                  ? "Doar proprietarul acestui profil poate edita."
+                  : "Only this profile's owner can edit.",
+              );
+              return;
+            }
 
-    if (realParentsCount >= 2) {
-      alert(
-        lang === "ro"
-          ? "Profilul are deja doi părinți reali."
-          : "This profile already has two real parents."
-      );
-      return;
-    }
+            const realParentsCount = getRealParentsCount(id);
 
-    const ref = n?.ref || idToRef[id] || id;
-    openRel("add_parent", ref);
-  },
-},
-},
+            if (realParentsCount >= 2) {
+              alert(
+                lang === "ro"
+                  ? "Profilul are deja doi părinți reali."
+                  : "This profile already has two real parents.",
+              );
+              return;
+            }
+
+            const ref = n?.ref || idToRef[id] || id;
+            openRel("add_parent", ref);
+          },
+        },
+      },
       nodes: ftNodes,
     };
 
@@ -536,52 +621,61 @@ const hopIdxRef = useRef<Record<string, number>>({});
     });
 
     // Avatar -> upload
-  family.on("click", (_sender: any, args: any) => {
-  const targetEl = args?.event?.target as Element | null;
-  if (!targetEl) return;
+    family.on("click", (_sender: any, args: any) => {
+      const targetEl = args?.event?.target as Element | null;
+      if (!targetEl) return;
 
-  // 1) Avatar upload (păstrăm logica ta)
-  const nodeId = args?.node?.id as string | undefined;
-  if (!nodeId) return;
+      // 1) Avatar upload (păstrăm logica ta)
+      const nodeId = args?.node?.id as string | undefined;
+      if (!nodeId) return;
 
-  const hitAvatar = targetEl.closest('[data-avatar="1"], [data-avatar-hit="1"]');
-  if (hitAvatar) {
-    if (!canEditNode(nodeId)) return;
-    args.event?.preventDefault?.();
-    args.event?.stopPropagation?.();
+      const hitAvatar = targetEl.closest(
+        '[data-avatar="1"], [data-avatar-hit="1"]',
+      );
+      if (hitAvatar) {
+        if (!canEditNode(nodeId)) return;
+        args.event?.preventDefault?.();
+        args.event?.stopPropagation?.();
 
-    const n = (family as any).getNode?.(nodeId);
-    const ref = n?.ref || nodeId;                  // <— folosim profile_ref pentru upload
-    uploadForRef.current = ref;
-    fileRef.current?.click();
-    return;
-  }
+        const n = (family as any).getNode?.(nodeId);
+        const ref = n?.ref || nodeId; // <— folosim profile_ref pentru upload
+        uploadForRef.current = ref;
+        fileRef.current?.click();
+        return;
+      }
 
-  // 2) Badge ×N -> center următoarea apariție
-  const hitBadge = targetEl.closest('.occ_badge');
-  if (hitBadge) {
-    const n = (family as any).getNode?.(nodeId);
-    const ref = n?.ref || nodeId;
-    const list = appearancesMap[ref] || [nodeId];
-    if (list.length <= 1) return;
+      // 2) Badge ×N -> center următoarea apariție
+      const hitBadge = targetEl.closest(".occ_badge");
+      if (hitBadge) {
+        const n = (family as any).getNode?.(nodeId);
+        const ref = n?.ref || nodeId;
+        const list = appearancesMap[ref] || [nodeId];
+        if (list.length <= 1) return;
 
-    const idx = (hopIdxRef.current[ref] = ((hopIdxRef.current[ref] ?? -1) + 1) % list.length);
-    const pick = list[idx];
-    try { instanceRef.current?.center?.(pick, { padding: 60 }); } catch {}
-    return;
-  }
-});
+        const idx = (hopIdxRef.current[ref] =
+          ((hopIdxRef.current[ref] ?? -1) + 1) % list.length);
+        const pick = list[idx];
+        try {
+          instanceRef.current?.center?.(pick, { padding: 60 });
+        } catch {}
+        return;
+      }
+    });
 
     instanceRef.current = family;
     return () => {
-      try { family.destroy?.(); } catch {}
+      try {
+        family.destroy?.();
+      } catch {}
       instanceRef.current = null;
       if (el) el.innerHTML = "";
     };
   }, [ftNodes, data]);
 
   const centerOn = React.useCallback((id: string) => {
-    try { instanceRef.current?.center?.(id, { padding: 60 }); } catch {}
+    try {
+      instanceRef.current?.center?.(id, { padding: 60 });
+    } catch {}
   }, []);
 
   return (
@@ -599,7 +693,10 @@ const hopIdxRef = useRef<Record<string, number>>({});
       >
         <Toolbar variant="dense" sx={{ minHeight: 56, gap: 1 }}>
           <Stack direction="row" alignItems="center" sx={{ mr: 1 }}>
-            <AccountTreeIcon fontSize="small" sx={{ mr: 1, color: "text.secondary" }} />
+            <AccountTreeIcon
+              fontSize="small"
+              sx={{ mr: 1, color: "text.secondary" }}
+            />
             <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
               Arbore genealogic
             </Typography>
@@ -617,7 +714,11 @@ const hopIdxRef = useRef<Record<string, number>>({});
           <PerformanceControl
             maxNodes={maxNodes}
             setMaxNodes={setMaxNodes}
-            onReset={() => { setUp(12); setDown(6); setMaxNodes(2500); }}
+            onReset={() => {
+              setUp(12);
+              setDown(6);
+              setMaxNodes(2500);
+            }}
           />
 
           <Box sx={{ flex: 1 }} />
@@ -628,22 +729,35 @@ const hopIdxRef = useRef<Record<string, number>>({});
               color="primary"
               onClick={() => shareTree(up, down, maxNodes)}
               size="small"
-              sx={{ border: "1px solid", borderColor: "divider", bgcolor: "background.paper", mr: 0.5 }}
+              sx={{
+                border: "1px solid",
+                borderColor: "divider",
+                bgcolor: "background.paper",
+                mr: 0.5,
+              }}
             >
               <IosShareIcon fontSize="small" />
             </IconButton>
           </Tooltip>
-    
         </Toolbar>
       </AppBar>
 
-      {loading && <div className="p-4 text-sm text-gray-600">Se încarcă arborele…</div>}
+      {loading && (
+        <div className="p-4 text-sm text-gray-600">Se încarcă arborele…</div>
+      )}
       {error && <div className="p-4 text-sm text-red-600">Eroare: {error}</div>}
       {!loading && !error && data && ftNodes.length === 0 && (
-        <div className="p-4 text-sm text-gray-600">Nu există noduri pentru acest arbore.</div>
+        <div className="p-4 text-sm text-gray-600">
+          Nu există noduri pentru acest arbore.
+        </div>
       )}
 
-      <div ref={containerRef} id="tree" className="flex-1 w-full" style={{ minHeight: "70vh" }} />
+      <div
+        ref={containerRef}
+        id="tree"
+        className="flex-1 w-full"
+        style={{ minHeight: "70vh" }}
+      />
 
       {relModal.open && relModal.mode && relModal.subject && (
         <SelectOrCreateProfileModal
@@ -658,7 +772,13 @@ const hopIdxRef = useRef<Record<string, number>>({});
   );
 }
 
-function AncestorsControl({ up, setUp }: { up: number; setUp: (n: number) => void }) {
+function AncestorsControl({
+  up,
+  setUp,
+}: {
+  up: number;
+  setUp: (n: number) => void;
+}) {
   const [anchor, setAnchor] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchor);
   return (
@@ -672,9 +792,15 @@ function AncestorsControl({ up, setUp }: { up: number; setUp: (n: number) => voi
         icon={<NorthIcon sx={{ fontSize: 16 }} />}
         label={
           <Stack direction="row" spacing={1} alignItems="center">
-            <Typography variant="caption" sx={{ color: "text.secondary" }}>Sus</Typography>
-            <Typography variant="caption" sx={{ fontWeight: 600 }}>{up}</Typography>
-            <Typography variant="caption" sx={{ color: "text.secondary" }}>(până la {upKinship(up)})</Typography>
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>
+              Sus
+            </Typography>
+            <Typography variant="caption" sx={{ fontWeight: 600 }}>
+              {up}
+            </Typography>
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>
+              (până la {upKinship(up)})
+            </Typography>
           </Stack>
         }
       />
@@ -686,10 +812,28 @@ function AncestorsControl({ up, setUp }: { up: number; setUp: (n: number) => voi
         transformOrigin={{ vertical: "top", horizontal: "left" }}
         slotProps={{ paper: { sx: { p: 2, borderRadius: 2 } } }}
       >
-        <Typography variant="caption" sx={{ display: "block", mb: 1, color: "text.secondary" }}>Strămoși (în sus)</Typography>
-        <Stack direction="row" spacing={2} alignItems="center" sx={{ minWidth: 260 }}>
+        <Typography
+          variant="caption"
+          sx={{ display: "block", mb: 1, color: "text.secondary" }}
+        >
+          Strămoși (în sus)
+        </Typography>
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          sx={{ minWidth: 260 }}
+        >
           <NorthIcon sx={{ color: "text.disabled" }} fontSize="small" />
-          <Slider size="small" min={0} max={20} step={1} value={up} onChange={(_, v) => setUp(v as number)} valueLabelDisplay="auto" />
+          <Slider
+            size="small"
+            min={0}
+            max={20}
+            step={1}
+            value={up}
+            onChange={(_, v) => setUp(v as number)}
+            valueLabelDisplay="auto"
+          />
         </Stack>
         <Typography variant="caption" sx={{ mt: 1, color: "text.secondary" }}>
           Afișare până la <b>{upKinship(up)}</b>
@@ -699,7 +843,13 @@ function AncestorsControl({ up, setUp }: { up: number; setUp: (n: number) => voi
   );
 }
 
-function DescendantsControl({ down, setDown }: { down: number; setDown: (n: number) => void }) {
+function DescendantsControl({
+  down,
+  setDown,
+}: {
+  down: number;
+  setDown: (n: number) => void;
+}) {
   const [anchor, setAnchor] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchor);
   return (
@@ -713,9 +863,15 @@ function DescendantsControl({ down, setDown }: { down: number; setDown: (n: numb
         icon={<SouthIcon sx={{ fontSize: 16 }} />}
         label={
           <Stack direction="row" spacing={1} alignItems="center">
-            <Typography variant="caption" sx={{ color: "text.secondary" }}>Jos</Typography>
-            <Typography variant="caption" sx={{ fontWeight: 600 }}>{down}</Typography>
-            <Typography variant="caption" sx={{ color: "text.secondary" }}>(până la {downKinship(down)})</Typography>
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>
+              Jos
+            </Typography>
+            <Typography variant="caption" sx={{ fontWeight: 600 }}>
+              {down}
+            </Typography>
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>
+              (până la {downKinship(down)})
+            </Typography>
           </Stack>
         }
       />
@@ -727,10 +883,28 @@ function DescendantsControl({ down, setDown }: { down: number; setDown: (n: numb
         transformOrigin={{ vertical: "top", horizontal: "left" }}
         slotProps={{ paper: { sx: { p: 2, borderRadius: 2 } } }}
       >
-        <Typography variant="caption" sx={{ display: "block", mb: 1, color: "text.secondary" }}>Descendenți (în jos)</Typography>
-        <Stack direction="row" spacing={2} alignItems="center" sx={{ minWidth: 260 }}>
+        <Typography
+          variant="caption"
+          sx={{ display: "block", mb: 1, color: "text.secondary" }}
+        >
+          Descendenți (în jos)
+        </Typography>
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          sx={{ minWidth: 260 }}
+        >
           <SouthIcon sx={{ color: "text.disabled" }} fontSize="small" />
-          <Slider size="small" min={0} max={15} step={1} value={down} onChange={(_, v) => setDown(v as number)} valueLabelDisplay="auto" />
+          <Slider
+            size="small"
+            min={0}
+            max={15}
+            step={1}
+            value={down}
+            onChange={(_, v) => setDown(v as number)}
+            valueLabelDisplay="auto"
+          />
         </Stack>
         <Typography variant="caption" sx={{ mt: 1, color: "text.secondary" }}>
           Afișare până la <b>{downKinship(down)}</b>
@@ -744,14 +918,18 @@ const upKinship = (n: number) => {
   if (n <= 0) return "doar persoana";
   if (n === 1) return "părinți";
   if (n === 2) return "bunici";
-  const prefix = Array(n - 2).fill("stră").join("-");
+  const prefix = Array(n - 2)
+    .fill("stră")
+    .join("-");
   return `${prefix}bunici`;
 };
 const downKinship = (n: number) => {
   if (n <= 0) return "fără descendenți";
   if (n === 1) return "copii";
   if (n === 2) return "nepoți";
-  const prefix = Array(n - 2).fill("stră").join("-");
+  const prefix = Array(n - 2)
+    .fill("stră")
+    .join("-");
   return `${prefix}nepoți`;
 };
 
@@ -759,7 +937,11 @@ function PerformanceControl({
   maxNodes,
   setMaxNodes,
   onReset,
-}: { maxNodes: number; setMaxNodes: (n: number) => void; onReset: () => void }) {
+}: {
+  maxNodes: number;
+  setMaxNodes: (n: number) => void;
+  onReset: () => void;
+}) {
   const [anchor, setAnchor] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchor);
   return (
@@ -773,8 +955,12 @@ function PerformanceControl({
         icon={<TuneIcon sx={{ fontSize: 16 }} />}
         label={
           <Stack direction="row" spacing={1} alignItems="center">
-            <Typography variant="caption" sx={{ color: "text.secondary" }}>Noduri</Typography>
-            <Typography variant="caption" sx={{ fontWeight: 600 }}>{maxNodes}</Typography>
+            <Typography variant="caption" sx={{ color: "text.secondary" }}>
+              Noduri
+            </Typography>
+            <Typography variant="caption" sx={{ fontWeight: 600 }}>
+              {maxNodes}
+            </Typography>
           </Stack>
         }
       />
@@ -786,15 +972,43 @@ function PerformanceControl({
         transformOrigin={{ vertical: "top", horizontal: "left" }}
         slotProps={{ paper: { sx: { p: 2, borderRadius: 2, minWidth: 280 } } }}
       >
-        <Typography variant="caption" sx={{ display: "block", mb: 1, color: "text.secondary" }}>Limită noduri (performanță)</Typography>
+        <Typography
+          variant="caption"
+          sx={{ display: "block", mb: 1, color: "text.secondary" }}
+        >
+          Limită noduri (performanță)
+        </Typography>
         <Stack spacing={2}>
-          <Slider size="small" min={50} max={5000} step={50} value={maxNodes} onChange={(_, v) => setMaxNodes(v as number)} valueLabelDisplay="auto" />
-          <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-            <TextField size="small" type="number" inputProps={{ min: 50, max: 5000, step: 50 }}
-              value={maxNodes} onChange={(e) => setMaxNodes(Number(e.target.value))} sx={{ width: 120 }} />
+          <Slider
+            size="small"
+            min={50}
+            max={5000}
+            step={50}
+            value={maxNodes}
+            onChange={(_, v) => setMaxNodes(v as number)}
+            valueLabelDisplay="auto"
+          />
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <TextField
+              size="small"
+              type="number"
+              inputProps={{ min: 50, max: 5000, step: 50 }}
+              value={maxNodes}
+              onChange={(e) => setMaxNodes(Number(e.target.value))}
+              sx={{ width: 120 }}
+            />
             <Stack direction="row" spacing={1}>
-              <IconButton size="small" onClick={onReset}><RestartAltIcon fontSize="small" /></IconButton>
-              <IconButton size="small" onClick={() => setAnchor(null)}><RefreshIcon fontSize="small" /></IconButton>
+              <IconButton size="small" onClick={onReset}>
+                <RestartAltIcon fontSize="small" />
+              </IconButton>
+              <IconButton size="small" onClick={() => setAnchor(null)}>
+                <RefreshIcon fontSize="small" />
+              </IconButton>
             </Stack>
           </Stack>
         </Stack>
@@ -803,7 +1017,13 @@ function PerformanceControl({
   );
 }
 
-function NodeSearch({ nodes, onSelect }: { nodes: Array<{ id: string; name?: string }>; onSelect: (id: string) => void }) {
+function NodeSearch({
+  nodes,
+  onSelect,
+}: {
+  nodes: Array<{ id: string; name?: string }>;
+  onSelect: (id: string) => void;
+}) {
   const [anchor, setAnchor] = React.useState<HTMLElement | null>(null);
   const [q, setQ] = React.useState("");
   const open = Boolean(anchor);
@@ -832,7 +1052,12 @@ function NodeSearch({ nodes, onSelect }: { nodes: Array<{ id: string; name?: str
         <IconButton
           size="small"
           onClick={(e) => setAnchor(e.currentTarget)}
-          sx={{ border: "1px solid", borderColor: "divider", bgcolor: "background.paper", mr: 0.5 }}
+          sx={{
+            border: "1px solid",
+            borderColor: "divider",
+            bgcolor: "background.paper",
+            mr: 0.5,
+          }}
         >
           <SearchIcon fontSize="small" />
         </IconButton>
@@ -846,23 +1071,43 @@ function NodeSearch({ nodes, onSelect }: { nodes: Array<{ id: string; name?: str
         slotProps={{ paper: { sx: { p: 1.5, borderRadius: 2, width: 360 } } }}
       >
         <TextField
-          autoFocus fullWidth size="small" placeholder="Caută după nume sau ID…"
-          value={q} onChange={(e) => setQ(e.target.value)}
+          autoFocus
+          fullWidth
+          size="small"
+          placeholder="Caută după nume sau ID…"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && results[0]) handlePick(results[0].id);
             if (e.key === "Escape") setAnchor(null);
           }}
-          InputProps={{ startAdornment: (<InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment>) }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon fontSize="small" />
+              </InputAdornment>
+            ),
+          }}
         />
         <List dense sx={{ mt: 1, maxHeight: 280, overflowY: "auto" }}>
           {q && results.length === 0 && (
-            <ListItemText primaryTypographyProps={{ variant: "caption", color: "text.secondary" }} primary="Niciun rezultat" sx={{ px: 1 }} />
+            <ListItemText
+              primaryTypographyProps={{
+                variant: "caption",
+                color: "text.secondary",
+              }}
+              primary="Niciun rezultat"
+              sx={{ px: 1 }}
+            />
           )}
           {results.map((r) => (
             <ListItemButton key={r.id} onClick={() => handlePick(r.id)}>
               <ListItemText
                 primaryTypographyProps={{ variant: "body2" }}
-                secondaryTypographyProps={{ variant: "caption", color: "text.secondary" }}
+                secondaryTypographyProps={{
+                  variant: "caption",
+                  color: "text.secondary",
+                }}
                 primary={r.name}
                 secondary={r.id}
               />
